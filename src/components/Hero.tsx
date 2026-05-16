@@ -97,7 +97,7 @@ export default function Hero() {
               }}
             />
             <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965083/IMG_0771_a3c6az.png"
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
               style={{ filter: "invert(1)", mixBlendMode: "screen" }}
