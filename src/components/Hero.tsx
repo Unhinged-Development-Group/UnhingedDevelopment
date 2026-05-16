@@ -1,0 +1,154 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const companies = [
+  {
+    name: "Groomr Ltd",
+    slug: "groomr",
+    tagline: "Premium pet care, reimagined.",
+    status: "Active",
+  },
+  {
+    name: "Paper & Ponder Ltd",
+    slug: "paper-and-ponder",
+    tagline: "Thoughtful tools for the curious mind.",
+    status: "Active",
+  },
+];
+
+export default function Hero() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <main className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* Background orbs */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full opacity-10"
+          style={{
+            background:
+              "radial-gradient(circle, #ff6b2b 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-8"
+          style={{
+            background:
+              "radial-gradient(circle, #ffb347 0%, transparent 70%)",
+          }}
+        />
+        {/* Grid lines */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
+          }}
+        />
+      </div>
+
+      {/* Nav */}
+      <nav className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
+        <div className="flex items-center gap-3">
+          {/* Wordmark */}
+          <span className="text-sm font-semibold tracking-widest text-zinc-400 uppercase">
+            UDG
+          </span>
+          <span className="h-4 w-px bg-zinc-700" />
+          <span className="text-sm text-zinc-600 tracking-wide">Ltd</span>
+        </div>
+        <Link
+          href="/portal"
+          className="group flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-spark/50 hover:text-white"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-spark animate-pulse" />
+          Staff Portal
+          <svg
+            className="h-3 w-3 text-zinc-500 transition-transform duration-200 group-hover:translate-x-0.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
+      </nav>
+
+      {/* Hero content */}
+      <section className="relative z-10 flex flex-1 flex-col items-start justify-center px-6 sm:px-10 lg:px-16 pb-20">
+        <div
+          className={`max-w-4xl transition-all duration-700 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          {/* Eyebrow */}
+          <div className="mb-8 flex items-center gap-3">
+            <div className="h-px w-8 bg-spark" />
+            <span className="text-xs font-medium tracking-[0.25em] text-spark uppercase">
+              Unhinged Development Group
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="mb-6 text-5xl font-black leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl">
+            Bold ideas.
+            <br />
+            <span className="gradient-text glow-spark">Built to last.</span>
+          </h1>
+
+          {/* Subheadline */}
+          <p className="mb-12 max-w-xl text-lg leading-relaxed text-zinc-400 sm:text-xl">
+            A portfolio of independent companies, each solving real problems with
+            sharp execution. We build for the long run.
+          </p>
+
+          {/* Company cards */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+            {companies.map((company, i) => (
+              <div
+                key={company.slug}
+                className={`group relative flex-1 max-w-xs rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-spark/30 hover:bg-ink-700/80`}
+                style={{
+                  transitionDelay: mounted ? `${i * 100 + 200}ms` : "0ms",
+                }}
+              >
+                {/* Status dot */}
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-xs text-zinc-500">{company.status}</span>
+                </div>
+                <h2 className="mb-1 text-base font-semibold text-zinc-100 group-hover:text-white">
+                  {company.name}
+                </h2>
+                <p className="text-sm text-zinc-500">{company.tagline}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 flex items-center justify-between border-t border-zinc-900 px-6 py-5 sm:px-10 lg:px-16">
+        <p className="text-xs text-zinc-600">
+          © {new Date().getFullYear()} Unhinged Development Group Ltd. All rights
+          reserved.
+        </p>
+        <div className="flex items-center gap-4">
+          <span className="text-xs text-zinc-700">Registered in England & Wales</span>
+        </div>
+      </footer>
+    </main>
+  );
+}
