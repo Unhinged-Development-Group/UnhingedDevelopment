@@ -104,19 +104,6 @@ export default function Hero() {
             />
           </div>
 
-          {/* Headline */}
-          <h1 className="mb-6 text-5xl font-black leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl">
-            Bold ideas.
-            <br />
-            <span className="gradient-text glow-spark">Built to last.</span>
-          </h1>
-
-          {/* Subheadline */}
-          <p className="mb-12 max-w-xl text-lg leading-relaxed text-zinc-400 sm:text-xl">
-            A portfolio of independent companies, each solving real problems with
-            sharp execution. We build for the long run.
-          </p>
-
           {/* Active Projects */}
           <div>
             <div className="mb-4 flex items-center gap-3">
