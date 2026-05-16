@@ -39,7 +39,8 @@ export default function PortalLogin() {
       return;
     }
 
-    router.push("/portal/dashboard");
+    const destination = company === "all" ? "/portal/unhinged-development/documents" : `/portal/${company}/documents`;
+    router.push(destination);
   }
 
   async function handleMagicLink() {
