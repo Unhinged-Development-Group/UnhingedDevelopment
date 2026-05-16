@@ -85,12 +85,12 @@ export default function Hero() {
           }`}
         >
           {/* Logo + Wordmark */}
-          <div className="mb-16 flex w-full max-w-3xl items-center gap-2">
+          <div className="mb-16 flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-2">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
               aria-hidden="true"
-              className="w-[22%] h-auto flex-shrink-0"
+              className="h-auto w-[60%] sm:w-[38%]"
               style={{
                 filter: "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)",
                 mixBlendMode: "screen",
@@ -99,7 +99,7 @@ export default function Hero() {
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
-              className="w-[78%] h-auto flex-shrink-0"
+              className="h-auto w-[92%] sm:w-[58%]"
               style={{ filter: "invert(1)", mixBlendMode: "screen" }}
             />
           </div>
