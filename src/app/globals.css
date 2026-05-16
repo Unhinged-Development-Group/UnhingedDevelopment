@@ -17,7 +17,7 @@
   }
 
   ::selection {
-    @apply bg-spark text-white;
+    @apply bg-unhinged-green text-ink-950;
   }
 
   /* Subtle noise texture overlay */
@@ -34,11 +34,11 @@
 
 @layer utilities {
   .gradient-text {
-    @apply bg-gradient-to-r from-spark to-ember bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-unhinged-green to-ember bg-clip-text text-transparent;
   }
 
   .glow-spark {
-    text-shadow: 0 0 40px rgba(255, 107, 43, 0.4);
+    text-shadow: 0 0 40px rgba(210, 255, 20, 0.35);
   }
 
   .border-gradient {

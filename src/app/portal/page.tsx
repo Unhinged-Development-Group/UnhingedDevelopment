@@ -59,8 +59,8 @@ export default function PortalLogin() {
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-sm text-center">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-spark/10">
-            <svg className="h-6 w-6 text-spark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-unhinged-green/10">
+            <svg className="h-6 w-6 text-unhinged-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
@@ -92,8 +92,8 @@ export default function PortalLogin() {
           {/* Header */}
           <div className="mb-8">
             <div className="mb-3 flex items-center gap-2">
-              <div className="h-px w-6 bg-spark" />
-              <span className="text-xs font-medium tracking-[0.2em] text-spark uppercase">Secure Access</span>
+              <div className="h-px w-6 bg-unhinged-green" />
+              <span className="text-xs font-medium tracking-[0.2em] text-unhinged-green uppercase">Secure Access</span>
             </div>
             <h1 className="text-2xl font-bold text-white">Staff Portal</h1>
             <p className="mt-1 text-sm text-zinc-500">Access company documents and resources.</p>
@@ -109,7 +109,7 @@ export default function PortalLogin() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-spark/50 focus:outline-none focus:ring-1 focus:ring-spark/30 transition-colors"
+                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
                 placeholder="you@example.com"
               />
             </div>
@@ -122,7 +122,7 @@ export default function PortalLogin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-spark/50 focus:outline-none focus:ring-1 focus:ring-spark/30 transition-colors"
+                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -138,7 +138,7 @@ export default function PortalLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-spark to-ember py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+              className="w-full rounded-xl bg-gradient-to-r from-unhinged-green to-ember py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {loading ? "Signing in…" : "Sign in"}
             </button>
