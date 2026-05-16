@@ -78,19 +78,19 @@ export default function Hero() {
       </nav>
 
       {/* Hero content */}
-      <section className="relative z-10 flex flex-1 flex-col items-start justify-center px-6 sm:px-10 lg:px-16 pb-20">
+      <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 sm:px-10 lg:px-16">
         <div
-          className={`max-w-4xl transition-all duration-700 ${
+          className={`flex w-full flex-col items-center transition-all duration-700 ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           {/* Logo + Wordmark */}
-          <div className="mb-10 flex items-center gap-5">
+          <div className="mb-16 flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
               aria-hidden="true"
-              className="h-24 w-auto sm:h-32 lg:h-40"
+              className="h-32 w-auto sm:h-44 lg:h-56"
               style={{
                 filter: "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)",
                 mixBlendMode: "screen",
@@ -99,24 +99,25 @@ export default function Hero() {
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
-              className="h-24 w-auto sm:h-32 lg:h-40"
+              className="h-32 w-auto sm:h-44 lg:h-56"
               style={{ filter: "invert(1)", mixBlendMode: "screen" }}
             />
           </div>
 
           {/* Active Projects */}
-          <div>
-            <div className="mb-4 flex items-center gap-3">
+          <div className="w-full max-w-2xl">
+            <div className="mb-4 flex items-center justify-center gap-3">
               <div className="h-px w-6 bg-zinc-700" />
               <span className="text-xs font-medium tracking-[0.2em] text-zinc-500 uppercase">
                 Active Projects
               </span>
+              <div className="h-px w-6 bg-zinc-700" />
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               {companies.map((company, i) => (
                 <div
                   key={company.slug}
-                  className={`group relative flex-1 max-w-xs rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-unhinged-green/30 hover:bg-ink-700/80`}
+                  className="group relative flex-1 rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-unhinged-green/30 hover:bg-ink-700/80"
                   style={{
                     transitionDelay: mounted ? `${i * 100 + 200}ms` : "0ms",
                   }}
