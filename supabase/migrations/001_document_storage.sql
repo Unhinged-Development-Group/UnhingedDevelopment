@@ -1,8 +1,7 @@
--- BEFORE running this SQL:
--- 1. Go to Storage in the Supabase dashboard
--- 2. Create a new bucket named exactly: documents
--- 3. Set it to Private (not public)
--- Then paste this entire file into the SQL Editor and run it.
+-- Create the private documents storage bucket
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('documents', 'documents', false)
+ON CONFLICT (id) DO NOTHING;
 
 -- Helper in public schema (storage schema is restricted in Supabase)
 create or replace function public.doc_company(path text)
