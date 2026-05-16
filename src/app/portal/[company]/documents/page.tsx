@@ -32,7 +32,7 @@ export default function DocumentsPage() {
   const company = params.company as string;
 
   const [userCompany, setUserCompany] = useState<string>("");
-  const [activeFolder, setActiveFolder] = useState<CompanyKey>(company as CompanyKey);
+  const [activeFolder, setActiveFolder] = useState<CompanyKey | "all">(company as CompanyKey);
   const [files, setFiles] = useState<FileObject[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -61,9 +61,9 @@ export default function DocumentsPage() {
       const { data: { user } } = await supabase.auth.getUser();
       const uc = user?.user_metadata?.company ?? company;
       setUserCompany(uc);
-      const folder = uc === "all" ? "all" : company as CompanyKey;
-      setActiveFolder(folder as CompanyKey);
-      await loadFiles(folder as CompanyKey | "all");
+      const folder: CompanyKey | "all" = uc === "all" ? "all" : company as CompanyKey;
+      setActiveFolder(folder);
+      await loadFiles(folder);
     })();
   }, [company, supabase, loadFiles]);
 
@@ -123,7 +123,7 @@ export default function DocumentsPage() {
       {isAdmin && (
         <div className="mb-6 flex gap-1 overflow-x-auto rounded-xl border border-zinc-900 bg-ink-800/40 p-1">
           {tabs.map(tab => (
-            <button key={tab.key} onClick={async () => { setActiveFolder(tab.key as CompanyKey); await loadFiles(tab.key as CompanyKey | "all"); }}
+            <button key={tab.key} onClick={async () => { setActiveFolder(tab.key); await loadFiles(tab.key); }}
               className={`flex-shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-all ${activeFolder === tab.key ? "bg-ink-700 text-white shadow" : "text-zinc-500 hover:text-zinc-300"}`}>
               {tab.label}
             </button>
