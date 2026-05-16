@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
+import { isValidEmailForCompany } from "@/lib/auth";
 
 export default function PortalLogin() {
   const router = useRouter();
@@ -19,13 +20,21 @@ export default function PortalLogin() {
     setError(null);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
       setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    const company = data.user?.user_metadata?.company ?? "";
+    if (!isValidEmailForCompany(email, company)) {
+      await supabase.auth.signOut();
+      setError("Your email address is not authorised for this account.");
       setLoading(false);
       return;
     }
