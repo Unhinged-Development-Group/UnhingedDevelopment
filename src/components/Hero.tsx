@@ -7,14 +7,14 @@ const companies = [
   {
     name: "Groomr Ltd",
     slug: "groomr",
-    tagline: "Premium pet care, reimagined.",
-    status: "Active",
+    tagline: "A dog groomer marketplace for owners and a complete business hub for groomers.",
+    status: "In Development",
   },
   {
     name: "Paper & Ponder Ltd",
     slug: "paper-and-ponder",
-    tagline: "Thoughtful tools for the curious mind.",
-    status: "Active",
+    tagline: "A journaling app designed to use your hand-written journals with AI sitting alongside to analyse and discuss.",
+    status: "In Development",
   },
 ];
 
@@ -41,15 +41,6 @@ export default function Hero() {
           style={{
             background:
               "radial-gradient(circle, #ffb347 0%, transparent 70%)",
-          }}
-        />
-        {/* Grid lines */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
           }}
         />
       </div>
@@ -114,27 +105,34 @@ export default function Hero() {
             sharp execution. We build for the long run.
           </p>
 
-          {/* Company cards */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-            {companies.map((company, i) => (
-              <div
-                key={company.slug}
-                className={`group relative flex-1 max-w-xs rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-spark/30 hover:bg-ink-700/80`}
-                style={{
-                  transitionDelay: mounted ? `${i * 100 + 200}ms` : "0ms",
-                }}
-              >
-                {/* Status dot */}
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  <span className="text-xs text-zinc-500">{company.status}</span>
+          {/* Active Projects */}
+          <div>
+            <div className="mb-4 flex items-center gap-3">
+              <div className="h-px w-6 bg-zinc-700" />
+              <span className="text-xs font-medium tracking-[0.2em] text-zinc-500 uppercase">
+                Active Projects
+              </span>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+              {companies.map((company, i) => (
+                <div
+                  key={company.slug}
+                  className={`group relative flex-1 max-w-xs rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-spark/30 hover:bg-ink-700/80`}
+                  style={{
+                    transitionDelay: mounted ? `${i * 100 + 200}ms` : "0ms",
+                  }}
+                >
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                    <span className="text-xs text-zinc-500">{company.status}</span>
+                  </div>
+                  <h2 className="mb-1 text-base font-semibold text-zinc-100 group-hover:text-white">
+                    {company.name}
+                  </h2>
+                  <p className="text-sm text-zinc-500">{company.tagline}</p>
                 </div>
-                <h2 className="mb-1 text-base font-semibold text-zinc-100 group-hover:text-white">
-                  {company.name}
-                </h2>
-                <p className="text-sm text-zinc-500">{company.tagline}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
