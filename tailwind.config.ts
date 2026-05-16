@@ -11,20 +11,20 @@ const config: Config = {
       colors: {
         // Unhinged brand palette
         ink: {
-          950: "#08080f",
-          900: "#0d0d1a",
-          800: "#13131f",
-          700: "#1c1c2e",
+          950: "#030303",
+          900: "#080808",
+          800: "#0e0e0e",
+          700: "#141414",
         },
         spark: {
-          DEFAULT: "#ff6b2b",
-          light: "#ff8c57",
-          dark: "#e5531a",
+          DEFAULT: "#D2FF14",
+          light: "#e4ff6b",
+          dark: "#a8cc00",
         },
         ember: {
-          DEFAULT: "#ffb347",
-          light: "#ffd080",
-          dark: "#e89a30",
+          DEFAULT: "#a8cc00",
+          light: "#c8f000",
+          dark: "#7a9600",
         },
       },
       animation: {

@@ -33,14 +33,14 @@ export default function Hero() {
           className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full opacity-10"
           style={{
             background:
-              "radial-gradient(circle, #ff6b2b 0%, transparent 70%)",
+              "radial-gradient(circle, #D2FF14 0%, transparent 70%)",
           }}
         />
         <div
-          className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-8"
+          className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.06]"
           style={{
             background:
-              "radial-gradient(circle, #ffb347 0%, transparent 70%)",
+              "radial-gradient(circle, #a8cc00 0%, transparent 70%)",
           }}
         />
       </div>
