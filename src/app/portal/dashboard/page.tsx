@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient, COMPANY_LABELS, type CompanyKey } from "@/lib/supabase";
+import { DOMAIN_COMPANY_MAP } from "@/lib/auth";
 
 type FileObject = {
   name: string;
@@ -48,6 +49,10 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteCompany, setInviteCompany] = useState<CompanyKey>("unhinged-development");
+  const [inviting, setInviting] = useState(false);
+  const [inviteResult, setInviteResult] = useState<{ ok: boolean; message: string } | null>(null);
 
   const supabase = createClient();
 
@@ -131,6 +136,31 @@ export default function Dashboard() {
   async function handleSignOut() {
     await supabase.auth.signOut();
     router.push("/portal");
+  }
+
+  async function handleInvite(e: React.FormEvent) {
+    e.preventDefault();
+    setInviting(true);
+    setInviteResult(null);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch("/api/admin/invite", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.access_token}`,
+      },
+      body: JSON.stringify({ email: inviteEmail, company: inviteCompany }),
+    });
+
+    const json = await res.json();
+    if (res.ok) {
+      setInviteResult({ ok: true, message: `Invite sent to ${inviteEmail}.` });
+      setInviteEmail("");
+    } else {
+      setInviteResult({ ok: false, message: json.error ?? "Something went wrong." });
+    }
+    setInviting(false);
   }
 
   const tabs =
@@ -255,6 +285,58 @@ export default function Dashboard() {
                   </div>
                 );
               })}
+            </div>
+          )}
+          {/* Admin: Invite users */}
+          {userCompany === "all" && (
+            <div className="mt-12 border-t border-zinc-900 pt-10">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="h-px w-6 bg-zinc-800" />
+                <span className="text-xs font-medium tracking-[0.2em] text-zinc-500 uppercase">
+                  Admin — Invite User
+                </span>
+              </div>
+              <form onSubmit={handleInvite} className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                <div className="flex-1">
+                  <label className="mb-1.5 block text-xs font-medium text-zinc-400">Email address</label>
+                  <input
+                    type="email"
+                    required
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    placeholder="name@groomr.uk"
+                    className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
+                  />
+                </div>
+                <div className="sm:w-56">
+                  <label className="mb-1.5 block text-xs font-medium text-zinc-400">Company access</label>
+                  <select
+                    value={inviteCompany}
+                    onChange={(e) => setInviteCompany(e.target.value as CompanyKey)}
+                    className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
+                  >
+                    {(Object.keys(COMPANY_LABELS) as CompanyKey[]).map((k) => (
+                      <option key={k} value={k}>{COMPANY_LABELS[k]}</option>
+                    ))}
+                    <option value="all">All Companies (Admin)</option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  disabled={inviting}
+                  className="rounded-xl bg-unhinged-green px-6 py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50 sm:flex-shrink-0"
+                >
+                  {inviting ? "Sending…" : "Send invite"}
+                </button>
+              </form>
+              {inviteResult && (
+                <p className={`mt-3 text-xs ${inviteResult.ok ? "text-unhinged-green" : "text-red-400"}`}>
+                  {inviteResult.message}
+                </p>
+              )}
+              <p className="mt-3 text-xs text-zinc-700">
+                Allowed domains: {Object.keys(DOMAIN_COMPANY_MAP).map(d => `@${d}`).join(", ")}
+              </p>
             </div>
           )}
         </div>
