@@ -169,7 +169,7 @@ export default function Dashboard() {
           <div className="mb-8 flex items-center justify-between">
             <h1 className="text-xl font-bold text-white">Documents</h1>
             {activeCompany !== "all" && (
-              <label className="group flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all hover:border-spark/40 hover:text-white">
+              <label className="group flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all hover:border-unhinged-green/40 hover:text-white">
                 {uploading ? (
                   <span className="text-zinc-500">Uploading…</span>
                 ) : (
@@ -248,7 +248,7 @@ export default function Dashboard() {
                         const url = await getSignedUrl(f._folder, file.name);
                         if (url) window.open(url, "_blank");
                       }}
-                      className="flex-shrink-0 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:border-spark/50 hover:text-white"
+                      className="flex-shrink-0 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:border-unhinged-green/50 hover:text-white"
                     >
                       Open
                     </button>

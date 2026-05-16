@@ -16,7 +16,7 @@ const config: Config = {
           800: "#0e0e0e",
           700: "#141414",
         },
-        spark: {
+        "unhinged-green": {
           DEFAULT: "#D2FF14",
           light: "#e4ff6b",
           dark: "#a8cc00",

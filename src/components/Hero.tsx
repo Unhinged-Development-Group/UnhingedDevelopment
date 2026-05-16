@@ -57,9 +57,9 @@ export default function Hero() {
         </div>
         <Link
           href="/portal"
-          className="group flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-spark/50 hover:text-white"
+          className="group flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-unhinged-green/50 hover:text-white"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-spark animate-pulse" />
+          <span className="h-1.5 w-1.5 rounded-full bg-unhinged-green animate-pulse" />
           Staff Portal
           <svg
             className="h-3 w-3 text-zinc-500 transition-transform duration-200 group-hover:translate-x-0.5"
@@ -84,8 +84,18 @@ export default function Hero() {
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          {/* Wordmark */}
-          <div className="mb-10">
+          {/* Logo + Wordmark */}
+          <div className="mb-10 flex items-center gap-5">
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
+              alt=""
+              aria-hidden="true"
+              className="h-24 w-auto sm:h-32 lg:h-40"
+              style={{
+                filter: "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)",
+                mixBlendMode: "screen",
+              }}
+            />
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
@@ -119,7 +129,7 @@ export default function Hero() {
               {companies.map((company, i) => (
                 <div
                   key={company.slug}
-                  className={`group relative flex-1 max-w-xs rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-spark/30 hover:bg-ink-700/80`}
+                  className={`group relative flex-1 max-w-xs rounded-2xl border border-zinc-800 bg-ink-800/60 p-5 backdrop-blur-sm transition-all duration-300 hover:border-unhinged-green/30 hover:bg-ink-700/80`}
                   style={{
                     transitionDelay: mounted ? `${i * 100 + 200}ms` : "0ms",
                   }}
@@ -145,8 +155,19 @@ export default function Hero() {
           © {new Date().getFullYear()} Unhinged Development Group Ltd. All rights
           reserved.
         </p>
-        <div className="flex items-center gap-4">
-          <span className="text-xs text-zinc-700">Registered in England & Wales</span>
+        <div className="flex items-center gap-2">
+          <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-auto opacity-60" aria-hidden="true">
+            <filter id="saltire-rough">
+              <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="5" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <g filter="url(#saltire-rough)">
+              <rect width="30" height="20" fill="#003893"/>
+              <line x1="0" y1="0" x2="30" y2="20" stroke="white" strokeWidth="6.5"/>
+              <line x1="30" y1="0" x2="0" y2="20" stroke="white" strokeWidth="6.5"/>
+            </g>
+          </svg>
+          <span className="text-xs text-zinc-700">Registered in Scotland</span>
         </div>
       </footer>
     </main>
