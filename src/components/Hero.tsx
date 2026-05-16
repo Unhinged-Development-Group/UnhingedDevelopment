@@ -78,19 +78,19 @@ export default function Hero() {
       </nav>
 
       {/* Hero content */}
-      <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 sm:px-10 lg:px-16">
+      <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 sm:px-8 lg:px-16">
         <div
           className={`flex w-full flex-col items-center transition-all duration-700 ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           {/* Logo + Wordmark */}
-          <div className="mb-16 flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
+          <div className="mb-16 flex w-full max-w-3xl items-center gap-2">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
               aria-hidden="true"
-              className="h-32 w-auto sm:h-44 lg:h-56"
+              className="w-[22%] h-auto flex-shrink-0"
               style={{
                 filter: "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)",
                 mixBlendMode: "screen",
@@ -99,7 +99,7 @@ export default function Hero() {
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
-              className="h-32 w-auto sm:h-44 lg:h-56"
+              className="w-[78%] h-auto flex-shrink-0"
               style={{ filter: "invert(1)", mixBlendMode: "screen" }}
             />
           </div>
