@@ -47,13 +47,13 @@ export default function Hero() {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
-        <div className="flex items-center gap-3">
-          {/* Wordmark */}
-          <span className="text-sm font-semibold tracking-widest text-zinc-400 uppercase">
-            UDG
-          </span>
-          <span className="h-4 w-px bg-zinc-700" />
-          <span className="text-sm text-zinc-600 tracking-wide">Ltd</span>
+        <div className="flex items-center">
+          <img
+            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778960485/IMG_0756_zrldji.png"
+            alt="Unhinged Development Group"
+            className="h-10 w-auto"
+            style={{ filter: "invert(1)", mixBlendMode: "screen" }}
+          />
         </div>
         <Link
           href="/portal"
