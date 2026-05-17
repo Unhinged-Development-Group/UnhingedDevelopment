@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Remap Bitcount Grid Single Ink's embedded palette to Unhinged Green */
-@font-palette-values --udg-bitcount {
-  font-family: 'Bitcount Grid Single Ink';
-  override-colors: 0 #D2FF14, 1 #D2FF14, 2 #D2FF14;
-}
 
 @layer base {
   :root {
@@ -39,10 +34,6 @@
 }
 
 @layer utilities {
-  .font-bitcount {
-    font-palette: --udg-bitcount;
-  }
-
   .gradient-text {
     @apply bg-gradient-to-r from-unhinged-green to-ember bg-clip-text text-transparent;
   }
