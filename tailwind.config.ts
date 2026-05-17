@@ -8,6 +8,7 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
         montserrat: ["Montserrat", "system-ui", "sans-serif"],
+        bitcount: ['"Bitcount Grid Single Ink"', "system-ui", "sans-serif"],
       },
       colors: {
         // Unhinged brand palette

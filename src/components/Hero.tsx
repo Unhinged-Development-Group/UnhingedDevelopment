@@ -38,21 +38,21 @@ export default function Hero() {
         <a
           href="#who-we-are"
           onClick={() => setMenuOpen(false)}
-          className="font-montserrat text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
+          className="font-bitcount text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Who we are
         </a>
         <a
           href="#projects"
           onClick={() => setMenuOpen(false)}
-          className="font-montserrat text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
+          className="font-bitcount text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Projects
         </a>
         <a
           href="#contact"
           onClick={() => setMenuOpen(false)}
-          className="font-montserrat text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
+          className="font-bitcount text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Contact us
         </a>
@@ -90,7 +90,7 @@ export default function Hero() {
       </div>
 
       {/* Nav */}
-      <nav className="relative z-40 flex items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
+      <nav className="relative z-40 flex items-center justify-between px-6 pt-3 pb-6 sm:py-6 sm:px-10 lg:px-16">
         <div className="flex items-center gap-10">
           {/* Logo — tap to open/close mobile drawer */}
           <button
@@ -113,9 +113,9 @@ export default function Hero() {
 
           {/* Nav links — desktop only */}
           <div className="hidden sm:flex items-center gap-7">
-            <a href="#who-we-are" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
-            <a href="#projects" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
-            <a href="#contact" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
+            <a href="#who-we-are" className="font-bitcount text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
+            <a href="#projects" className="font-bitcount text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
+            <a href="#contact" className="font-bitcount text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default function Hero() {
           }`}
         >
           {/* Logo + Wordmark */}
-          <div className="flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0">
+          <div className="flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
