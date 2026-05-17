@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   const admin = createAdminClient();
   const { error } = await admin.auth.admin.inviteUserByEmail(email, {
     data: { company },
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/portal`,
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/portal/setup`,
   });
 
   if (error) {

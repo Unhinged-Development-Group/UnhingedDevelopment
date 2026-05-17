@@ -122,15 +122,31 @@ export default function SectionFilesPage({
     if (!url) return;
     const resolvedMime = mime || mimeFromName(name);
     if (resolvedMime === "text/html") {
-      // Fetch and re-open as blob to guarantee browser rendering regardless of storage headers
       const resp = await fetch(url);
       const html = await resp.text();
       const blob = new Blob([html], { type: "text/html" });
-      const blobUrl = URL.createObjectURL(blob);
-      window.open(blobUrl, "_blank");
+      window.open(URL.createObjectURL(blob), "_blank");
     } else {
       window.open(url, "_blank");
     }
+  }
+
+  async function downloadFile(name: string, mime: string) {
+    const url = await getSignedUrl(name);
+    if (!url) return;
+    const resp = await fetch(url);
+    const blob = await resp.blob();
+    const blobUrl = URL.createObjectURL(new Blob([blob], { type: mime || mimeFromName(name) }));
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = displayName(name);
+    a.click();
+    URL.revokeObjectURL(blobUrl);
+  }
+
+  async function deleteFile(name: string) {
+    await supabase.storage.from(BUCKET).remove([`${folder}/${name}`]);
+    await loadFiles();
   }
 
   async function handleInvite(e: React.FormEvent) {
@@ -205,12 +221,34 @@ export default function SectionFilesPage({
                   <p className="text-xs text-zinc-600">{formatBytes(file.metadata.size)}</p>
                 ) : null}
               </div>
-              <button
-                onClick={() => openFile(file.name, file.metadata?.mimetype ?? "")}
-                className="flex-shrink-0 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:border-unhinged-green/50 hover:text-white"
-              >
-                Open
-              </button>
+              <div className="flex flex-shrink-0 items-center gap-1.5 opacity-0 transition-all group-hover:opacity-100">
+                <button
+                  onClick={() => openFile(file.name, file.metadata?.mimetype ?? "")}
+                  className="rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 hover:border-unhinged-green/50 hover:text-white transition-colors"
+                >
+                  Open
+                </button>
+                <button
+                  onClick={() => downloadFile(file.name, file.metadata?.mimetype ?? "")}
+                  className="rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 hover:border-unhinged-green/50 hover:text-white transition-colors"
+                  title="Download"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                </button>
+                {isAdmin && (
+                  <button
+                    onClick={() => deleteFile(file.name)}
+                    className="rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400 transition-colors"
+                    title="Delete"
+                  >
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
