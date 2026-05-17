@@ -12,6 +12,32 @@ type FileObject = {
 
 const BUCKET = "documents";
 
+const MIME_MAP: Record<string, string> = {
+  html: "text/html", htm: "text/html",
+  pdf: "application/pdf",
+  png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg",
+  gif: "image/gif", webp: "image/webp", svg: "image/svg+xml",
+  mp4: "video/mp4", mov: "video/quicktime", webm: "video/webm",
+  mp3: "audio/mpeg", wav: "audio/wav",
+  txt: "text/plain", csv: "text/csv", json: "application/json",
+  zip: "application/zip",
+  doc: "application/msword",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  xls: "application/vnd.ms-excel",
+  xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ppt: "application/vnd.ms-powerpoint",
+  pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+};
+
+function mimeFromName(name: string): string {
+  const ext = name.split(".").pop()?.toLowerCase() ?? "";
+  return MIME_MAP[ext] ?? "application/octet-stream";
+}
+
+function displayName(storageName: string): string {
+  return storageName.replace(/^\d+_/, "");
+}
+
 function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -73,7 +99,8 @@ export default function SectionFilesPage({
     if (!file) return;
     setUploading(true);
     const path = `${folder}/${Date.now()}_${file.name}`;
-    const { error } = await supabase.storage.from(BUCKET).upload(path, file);
+    const contentType = file.type || mimeFromName(file.name);
+    const { error } = await supabase.storage.from(BUCKET).upload(path, file, { contentType });
     if (!error) await loadFiles();
     setUploading(false);
     e.target.value = "";
@@ -88,6 +115,22 @@ export default function SectionFilesPage({
       return data.signedUrl;
     }
     return null;
+  }
+
+  async function openFile(name: string, mime: string) {
+    const url = await getSignedUrl(name);
+    if (!url) return;
+    const resolvedMime = mime || mimeFromName(name);
+    if (resolvedMime === "text/html") {
+      // Fetch and re-open as blob to guarantee browser rendering regardless of storage headers
+      const resp = await fetch(url);
+      const html = await resp.text();
+      const blob = new Blob([html], { type: "text/html" });
+      const blobUrl = URL.createObjectURL(blob);
+      window.open(blobUrl, "_blank");
+    } else {
+      window.open(url, "_blank");
+    }
   }
 
   async function handleInvite(e: React.FormEvent) {
@@ -155,18 +198,15 @@ export default function SectionFilesPage({
               key={file.name}
               className="group flex items-center gap-4 rounded-xl border border-zinc-900 bg-ink-800/40 px-4 py-3 transition-all hover:border-zinc-800 hover:bg-ink-800"
             >
-              <FileIcon mime={file.metadata?.mimetype ?? ""} />
+              <FileIcon mime={file.metadata?.mimetype || mimeFromName(file.name)} />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-zinc-200">{file.name}</p>
+                <p className="truncate text-sm font-medium text-zinc-200">{displayName(file.name)}</p>
                 {file.metadata?.size ? (
                   <p className="text-xs text-zinc-600">{formatBytes(file.metadata.size)}</p>
                 ) : null}
               </div>
               <button
-                onClick={async () => {
-                  const url = await getSignedUrl(file.name);
-                  if (url) window.open(url, "_blank");
-                }}
+                onClick={() => openFile(file.name, file.metadata?.mimetype ?? "")}
                 className="flex-shrink-0 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:border-unhinged-green/50 hover:text-white"
               >
                 Open
