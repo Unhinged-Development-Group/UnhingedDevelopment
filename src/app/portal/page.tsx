@@ -54,7 +54,7 @@ export default function PortalLogin() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/portal/dashboard` },
+      options: { emailRedirectTo: `${window.location.origin}/portal` },
     });
 
     if (error) {
