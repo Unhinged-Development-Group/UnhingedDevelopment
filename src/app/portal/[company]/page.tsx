@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { type CompanyKey } from "@/lib/supabase";
 
-const GREEN_FILTER =
+const UDG_ICON_FILTER =
   "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
 
 type CompanyContent = {
@@ -11,11 +11,13 @@ type CompanyContent = {
   mission: string;
   vision: string;
   values: { name: string; description: string }[];
+  accent: string;
 };
 
 const CONTENT: Record<CompanyKey, CompanyContent> = {
   "unhinged-development": {
     tagline: "Building things worth talking about.",
+    accent: "#d2ff14",
     mission:
       "To build a portfolio of companies that solve real problems with thoughtful design, bold technology, and a relentless focus on the people who use them.",
     vision:
@@ -28,6 +30,7 @@ const CONTENT: Record<CompanyKey, CompanyContent> = {
   },
   groomr: {
     tagline: "Modern grooming management, simplified.",
+    accent: "#eae45c",
     mission:
       "To make professional grooming management effortless for businesses and delightful for the clients they serve.",
     vision:
@@ -40,6 +43,7 @@ const CONTENT: Record<CompanyKey, CompanyContent> = {
   },
   "paper-and-ponder": {
     tagline: "Where ideas become beautifully bound.",
+    accent: "#fb923c",
     mission:
       "To create stationery and paper goods that inspire thoughtful reflection and meaningful creativity.",
     vision:
@@ -59,8 +63,11 @@ export default function CompanyDashboard() {
 
   if (!content) return null;
 
+  const accent = content.accent;
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-10 sm:px-10">
+      {/* Logo header */}
       {company === "unhinged-development" && (
         <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
           <img
@@ -68,7 +75,7 @@ export default function CompanyDashboard() {
             alt=""
             aria-hidden="true"
             className="h-14 w-auto"
-            style={{ filter: GREEN_FILTER, mixBlendMode: "screen" }}
+            style={{ filter: UDG_ICON_FILTER, mixBlendMode: "screen" }}
           />
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
@@ -79,32 +86,63 @@ export default function CompanyDashboard() {
         </div>
       )}
 
-      {company !== "unhinged-development" && (
-        <div className="mb-10">
-          <p className="text-xs font-medium tracking-[0.2em] text-unhinged-green uppercase mb-1">{content.tagline}</p>
+      {company === "groomr" && (
+        <div className="mb-12">
+          <img
+            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
+            alt="Groomr"
+            className="h-10 w-auto"
+            style={{ filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+          />
         </div>
       )}
 
+      {company === "paper-and-ponder" && (
+        <div className="mb-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <img
+            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999178/monogram_pdyhij.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-16 w-auto flex-shrink-0"
+          />
+          <img
+            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
+            alt="Paper & Ponder"
+            className="h-auto w-52 sm:w-64"
+          />
+        </div>
+      )}
+
+      {/* Tagline */}
+      <div className="mb-10">
+        <p className="text-xs font-medium tracking-[0.2em] uppercase mb-1" style={{ color: accent }}>
+          {content.tagline}
+        </p>
+      </div>
+
+      {/* Mission */}
       <section className="mb-10">
         <div className="mb-3 flex items-center gap-3">
-          <div className="h-px w-6 bg-unhinged-green" />
-          <span className="text-xs font-medium tracking-[0.2em] text-unhinged-green uppercase">Mission</span>
+          <div className="h-px w-6" style={{ backgroundColor: accent }} />
+          <span className="text-xs font-medium tracking-[0.2em] uppercase" style={{ color: accent }}>Mission</span>
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">{content.mission}</p>
       </section>
 
+      {/* Vision */}
       <section className="mb-10">
         <div className="mb-3 flex items-center gap-3">
-          <div className="h-px w-6 bg-unhinged-green" />
-          <span className="text-xs font-medium tracking-[0.2em] text-unhinged-green uppercase">Vision</span>
+          <div className="h-px w-6" style={{ backgroundColor: accent }} />
+          <span className="text-xs font-medium tracking-[0.2em] uppercase" style={{ color: accent }}>Vision</span>
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">{content.vision}</p>
       </section>
 
+      {/* Values */}
       <section>
         <div className="mb-4 flex items-center gap-3">
-          <div className="h-px w-6 bg-unhinged-green" />
-          <span className="text-xs font-medium tracking-[0.2em] text-unhinged-green uppercase">Values</span>
+          <div className="h-px w-6" style={{ backgroundColor: accent }} />
+          <span className="text-xs font-medium tracking-[0.2em] uppercase" style={{ color: accent }}>Values</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           {content.values.map((v) => (
