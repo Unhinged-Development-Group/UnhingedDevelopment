@@ -7,7 +7,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
-        syne: ["Syne", "system-ui", "sans-serif"],
+        montserrat: ["Montserrat", "system-ui", "sans-serif"],
       },
       colors: {
         // Unhinged brand palette

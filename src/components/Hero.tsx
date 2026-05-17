@@ -35,9 +35,9 @@ export default function Hero() {
           />
           {/* Nav links — left-aligned, hidden on mobile */}
           <div className="hidden sm:flex items-center gap-7">
-            <a href="#who-we-are" className="font-syne text-[30px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
-            <a href="#projects" className="font-syne text-[30px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
-            <a href="#contact" className="font-syne text-[30px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
+            <a href="#who-we-are" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
+            <a href="#projects" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
+            <a href="#contact" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
           </div>
         </div>
 
