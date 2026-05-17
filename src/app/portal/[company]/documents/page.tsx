@@ -29,51 +29,42 @@ function FileIcon({ mime }: { mime: string }) {
 
 export default function DocumentsPage() {
   const params = useParams();
-  const company = params.company as string;
+  const company = params.company as CompanyKey;
 
-  const [userCompany, setUserCompany] = useState<string>("");
-  const [activeFolder, setActiveFolder] = useState<CompanyKey | "all">(company as CompanyKey);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [files, setFiles] = useState<FileObject[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
   const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteCompany, setInviteCompany] = useState<CompanyKey>(company as CompanyKey);
+  const [inviteCompany, setInviteCompany] = useState<CompanyKey>(company);
   const [inviting, setInviting] = useState(false);
   const [inviteResult, setInviteResult] = useState<{ ok: boolean; message: string } | null>(null);
 
   const supabase = createClient();
 
-  const loadFiles = useCallback(async (folder: CompanyKey | "all") => {
+  const loadFiles = useCallback(async () => {
     setLoading(true);
-    const folders = folder === "all" ? (Object.keys(COMPANY_LABELS) as CompanyKey[]) : [folder];
-    const all: FileObject[] = [];
-    for (const f of folders) {
-      const { data } = await supabase.storage.from(BUCKET).list(f, { sortBy: { column: "created_at", order: "desc" } });
-      if (data) all.push(...data.filter(f => f.name !== ".emptyFolderPlaceholder").map(file => ({ ...file, _folder: f } as FileObject)));
-    }
-    setFiles(all);
+    const { data } = await supabase.storage.from(BUCKET).list(company, { sortBy: { column: "created_at", order: "desc" } });
+    setFiles(data ? data.filter(f => f.name !== ".emptyFolderPlaceholder").map(f => ({ ...f, _folder: company })) : []);
     setLoading(false);
-  }, [supabase]);
+  }, [supabase, company]);
 
   useEffect(() => {
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      const uc = user?.user_metadata?.company ?? company;
-      setUserCompany(uc);
-      const folder: CompanyKey | "all" = uc === "all" ? "all" : company as CompanyKey;
-      setActiveFolder(folder);
-      await loadFiles(folder);
+      setIsAdmin(user?.user_metadata?.company === "all");
+      await loadFiles();
     })();
-  }, [company, supabase, loadFiles]);
+  }, [supabase, loadFiles]);
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (!file || activeFolder === "all") return;
+    if (!file) return;
     setUploading(true);
-    const path = `${activeFolder}/${Date.now()}_${file.name}`;
+    const path = `${company}/${Date.now()}_${file.name}`;
     const { error } = await supabase.storage.from(BUCKET).upload(path, file);
-    if (!error) await loadFiles(activeFolder);
+    if (!error) await loadFiles();
     setUploading(false);
   }
 
@@ -101,35 +92,17 @@ export default function DocumentsPage() {
     setInviting(false);
   }
 
-  const isAdmin = userCompany === "all";
-  const tabs = isAdmin
-    ? [{ key: "all" as const, label: "All Companies" }, ...(Object.keys(COMPANY_LABELS) as CompanyKey[]).map(k => ({ key: k, label: COMPANY_LABELS[k] }))]
-    : [{ key: company as CompanyKey, label: COMPANY_LABELS[company as CompanyKey] }];
-
   return (
     <div className="mx-auto max-w-4xl px-6 py-8 sm:px-10">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-xl font-bold text-white">Documents</h1>
-        {activeFolder !== "all" && (
-          <label className="group flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all hover:border-unhinged-green/40 hover:text-white">
-            {uploading ? <span className="text-zinc-500">Uploading…</span> : (
-              <><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Upload</>
-            )}
-            <input type="file" className="hidden" onChange={handleUpload} disabled={uploading} />
-          </label>
-        )}
+        <label className="group flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all hover:border-unhinged-green/40 hover:text-white">
+          {uploading ? <span className="text-zinc-500">Uploading…</span> : (
+            <><svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Upload</>
+          )}
+          <input type="file" className="hidden" onChange={handleUpload} disabled={uploading} />
+        </label>
       </div>
-
-      {isAdmin && (
-        <div className="mb-6 flex gap-1 overflow-x-auto rounded-xl border border-zinc-900 bg-ink-800/40 p-1">
-          {tabs.map(tab => (
-            <button key={tab.key} onClick={async () => { setActiveFolder(tab.key); await loadFiles(tab.key); }}
-              className={`flex-shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-all ${activeFolder === tab.key ? "bg-ink-700 text-white shadow" : "text-zinc-500 hover:text-zinc-300"}`}>
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      )}
 
       {loading ? (
         <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-14 animate-pulse rounded-xl bg-ink-800" />)}</div>
@@ -139,7 +112,7 @@ export default function DocumentsPage() {
             <svg className="h-6 w-6 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg>
           </div>
           <p className="text-sm text-zinc-500">No documents yet.</p>
-          {activeFolder !== "all" && <p className="mt-1 text-xs text-zinc-600">Upload a file to get started.</p>}
+          <p className="mt-1 text-xs text-zinc-600">Upload a file to get started.</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -148,7 +121,7 @@ export default function DocumentsPage() {
               <FileIcon mime={file.metadata?.mimetype ?? ""} />
               <div className="flex-1 min-w-0">
                 <p className="truncate text-sm font-medium text-zinc-200">{file.name}</p>
-                <p className="text-xs text-zinc-600">{COMPANY_LABELS[file._folder as CompanyKey]}{file.metadata?.size ? ` · ${formatBytes(file.metadata.size)}` : ""}</p>
+                {file.metadata?.size ? <p className="text-xs text-zinc-600">{formatBytes(file.metadata.size)}</p> : null}
               </div>
               <button onClick={async () => { const url = await getSignedUrl(file._folder, file.name); if (url) window.open(url, "_blank"); }}
                 className="flex-shrink-0 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:border-unhinged-green/50 hover:text-white">

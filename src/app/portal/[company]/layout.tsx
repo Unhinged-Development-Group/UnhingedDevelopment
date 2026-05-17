@@ -53,13 +53,34 @@ const NAV = [
   },
 ];
 
+const FOLDER_ICON = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+  </svg>
+);
+
+const ADMIN_NAV = [
+  {
+    href: "/portal/unhinged-development",
+    label: "Overview",
+    icon: (
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
+    ),
+  },
+  { href: "/portal/unhinged-development/documents", label: "Unhinged Dev", icon: FOLDER_ICON, dividerBefore: true, dividerLabel: "Documents" },
+  { href: "/portal/groomr/documents", label: "Groomr", icon: FOLDER_ICON },
+  { href: "/portal/paper-and-ponder/documents", label: "Paper & Ponder", icon: FOLDER_ICON },
+] as const;
+
 export default function CompanyLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
   const company = params.company as string;
 
-  const [user, setUser] = useState<{ email?: string; avatarUrl?: string; initials?: string } | null>(null);
+  const [user, setUser] = useState<{ email?: string; avatarUrl?: string; initials?: string; isAdmin: boolean } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -78,7 +99,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
 
       const name = user.email ?? "";
       const initials = name.split("@")[0].slice(0, 2).toUpperCase();
-      setUser({ email: user.email, avatarUrl: user.user_metadata?.avatar_url, initials });
+      setUser({ email: user.email, avatarUrl: user.user_metadata?.avatar_url, initials, isAdmin: userCompany === "all" });
       setLoading(false);
     })();
   }, [company, router]);
@@ -124,23 +145,45 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
         {/* Desktop sidebar */}
         <aside className="hidden w-52 shrink-0 flex-col border-r border-zinc-900 pt-4 sm:flex">
           <nav className="flex flex-col gap-1 px-3">
-            {NAV.map((item) => {
-              const active = activeSection === item.key;
-              return (
-                <Link
-                  key={item.key}
-                  href={`/portal/${company}/${item.key}`}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
-                    active
-                      ? "bg-ink-800 text-white"
-                      : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
-                  }`}
-                >
-                  <span className={active ? "text-unhinged-green" : ""}>{item.icon}</span>
-                  {item.label}
-                </Link>
-              );
-            })}
+            {user?.isAdmin ? (
+              ADMIN_NAV.map((item) => {
+                const active = pathname === item.href;
+                return (
+                  <div key={item.href}>
+                    {"dividerBefore" in item && item.dividerBefore && (
+                      <div className="mb-1 mt-3 px-3">
+                        <span className="text-[10px] font-semibold tracking-[0.15em] text-zinc-600 uppercase">{item.dividerLabel}</span>
+                      </div>
+                    )}
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                        active ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
+                      }`}
+                    >
+                      <span className={active ? "text-unhinged-green" : ""}>{item.icon}</span>
+                      {item.label}
+                    </Link>
+                  </div>
+                );
+              })
+            ) : (
+              NAV.map((item) => {
+                const active = activeSection === item.key;
+                return (
+                  <Link
+                    key={item.key}
+                    href={`/portal/${company}/${item.key}`}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                      active ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
+                    }`}
+                  >
+                    <span className={active ? "text-unhinged-green" : ""}>{item.icon}</span>
+                    {item.label}
+                  </Link>
+                );
+              })
+            )}
           </nav>
           <div className="mt-auto border-t border-zinc-900 p-3">
             <Link
@@ -167,32 +210,65 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
 
       {/* Mobile bottom tab bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-20 flex border-t border-zinc-900 bg-ink-950/95 backdrop-blur-sm sm:hidden">
-        {NAV.map((item) => {
-          const active = activeSection === item.key;
-          return (
+        {user?.isAdmin ? (
+          <>
+            {ADMIN_NAV.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
+                    active ? "text-unhinged-green" : "text-zinc-600"
+                  }`}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
+              );
+            })}
             <Link
-              key={item.key}
-              href={`/portal/${company}/${item.key}`}
+              href={`/portal/${company}/account`}
               className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
-                active ? "text-unhinged-green" : "text-zinc-600"
+                activeSection === "account" ? "text-unhinged-green" : "text-zinc-600"
               }`}
             >
-              {item.icon}
-              {item.label}
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Account
             </Link>
-          );
-        })}
-        <Link
-          href={`/portal/${company}/account`}
-          className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
-            activeSection === "account" ? "text-unhinged-green" : "text-zinc-600"
-          }`}
-        >
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          Account
-        </Link>
+          </>
+        ) : (
+          <>
+            {NAV.map((item) => {
+              const active = activeSection === item.key;
+              return (
+                <Link
+                  key={item.key}
+                  href={`/portal/${company}/${item.key}`}
+                  className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
+                    active ? "text-unhinged-green" : "text-zinc-600"
+                  }`}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
+              );
+            })}
+            <Link
+              href={`/portal/${company}/account`}
+              className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
+                activeSection === "account" ? "text-unhinged-green" : "text-zinc-600"
+              }`}
+            >
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Account
+            </Link>
+          </>
+        )}
       </nav>
     </div>
   );
