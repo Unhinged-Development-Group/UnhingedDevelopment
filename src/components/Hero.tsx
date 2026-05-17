@@ -172,25 +172,14 @@ export default function Hero() {
           Unhinged Development Group Ltd.<br />
           All rights reserved.
         </p>
-        <p className="text-right text-xs leading-relaxed text-zinc-400">
+        <p className="text-xs leading-relaxed text-zinc-400">
           Registered in<br />
           <span className="inline-flex items-center gap-1.5">
             Scotland.
-            <svg viewBox="0 0 21 14" xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-auto" aria-label="Scotland">
-              <defs>
-                <filter id="saltire-f">
-                  <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="3" seed="7" result="noise"/>
-                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
-                </filter>
-                <clipPath id="saltire-c">
-                  <rect width="21" height="14" rx="1.5"/>
-                </clipPath>
-              </defs>
-              <g filter="url(#saltire-f)" clipPath="url(#saltire-c)">
-                <rect width="21" height="14" fill="#003893"/>
-                <line x1="-2" y1="-2" x2="23" y2="16" stroke="white" strokeWidth="5"/>
-                <line x1="23" y1="-2" x2="-2" y2="16" stroke="white" strokeWidth="5"/>
-              </g>
+            <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg" className="h-3 w-auto opacity-90" aria-label="Scotland">
+              <rect width="18" height="12" rx="1" fill="#003893"/>
+              <line x1="-1" y1="-1" x2="19" y2="13" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+              <line x1="19" y1="-1" x2="-1" y2="13" stroke="white" strokeWidth="4" strokeLinecap="round"/>
             </svg>
           </span>
         </p>
