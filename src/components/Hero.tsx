@@ -26,20 +26,19 @@ export default function Hero() {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
-        <div className="flex items-center">
+        <div className="flex items-center gap-10">
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
             alt="Unhinged Development Group"
             className="h-10 w-auto"
             style={{ filter: "invert(1)", mixBlendMode: "screen" }}
           />
-        </div>
-
-        {/* Centre links — hidden on mobile */}
-        <div className="hidden sm:flex items-center gap-8">
-          <a href="#who-we-are" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">Who we are</a>
-          <a href="#projects" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">Projects</a>
-          <a href="#contact" className="text-sm text-zinc-500 hover:text-zinc-200 transition-colors">Contact us</a>
+          {/* Nav links — left-aligned, hidden on mobile */}
+          <div className="hidden sm:flex items-center gap-7">
+            <a href="#who-we-are" className="text-[15px] font-medium text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
+            <a href="#projects" className="text-[15px] font-medium text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
+            <a href="#contact" className="text-[15px] font-medium text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
+          </div>
         </div>
 
         <Link
@@ -47,7 +46,7 @@ export default function Hero() {
           className="group flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-unhinged-green/50 hover:text-white"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-unhinged-green animate-pulse" />
-          Staff Portal
+          UDG Team Portal
           <svg
             className="h-3 w-3 text-zinc-500 transition-transform duration-200 group-hover:translate-x-0.5"
             fill="none"
@@ -67,7 +66,7 @@ export default function Hero() {
           }`}
         >
           {/* Logo + Wordmark */}
-          <div className="flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-2">
+          <div className="flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
@@ -90,22 +89,35 @@ export default function Hero() {
 
       {/* Footer */}
       <footer className="relative z-10 flex items-center justify-between border-t border-zinc-900 px-6 py-5 sm:px-10 lg:px-16">
-        <p className="text-xs text-zinc-600">
+        <p className="text-xs text-zinc-400">
           © {new Date().getFullYear()} Unhinged Development Group Ltd. All rights reserved.
         </p>
         <div className="flex items-center gap-2">
-          <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-auto opacity-60" aria-hidden="true">
-            <filter id="saltire-rough">
-              <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="5" result="noise"/>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G"/>
-            </filter>
-            <g filter="url(#saltire-rough)">
-              <rect width="30" height="20" fill="#003893"/>
-              <line x1="0" y1="0" x2="30" y2="20" stroke="white" strokeWidth="6.5"/>
-              <line x1="30" y1="0" x2="0" y2="20" stroke="white" strokeWidth="6.5"/>
+          {/* Detailed scribbled Saltire */}
+          <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-auto opacity-80" aria-hidden="true">
+            <defs>
+              <filter id="scribble">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="12" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.9" xChannelSelector="R" yChannelSelector="G"/>
+              </filter>
+              <clipPath id="flag-clip">
+                <rect width="36" height="24" rx="1"/>
+              </clipPath>
+            </defs>
+            <g filter="url(#scribble)" clipPath="url(#flag-clip)">
+              <rect width="36" height="24" fill="#003893"/>
+              {/* White border bands of Saltire */}
+              <line x1="-1" y1="-1" x2="37" y2="25" stroke="white" strokeWidth="9"/>
+              <line x1="37" y1="-1" x2="-1" y2="25" stroke="white" strokeWidth="9"/>
+              {/* Blue centre re-drawn on top */}
+              <line x1="-1" y1="-1" x2="37" y2="25" stroke="#003893" strokeWidth="4"/>
+              <line x1="37" y1="-1" x2="-1" y2="25" stroke="#003893" strokeWidth="4"/>
+              {/* Final white cross arms */}
+              <line x1="-1" y1="-1" x2="37" y2="25" stroke="white" strokeWidth="2.5"/>
+              <line x1="37" y1="-1" x2="-1" y2="25" stroke="white" strokeWidth="2.5"/>
             </g>
           </svg>
-          <span className="text-xs text-zinc-700">Registered in Scotland</span>
+          <span className="text-xs text-zinc-400">Registered in Scotland</span>
         </div>
       </footer>
     </main>
