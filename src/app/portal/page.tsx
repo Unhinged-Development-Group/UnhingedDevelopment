@@ -39,7 +39,7 @@ export default function PortalLogin() {
       return;
     }
 
-    const destination = company === "all" ? "/portal/unhinged-development" : `/portal/${company}/documents`;
+    const destination = company === "all" ? "/portal/unhinged-development" : `/portal/${company}`;
     router.push(destination);
   }
 

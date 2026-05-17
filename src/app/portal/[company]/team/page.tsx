@@ -1,5 +1,5 @@
 "use client";
-import Placeholder from "@/components/portal/Placeholder";
+import SectionFilesPage from "@/components/portal/SectionFilesPage";
 export default function TeamPage() {
-  return <Placeholder section="Team" description="Team members, roles and contact details will live here." />;
+  return <SectionFilesPage section="team" label="Team" showInvite />;
 }
