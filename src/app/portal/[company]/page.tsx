@@ -10,13 +10,15 @@ const GROOMR = {
   gold: "#EAE45C",
   sage: "#88A096",
   terracotta: "#C87964",
+  deepSlate: "#2C3E50",
+  cream: "#F9F8F4",
 } as const;
 
 const GROOMR_VALUES = [
-  { name: "Trust first.", description: "We only feature groomers we'd trust with our own dogs." },
+  { name: "Trust first.", description: "We only feature groomers we’d trust with our own dogs." },
   { name: "Community over competition.", description: "We champion independent groomers, not corporate chains." },
   { name: "Simple by design.", description: "Booking a groom should take seconds, not a Sunday afternoon." },
-  { name: "Dogs at the centre.", description: "Every decision we make starts with what's best for the dog." },
+  { name: "Dogs at the centre.", description: "Every decision we make starts with what’s best for the dog." },
 ];
 
 type CompanyContent = {
@@ -47,7 +49,7 @@ const CONTENT: Record<CompanyKey, CompanyContent> = {
     mission:
       "To make dog grooming effortless for owners and rewarding for groomers — by connecting local communities through a platform built on trust, simplicity, and a genuine love of dogs.",
     vision:
-      "A world where every dog has a groomer they love, and every groomer has a business they're proud of.",
+      "A world where every dog has a groomer they love, and every groomer has a business they’re proud of.",
     values: GROOMR_VALUES,
   },
   "paper-and-ponder": {
@@ -60,7 +62,7 @@ const CONTENT: Record<CompanyKey, CompanyContent> = {
     values: [
       { name: "Crafted with care", description: "Every product is considered from concept through to production." },
       { name: "Inspire reflection", description: "We believe in the power of analogue in a digital world." },
-      { name: "Quality over quantity", description: "We'd rather do fewer things exceptionally well." },
+      { name: "Quality over quantity", description: "We’d rather do fewer things exceptionally well." },
     ],
   },
 };
@@ -72,65 +74,111 @@ export default function CompanyDashboard() {
 
   if (!content) return null;
 
-  // Groomr: brand-specific dashboard using Brand Guidelines 2026 v2
   if (company === "groomr") {
     return (
-      <div className="max-w-3xl px-6 py-10 sm:px-10">
-        {/* Logo + tagline */}
-        <div className="mb-12">
-          <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
-            alt="Groomr"
-            className="mb-5 h-10 w-auto"
-            style={{ filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
-          />
-          <p className="text-base italic" style={{ color: GROOMR.gold }}>
-            &ldquo;Your dog deserves a regular.&rdquo;
-          </p>
-        </div>
-
-        {/* Mission */}
-        <section className="mb-10">
-          <div className="mb-3 flex items-center gap-3">
-            <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
-            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: GROOMR.sage }}>Mission</span>
-          </div>
-          <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">
-            To make dog grooming effortless for owners and rewarding for groomers — by connecting local communities through a platform built on trust, simplicity, and a genuine love of dogs.
-          </p>
-        </section>
-
-        {/* Vision */}
-        <section className="mb-10">
-          <div className="mb-3 flex items-center gap-3">
-            <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
-            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: GROOMR.sage }}>Vision</span>
-          </div>
-          <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">
-            A world where every dog has a groomer they love, and every groomer has a business they&rsquo;re proud of.
-          </p>
-        </section>
-
-        {/* Values */}
-        <section>
-          <div className="mb-4 flex items-center gap-3">
-            <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
-            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: GROOMR.sage }}>Values</span>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {GROOMR_VALUES.map((v, i) => (
-              <div
-                key={v.name}
-                className="rounded-xl border border-zinc-900 bg-ink-800/40 px-4 py-4"
-                style={{ borderTopColor: i % 2 === 0 ? GROOMR.gold : GROOMR.terracotta, borderTopWidth: "2px" }}
+      <>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');`}</style>
+        <div
+          className="px-6 py-10 sm:px-10"
+          style={{
+            backgroundColor: GROOMR.cream,
+            minHeight: "100vh",
+            fontFamily: "'Nunito', sans-serif",
+          }}
+        >
+          <div className="max-w-3xl">
+            {/* Logo — Deep Slate lockup renders naturally on cream; no filter needed */}
+            <div className="mb-12">
+              <img
+                src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
+                alt="Groomr"
+                className="mb-6 h-10 w-auto"
+              />
+              <p
+                style={{
+                  fontFamily: "'Nunito', sans-serif",
+                  fontSize: "1.125rem",
+                  fontWeight: 600,
+                  fontStyle: "italic",
+                  color: GROOMR.deepSlate,
+                }}
               >
-                <p className="text-sm font-semibold text-zinc-200">{v.name}</p>
-                <p className="mt-1 text-xs leading-relaxed" style={{ color: GROOMR.sage }}>{v.description}</p>
+                &ldquo;Your dog deserves a regular.&rdquo;
+              </p>
+            </div>
+
+            {/* Mission */}
+            <section className="mb-10">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+                <span
+                  className="uppercase"
+                  style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}
+                >
+                  Mission
+                </span>
               </div>
-            ))}
+              <p className="max-w-2xl text-sm leading-relaxed" style={{ color: GROOMR.deepSlate }}>
+                To make dog grooming effortless for owners and rewarding for groomers — by connecting
+                local communities through a platform built on trust, simplicity, and a genuine love of dogs.
+              </p>
+            </section>
+
+            {/* Vision */}
+            <section className="mb-10">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+                <span
+                  className="uppercase"
+                  style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}
+                >
+                  Vision
+                </span>
+              </div>
+              <p className="max-w-2xl text-sm leading-relaxed" style={{ color: GROOMR.deepSlate }}>
+                A world where every dog has a groomer they love, and every groomer has a business they&rsquo;re
+                proud of.
+              </p>
+            </section>
+
+            {/* Values */}
+            <section>
+              <div className="mb-4 flex items-center gap-3">
+                <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+                <span
+                  className="uppercase"
+                  style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}
+                >
+                  Values
+                </span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {GROOMR_VALUES.map((v, i) => (
+                  <div
+                    key={v.name}
+                    className="rounded-xl px-4 py-4"
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      border: "1px solid rgba(149,165,166,0.25)",
+                      borderTopColor: i % 2 === 0 ? GROOMR.gold : GROOMR.terracotta,
+                      borderTopWidth: "2px",
+                      boxShadow:
+                        "0 4px 6px -1px rgba(149,165,166,0.10), 0 2px 4px -1px rgba(149,165,166,0.06)",
+                    }}
+                  >
+                    <p className="text-sm" style={{ color: GROOMR.deepSlate, fontWeight: 700 }}>
+                      {v.name}
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed" style={{ color: GROOMR.sage }}>
+                      {v.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
+        </div>
+      </>
     );
   }
 
@@ -138,7 +186,6 @@ export default function CompanyDashboard() {
 
   return (
     <div className="max-w-3xl px-6 py-10 sm:px-10">
-      {/* Logo header */}
       {company === "unhinged-development" && (
         <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
           <img
@@ -173,14 +220,12 @@ export default function CompanyDashboard() {
         </div>
       )}
 
-      {/* Tagline */}
       <div className="mb-10">
-        <p className="text-xs font-medium tracking-[0.2em] uppercase mb-1" style={{ color: accent }}>
+        <p className="mb-1 text-xs font-medium tracking-[0.2em] uppercase" style={{ color: accent }}>
           {content.tagline}
         </p>
       </div>
 
-      {/* Mission */}
       <section className="mb-10">
         <div className="mb-3 flex items-center gap-3">
           <div className="h-px w-6" style={{ backgroundColor: accent }} />
@@ -189,7 +234,6 @@ export default function CompanyDashboard() {
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">{content.mission}</p>
       </section>
 
-      {/* Vision */}
       <section className="mb-10">
         <div className="mb-3 flex items-center gap-3">
           <div className="h-px w-6" style={{ backgroundColor: accent }} />
@@ -198,7 +242,6 @@ export default function CompanyDashboard() {
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">{content.vision}</p>
       </section>
 
-      {/* Values */}
       <section>
         <div className="mb-4 flex items-center gap-3">
           <div className="h-px w-6" style={{ backgroundColor: accent }} />
