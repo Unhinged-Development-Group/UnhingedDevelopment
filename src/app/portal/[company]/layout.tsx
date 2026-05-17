@@ -53,11 +53,28 @@ const NAV = [
   },
 ];
 
+const ACCOUNT_ICON = (
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+  </svg>
+);
+
 const COMPANIES: { key: CompanyKey; short: string }[] = [
   { key: "unhinged-development", short: "Unhinged Dev" },
   { key: "groomr", short: "Groomr" },
   { key: "paper-and-ponder", short: "Paper & Ponder" },
 ];
+
+// Groomr brand tokens
+const G = {
+  cream: "#F9F8F4",
+  deepSlate: "#2C3E50",
+  gold: "#EAE45C",
+  sage: "#88A096",
+  pebble: "rgba(149,165,166,0.25)",
+  navActiveBg: "rgba(234,228,92,0.15)",
+  navInactiveText: "rgba(44,62,80,0.55)",
+} as const;
 
 export default function CompanyLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -65,7 +82,12 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
   const params = useParams();
   const company = params.company as string;
 
-  const [user, setUser] = useState<{ email?: string; avatarUrl?: string; initials?: string; isAdmin: boolean } | null>(null);
+  const [user, setUser] = useState<{
+    email?: string;
+    avatarUrl?: string;
+    initials?: string;
+    isAdmin: boolean;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -89,10 +111,19 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
     })();
   }, [company, router]);
 
+  const isGroomr = company === "groomr";
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-800 border-t-unhinged-green" />
+        {isGroomr ? (
+          <div
+            className="h-6 w-6 animate-spin rounded-full border-2"
+            style={{ borderColor: "rgba(44,62,80,0.1)", borderTopColor: G.gold }}
+          />
+        ) : (
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-800 border-t-unhinged-green" />
+        )}
       </div>
     );
   }
@@ -100,18 +131,65 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
   const companyLabel = COMPANY_LABELS[company as CompanyKey] ?? company;
   const activeSection = pathname.split("/")[3] ?? "";
 
+  // Sidebar nav link helpers
+  const navLinkClass = (active: boolean) =>
+    isGroomr
+      ? "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all"
+      : `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+          active ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
+        }`;
+
+  const navLinkStyle = (active: boolean): React.CSSProperties =>
+    isGroomr
+      ? active
+        ? { backgroundColor: G.navActiveBg, color: G.deepSlate }
+        : { color: G.navInactiveText }
+      : {};
+
+  const navIconStyle = (active: boolean): React.CSSProperties =>
+    isGroomr && active ? { color: G.gold } : {};
+
+  const navIconClass = (active: boolean) =>
+    !isGroomr && active ? "text-unhinged-green" : "";
+
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Top bar */}
+      {isGroomr && (
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');`}</style>
+      )}
+
+      {/* Top bar — always dark, unchanged */}
       <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-zinc-900 bg-ink-950/90 px-4 backdrop-blur-sm sm:px-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="text-xs font-semibold tracking-widest text-zinc-600 uppercase hover:text-zinc-400 transition-colors">
             UDG
           </Link>
           <span className="h-4 w-px bg-zinc-800" />
-          <Link href={`/portal/${company}`} className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
-            {companyLabel}
-          </Link>
+          {user?.isAdmin ? (
+            <div className="relative flex items-center">
+              <select
+                value={company}
+                onChange={(e) => router.push(`/portal/${e.target.value}`)}
+                className="appearance-none bg-transparent text-sm font-medium text-zinc-300 border-none outline-none cursor-pointer pr-5 hover:text-white transition-colors"
+              >
+                {COMPANIES.map(({ key, short }) => (
+                  <option key={key} value={key} style={{ backgroundColor: "#09090b", color: "#d4d4d8" }}>
+                    {short}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-500"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          ) : (
+            <Link href={`/portal/${company}`} className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+              {companyLabel}
+            </Link>
+          )}
         </div>
         <Link
           href={`/portal/${company}/account`}
@@ -128,78 +206,46 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
         </Link>
       </header>
 
-      {/* Admin company switcher — mobile strip */}
-      {user?.isAdmin && (
-        <div className="border-b border-zinc-900 bg-ink-950 px-4 py-2 sm:hidden">
-          <div className="flex gap-2 overflow-x-auto">
-            {COMPANIES.map(({ key, short }) => (
-              <Link
-                key={key}
-                href={`/portal/${key}`}
-                className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                  company === key
-                    ? "bg-unhinged-green text-ink-950"
-                    : "border border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300"
-                }`}
-              >
-                {short}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="flex flex-1">
         {/* Desktop sidebar */}
-        <aside className="hidden w-52 shrink-0 flex-col border-r border-zinc-900 pt-4 sm:flex">
-          {/* Admin company switcher */}
-          {user?.isAdmin && (
-            <div className="mb-2 px-3">
-              <p className="mb-1.5 px-3 text-[10px] font-semibold tracking-[0.15em] text-zinc-600 uppercase">Company</p>
-              <nav className="flex flex-col gap-0.5">
-                {COMPANIES.map(({ key, short }) => (
-                  <Link
-                    key={key}
-                    href={`/portal/${key}`}
-                    className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
-                      company === key
-                        ? "bg-ink-800 text-white"
-                        : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
-                    }`}
-                  >
-                    <span className={`h-1.5 w-1.5 flex-shrink-0 rounded-full ${company === key ? "bg-unhinged-green" : "bg-zinc-700"}`} />
-                    {short}
-                  </Link>
-                ))}
-              </nav>
-              <div className="mt-3 h-px bg-zinc-900" />
-            </div>
-          )}
-
-          {/* Section nav */}
+        <aside
+          className={`hidden w-52 shrink-0 flex-col border-r pt-4 sm:flex${isGroomr ? "" : " border-zinc-900"}`}
+          style={isGroomr ? { backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" } : undefined}
+        >
           <nav className="flex flex-col gap-1 px-3">
-            <Link
-              href={`/portal/${company}`}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
-                activeSection === "" ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
-              }`}
-            >
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className={`h-5 w-5 ${activeSection === "" ? "text-unhinged-green" : ""}`}>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              Overview
-            </Link>
+            {/* Overview */}
+            {(() => {
+              const active = activeSection === "";
+              return (
+                <Link
+                  href={`/portal/${company}`}
+                  className={navLinkClass(active)}
+                  style={navLinkStyle(active)}
+                >
+                  <svg
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    className={`h-5 w-5 ${navIconClass(active)}`}
+                    style={navIconStyle(active)}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  Overview
+                </Link>
+              );
+            })()}
+
             {NAV.map((item) => {
               const active = activeSection === item.key;
               return (
                 <Link
                   key={item.key}
                   href={`/portal/${company}/${item.key}`}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
-                    active ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
-                  }`}
+                  className={navLinkClass(active)}
+                  style={navLinkStyle(active)}
                 >
-                  <span className={active ? "text-unhinged-green" : ""}>{item.icon}</span>
+                  <span className={navIconClass(active)} style={navIconStyle(active)}>
+                    {item.icon}
+                  </span>
                   {item.label}
                 </Link>
               );
@@ -207,20 +253,25 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
           </nav>
 
           {/* Account */}
-          <div className="mt-auto border-t border-zinc-900 p-3">
-            <Link
-              href={`/portal/${company}/account`}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
-                activeSection === "account"
-                  ? "bg-ink-800 text-white"
-                  : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
-              }`}
-            >
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className={`h-5 w-5 ${activeSection === "account" ? "text-unhinged-green" : ""}`}>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              Account
-            </Link>
+          <div
+            className="mt-auto p-3"
+            style={{ borderTop: `1px solid ${isGroomr ? G.pebble : "rgb(24,24,27)"}` }}
+          >
+            {(() => {
+              const active = activeSection === "account";
+              return (
+                <Link
+                  href={`/portal/${company}/account`}
+                  className={navLinkClass(active)}
+                  style={navLinkStyle(active)}
+                >
+                  <span className={navIconClass(active)} style={navIconStyle(active)}>
+                    {ACCOUNT_ICON}
+                  </span>
+                  Account
+                </Link>
+              );
+            })()}
           </div>
         </aside>
 
@@ -231,34 +282,62 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
       </div>
 
       {/* Mobile bottom tab bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-20 flex border-t border-zinc-900 bg-ink-950/95 backdrop-blur-sm sm:hidden">
-        {NAV.map((item) => {
-          const active = activeSection === item.key;
-          return (
-            <Link
-              key={item.key}
-              href={`/portal/${company}/${item.key}`}
-              className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
-                active ? "text-unhinged-green" : "text-zinc-600"
-              }`}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          );
-        })}
-        <Link
-          href={`/portal/${company}/account`}
-          className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
-            activeSection === "account" ? "text-unhinged-green" : "text-zinc-600"
-          }`}
+      {isGroomr ? (
+        <nav
+          className="fixed bottom-0 left-0 right-0 z-20 flex border-t sm:hidden"
+          style={{ backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" }}
         >
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          Account
-        </Link>
-      </nav>
+          {NAV.map((item) => {
+            const active = activeSection === item.key;
+            return (
+              <Link
+                key={item.key}
+                href={`/portal/${company}/${item.key}`}
+                className="flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors"
+                style={{ color: active ? G.gold : G.navInactiveText }}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
+          <Link
+            href={`/portal/${company}/account`}
+            className="flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors"
+            style={{ color: activeSection === "account" ? G.gold : G.navInactiveText }}
+          >
+            {ACCOUNT_ICON}
+            Account
+          </Link>
+        </nav>
+      ) : (
+        <nav className="fixed bottom-0 left-0 right-0 z-20 flex border-t border-zinc-900 bg-ink-950/95 backdrop-blur-sm sm:hidden">
+          {NAV.map((item) => {
+            const active = activeSection === item.key;
+            return (
+              <Link
+                key={item.key}
+                href={`/portal/${company}/${item.key}`}
+                className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
+                  active ? "text-unhinged-green" : "text-zinc-600"
+                }`}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
+          <Link
+            href={`/portal/${company}/account`}
+            className={`flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors ${
+              activeSection === "account" ? "text-unhinged-green" : "text-zinc-600"
+            }`}
+          >
+            {ACCOUNT_ICON}
+            Account
+          </Link>
+        </nav>
+      )}
     </div>
   );
 }

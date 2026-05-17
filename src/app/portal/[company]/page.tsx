@@ -76,109 +76,72 @@ export default function CompanyDashboard() {
 
   if (company === "groomr") {
     return (
-      <>
-        <style>{`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');`}</style>
-        <div
-          className="px-6 py-10 sm:px-10"
-          style={{
-            backgroundColor: GROOMR.cream,
-            minHeight: "100vh",
-            fontFamily: "'Nunito', sans-serif",
-          }}
-        >
-          <div className="max-w-3xl">
-            {/* Logo — Deep Slate lockup renders naturally on cream; no filter needed */}
-            <div className="mb-12">
-              <img
-                src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
-                alt="Groomr"
-                className="mb-6 h-10 w-auto"
-              />
-              <p
-                style={{
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: "1.125rem",
-                  fontWeight: 600,
-                  fontStyle: "italic",
-                  color: GROOMR.deepSlate,
-                }}
-              >
-                &ldquo;Your dog deserves a regular.&rdquo;
-              </p>
-            </div>
-
-            {/* Mission */}
-            <section className="mb-10">
-              <div className="mb-3 flex items-center gap-3">
-                <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
-                <span
-                  className="uppercase"
-                  style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}
-                >
-                  Mission
-                </span>
-              </div>
-              <p className="max-w-2xl text-sm leading-relaxed" style={{ color: GROOMR.deepSlate }}>
-                To make dog grooming effortless for owners and rewarding for groomers — by connecting
-                local communities through a platform built on trust, simplicity, and a genuine love of dogs.
-              </p>
-            </section>
-
-            {/* Vision */}
-            <section className="mb-10">
-              <div className="mb-3 flex items-center gap-3">
-                <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
-                <span
-                  className="uppercase"
-                  style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}
-                >
-                  Vision
-                </span>
-              </div>
-              <p className="max-w-2xl text-sm leading-relaxed" style={{ color: GROOMR.deepSlate }}>
-                A world where every dog has a groomer they love, and every groomer has a business they&rsquo;re
-                proud of.
-              </p>
-            </section>
-
-            {/* Values */}
-            <section>
-              <div className="mb-4 flex items-center gap-3">
-                <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
-                <span
-                  className="uppercase"
-                  style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}
-                >
-                  Values
-                </span>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {GROOMR_VALUES.map((v, i) => (
-                  <div
-                    key={v.name}
-                    className="rounded-xl px-4 py-4"
-                    style={{
-                      backgroundColor: "#FFFFFF",
-                      border: "1px solid rgba(149,165,166,0.25)",
-                      borderTopColor: i % 2 === 0 ? GROOMR.gold : GROOMR.terracotta,
-                      borderTopWidth: "2px",
-                      boxShadow:
-                        "0 4px 6px -1px rgba(149,165,166,0.10), 0 2px 4px -1px rgba(149,165,166,0.06)",
-                    }}
-                  >
-                    <p className="text-sm" style={{ color: GROOMR.deepSlate, fontWeight: 700 }}>
-                      {v.name}
-                    </p>
-                    <p className="mt-1 text-xs leading-relaxed" style={{ color: GROOMR.sage }}>
-                      {v.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+      <div
+        className="px-6 py-10 sm:px-10"
+        style={{ backgroundColor: GROOMR.cream, minHeight: "100vh", fontFamily: "'Nunito', sans-serif" }}
+      >
+        <div className="max-w-3xl">
+          {/* Logo — Deep Slate lockup on cream; no filter needed */}
+          <div className="mb-12">
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
+              alt="Groomr"
+              className="mb-6 h-10 w-auto"
+            />
+            <p style={{ fontFamily: "'Nunito', sans-serif", fontSize: "1.125rem", fontWeight: 600, fontStyle: "italic", color: GROOMR.deepSlate }}>
+              &ldquo;Your dog deserves a regular.&rdquo;
+            </p>
           </div>
+
+          {/* Mission */}
+          <section className="mb-10">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+              <span className="uppercase" style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}>Mission</span>
+            </div>
+            <p className="max-w-2xl text-sm leading-relaxed" style={{ color: GROOMR.deepSlate }}>
+              To make dog grooming effortless for owners and rewarding for groomers — by connecting local communities through a platform built on trust, simplicity, and a genuine love of dogs.
+            </p>
+          </section>
+
+          {/* Vision */}
+          <section className="mb-10">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+              <span className="uppercase" style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}>Vision</span>
+            </div>
+            <p className="max-w-2xl text-sm leading-relaxed" style={{ color: GROOMR.deepSlate }}>
+              A world where every dog has a groomer they love, and every groomer has a business they&rsquo;re proud of.
+            </p>
+          </section>
+
+          {/* Values */}
+          <section>
+            <div className="mb-4 flex items-center gap-3">
+              <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+              <span className="uppercase" style={{ color: GROOMR.sage, fontSize: "10px", fontWeight: 700, letterSpacing: "0.15em" }}>Values</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {GROOMR_VALUES.map((v, i) => (
+                <div
+                  key={v.name}
+                  className="rounded-xl px-4 py-4"
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid rgba(149,165,166,0.25)",
+                    borderTopColor: i % 2 === 0 ? GROOMR.gold : GROOMR.terracotta,
+                    borderTopWidth: "2px",
+                    boxShadow: "0 4px 6px -1px rgba(149,165,166,0.10), 0 2px 4px -1px rgba(149,165,166,0.06)",
+                  }}
+                >
+                  <p className="text-sm" style={{ color: GROOMR.deepSlate, fontWeight: 700 }}>{v.name}</p>
+                  <p className="mt-1 text-xs leading-relaxed" style={{ color: GROOMR.sage }}>{v.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
-      </>
+      </div>
     );
   }
 
