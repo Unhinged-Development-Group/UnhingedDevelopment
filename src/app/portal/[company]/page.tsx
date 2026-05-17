@@ -105,11 +105,10 @@ export default function CompanyDashboard() {
               aria-hidden="true"
               className="h-12 w-auto flex-shrink-0 sm:h-14"
             />
-            <object
-              data="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
-              type="image/svg+xml"
-              aria-label="Paper &amp; Ponder"
-              className="h-auto w-36 sm:w-52 pointer-events-none"
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
+              alt="Paper &amp; Ponder"
+              className="h-auto w-36 sm:w-52"
             />
           </div>
 
