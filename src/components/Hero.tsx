@@ -80,8 +80,8 @@ export default function Hero() {
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute top-[12%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.07]"
-          style={{ background: "radial-gradient(ellipse at 50% 18%, #D2FF14 0%, transparent 60%)" }}
+          className="absolute top-[32%] sm:top-[42%] left-1/2 -translate-x-1/2 h-[700px] w-[600px] opacity-[0.09]"
+          style={{ background: "radial-gradient(ellipse at 50% 0%, #D2FF14 0%, transparent 65%)" }}
         />
         <div
           className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.06]"
@@ -159,7 +159,7 @@ export default function Hero() {
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
-              style={{ filter: "invert(1)", mixBlendMode: "screen" }}
+              style={{ filter: "invert(1) drop-shadow(0 0 14px rgba(210, 255, 20, 0.28))", mixBlendMode: "screen" }}
             />
           </div>
         </div>
