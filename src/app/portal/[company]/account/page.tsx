@@ -4,10 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 
+const G = {
+  cream: "#F9F8F4",
+  deepSlate: "#2C3E50",
+  gold: "#EAE45C",
+  sage: "#88A096",
+  pebble: "#95A5A6",
+  terracotta: "#C87964",
+};
+
 export default function AccountPage() {
   const router = useRouter();
   const params = useParams();
   const company = params.company as string;
+  const isGroomr = company === "groomr";
   const supabase = createClient();
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -74,58 +84,141 @@ export default function AccountPage() {
   if (!user) return null;
 
   return (
-    <div className="mx-auto max-w-lg px-6 py-10 sm:px-10">
-      <h1 className="mb-8 text-xl font-bold text-white">Account</h1>
+    <div
+      className="max-w-lg px-6 py-10 sm:px-10"
+      style={isGroomr ? { backgroundColor: G.cream, minHeight: "100vh", fontFamily: "'Nunito', sans-serif" } : {}}
+    >
+      <h1
+        className={isGroomr ? "mb-8 text-xl font-bold" : "mb-8 text-xl font-bold text-white"}
+        style={isGroomr ? { color: G.deepSlate } : {}}
+      >
+        Account
+      </h1>
 
       {/* Avatar */}
       <div className="mb-10 flex items-center gap-5">
         <button onClick={() => fileRef.current?.click()} className="relative flex-shrink-0 group" disabled={uploadingAvatar}>
           {user.avatarUrl ? (
-            <img src={user.avatarUrl} alt="" className="h-20 w-20 rounded-full object-cover ring-2 ring-zinc-800 group-hover:ring-unhinged-green/50 transition-all" />
+            <img
+              src={user.avatarUrl}
+              alt=""
+              className="h-20 w-20 rounded-full object-cover ring-2 transition-all"
+              style={{ ringColor: isGroomr ? G.gold : undefined }}
+            />
           ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-unhinged-green ring-2 ring-zinc-800 group-hover:ring-unhinged-green/50 transition-all">
-              <span className="text-2xl font-bold text-ink-950">{user.initials}</span>
+            <div
+              className="flex h-20 w-20 items-center justify-center rounded-full ring-2 transition-all"
+              style={isGroomr
+                ? { backgroundColor: G.gold, outlineColor: G.gold }
+                : { backgroundColor: "rgb(210,255,20)" }
+              }
+            >
+              <span
+                className="text-2xl font-bold"
+                style={{ color: G.deepSlate }}
+              >
+                {user.initials}
+              </span>
             </div>
           )}
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-            <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </div>
-          {uploadingAvatar && <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60"><div className="h-5 w-5 animate-spin rounded-full border-2 border-zinc-600 border-t-unhinged-green" /></div>}
+          {uploadingAvatar && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60">
+              <div
+                className="h-5 w-5 animate-spin rounded-full border-2"
+                style={isGroomr
+                  ? { borderColor: "rgba(44,62,80,0.15)", borderTopColor: G.gold }
+                  : { borderColor: "rgb(82,82,91)", borderTopColor: "rgb(210,255,20)" }
+                }
+              />
+            </div>
+          )}
         </button>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
         <div>
-          <p className="font-medium text-zinc-200">{user.email}</p>
-          <p className="mt-0.5 text-xs text-zinc-600">Click your photo to update it</p>
+          <p
+            className="font-medium"
+            style={{ color: isGroomr ? G.deepSlate : "rgb(228,228,231)" }}
+          >
+            {user.email}
+          </p>
+          <p className="mt-0.5 text-xs" style={{ color: isGroomr ? G.sage : "rgb(82,82,91)" }}>
+            Click your photo to update it
+          </p>
         </div>
       </div>
 
       {/* Change password */}
-      <div className="mb-10 rounded-2xl border border-zinc-900 bg-ink-800/40 p-6">
-        <h2 className="mb-5 text-sm font-semibold text-zinc-300">Change password</h2>
+      <div
+        className="mb-10 rounded-2xl p-6"
+        style={isGroomr
+          ? { backgroundColor: "white", border: `1px solid rgba(149,165,166,0.25)` }
+          : { backgroundColor: "rgba(39,39,42,0.4)", border: "1px solid rgb(24,24,27)" }
+        }
+      >
+        <h2
+          className="mb-5 text-sm font-semibold"
+          style={{ color: isGroomr ? G.deepSlate : "rgb(212,212,216)" }}
+        >
+          Change password
+        </h2>
         <form onSubmit={handlePasswordChange} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-zinc-400">New password</label>
-            <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required minLength={8}
-              className="w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
-              placeholder="Min. 8 characters" />
+            <label className="mb-1.5 block text-xs font-medium" style={{ color: isGroomr ? G.sage : "rgb(161,161,170)" }}>
+              New password
+            </label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={e => setNewPassword(e.target.value)}
+              required
+              minLength={8}
+              className={isGroomr ? "w-full rounded-xl px-4 py-3 text-sm focus:outline-none" : "w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"}
+              style={isGroomr ? { border: `1px solid rgba(149,165,166,0.4)`, backgroundColor: G.cream, color: G.deepSlate } : {}}
+              placeholder="Min. 8 characters"
+            />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-zinc-400">Confirm password</label>
-            <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required
-              className="w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
-              placeholder="Repeat new password" />
+            <label className="mb-1.5 block text-xs font-medium" style={{ color: isGroomr ? G.sage : "rgb(161,161,170)" }}>
+              Confirm password
+            </label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              required
+              className={isGroomr ? "w-full rounded-xl px-4 py-3 text-sm focus:outline-none" : "w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"}
+              style={isGroomr ? { border: `1px solid rgba(149,165,166,0.4)`, backgroundColor: G.cream, color: G.deepSlate } : {}}
+              placeholder="Repeat new password"
+            />
           </div>
-          {pwStatus && <p className={`text-xs ${pwStatus.ok ? "text-unhinged-green" : "text-red-400"}`}>{pwStatus.message}</p>}
-          <button type="submit" disabled={savingPw}
-            className="w-full rounded-xl bg-unhinged-green py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50">
+          {pwStatus && (
+            <p className="text-xs" style={{ color: pwStatus.ok ? (isGroomr ? G.sage : "rgb(210,255,20)") : (isGroomr ? G.terracotta : "rgb(248,113,113)") }}>
+              {pwStatus.message}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={savingPw}
+            className={isGroomr ? "w-full rounded-xl py-3 text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50" : "w-full rounded-xl bg-unhinged-green py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50"}
+            style={isGroomr ? { backgroundColor: G.gold, color: G.deepSlate } : {}}
+          >
             {savingPw ? "Saving…" : "Update password"}
           </button>
         </form>
       </div>
 
       {/* Sign out */}
-      <button onClick={handleSignOut}
-        className="w-full rounded-xl border border-zinc-800 py-3 text-sm font-medium text-zinc-400 transition-all hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400">
+      <button
+        onClick={handleSignOut}
+        className={isGroomr ? "w-full rounded-xl py-3 text-sm font-medium transition-all" : "w-full rounded-xl border border-zinc-800 py-3 text-sm font-medium text-zinc-400 transition-all hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400"}
+        style={isGroomr ? { border: `1px solid rgba(149,165,166,0.35)`, color: G.sage } : {}}
+      >
         Sign out
       </button>
     </div>
