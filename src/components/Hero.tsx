@@ -56,6 +56,25 @@ export default function Hero() {
         >
           Contact us
         </a>
+
+        <div className="mt-4 border-t border-zinc-800 pt-6">
+          <Link
+            href="/portal"
+            onClick={() => setMenuOpen(false)}
+            className="group flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2.5 text-sm text-zinc-300 transition-all duration-200 hover:border-unhinged-green/50 hover:text-white w-fit"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-unhinged-green animate-pulse" />
+            UDG Team Portal
+            <svg
+              className="h-3 w-3 text-zinc-500 transition-transform duration-200 group-hover:translate-x-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </div>
 
       {/* Background orbs */}
@@ -102,7 +121,7 @@ export default function Hero() {
 
         <Link
           href="/portal"
-          className="group flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-unhinged-green/50 hover:text-white"
+          className="group hidden sm:flex items-center gap-2 rounded-full border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-unhinged-green/50 hover:text-white"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-unhinged-green animate-pulse" />
           UDG Team Portal
