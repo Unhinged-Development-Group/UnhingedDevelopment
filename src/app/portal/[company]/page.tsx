@@ -233,18 +233,18 @@ export default function CompanyDashboard() {
   return (
     <div className="max-w-3xl px-6 py-10 sm:px-10">
       {company === "unhinged-development" && (
-        <div className="mb-12 flex flex-col items-start gap-4 sm:gap-8">
+        <div className="mb-12 flex items-center gap-4 sm:gap-6">
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
             alt=""
             aria-hidden="true"
-            className="h-14 w-auto sm:h-56"
+            className="h-12 w-auto flex-shrink-0 sm:h-16"
             style={{ filter: UDG_ICON_FILTER, mixBlendMode: "screen" }}
           />
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
             alt="Unhinged Development Group"
-            className="h-auto w-52 sm:w-72"
+            className="h-auto w-40 sm:w-60"
             style={{ filter: "invert(1)", mixBlendMode: "screen" }}
           />
         </div>
