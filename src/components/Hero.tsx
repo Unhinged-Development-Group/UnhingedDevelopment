@@ -79,12 +79,22 @@ export default function Hero() {
 
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Main lamp beam — source at logo base, pours downward */}
         <div
-          className="absolute top-[18%] sm:top-[36%] left-1/2 -translate-x-1/2 h-[680px] w-[560px] opacity-[0.10]"
+          className="absolute top-[18%] sm:top-[36%] left-1/2 -translate-x-1/2 h-[680px] w-[560px] opacity-[0.24]"
           style={{
-            background: "radial-gradient(ellipse at 50% 12%, #D2FF14 0%, transparent 60%)",
+            background: "radial-gradient(ellipse at 50% 12%, #D2FF14 0%, transparent 52%)",
             maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%)",
             WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 88%, transparent 100%)",
+          }}
+        />
+        {/* Hot spot — tight bright core right at the logo base */}
+        <div
+          className="absolute top-[28%] sm:top-[44%] left-1/2 -translate-x-1/2 h-[260px] w-[300px] opacity-[0.28]"
+          style={{
+            background: "radial-gradient(ellipse at 50% 5%, #D2FF14 0%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 80%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 80%, transparent 100%)",
           }}
         />
         <div
@@ -163,7 +173,7 @@ export default function Hero() {
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
-              style={{ filter: "invert(1) drop-shadow(0 0 14px rgba(210, 255, 20, 0.28))", mixBlendMode: "screen" }}
+              style={{ filter: "invert(1) drop-shadow(0 -4px 24px rgba(210, 255, 20, 0.60))", mixBlendMode: "screen" }}
             />
           </div>
         </div>
