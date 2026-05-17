@@ -60,12 +60,11 @@ const ACCOUNT_ICON = (
 );
 
 const COMPANIES: { key: CompanyKey; short: string }[] = [
-  { key: "unhinged-development", short: "Unhinged Dev" },
+  { key: "unhinged-development", short: "Unhinged Development Group" },
   { key: "groomr", short: "Groomr" },
   { key: "paper-and-ponder", short: "Paper & Ponder" },
 ];
 
-// Groomr brand tokens
 const G = {
   cream: "#F9F8F4",
   deepSlate: "#2C3E50",
@@ -131,7 +130,6 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
   const companyLabel = COMPANY_LABELS[company as CompanyKey] ?? company;
   const activeSection = pathname.split("/")[3] ?? "";
 
-  // Sidebar nav link helpers
   const navLinkClass = (active: boolean) =>
     isGroomr
       ? "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all"
@@ -158,7 +156,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
         <style>{`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');`}</style>
       )}
 
-      {/* Top bar — always dark, unchanged */}
+      {/* Top bar — always dark */}
       <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-zinc-900 bg-ink-950/90 px-4 backdrop-blur-sm sm:px-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="text-xs font-semibold tracking-widest text-zinc-600 uppercase hover:text-zinc-400 transition-colors">
@@ -213,61 +211,33 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
           style={isGroomr ? { backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" } : undefined}
         >
           <nav className="flex flex-col gap-1 px-3">
-            {/* Overview */}
             {(() => {
               const active = activeSection === "";
               return (
-                <Link
-                  href={`/portal/${company}`}
-                  className={navLinkClass(active)}
-                  style={navLinkStyle(active)}
-                >
-                  <svg
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                    className={`h-5 w-5 ${navIconClass(active)}`}
-                    style={navIconStyle(active)}
-                  >
+                <Link href={`/portal/${company}`} className={navLinkClass(active)} style={navLinkStyle(active)}>
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className={`h-5 w-5 ${navIconClass(active)}`} style={navIconStyle(active)}>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                   Overview
                 </Link>
               );
             })()}
-
             {NAV.map((item) => {
               const active = activeSection === item.key;
               return (
-                <Link
-                  key={item.key}
-                  href={`/portal/${company}/${item.key}`}
-                  className={navLinkClass(active)}
-                  style={navLinkStyle(active)}
-                >
-                  <span className={navIconClass(active)} style={navIconStyle(active)}>
-                    {item.icon}
-                  </span>
+                <Link key={item.key} href={`/portal/${company}/${item.key}`} className={navLinkClass(active)} style={navLinkStyle(active)}>
+                  <span className={navIconClass(active)} style={navIconStyle(active)}>{item.icon}</span>
                   {item.label}
                 </Link>
               );
             })}
           </nav>
-
-          {/* Account */}
-          <div
-            className="mt-auto p-3"
-            style={{ borderTop: `1px solid ${isGroomr ? G.pebble : "rgb(24,24,27)"}` }}
-          >
+          <div className="mt-auto p-3" style={{ borderTop: `1px solid ${isGroomr ? G.pebble : "rgb(24,24,27)"}` }}>
             {(() => {
               const active = activeSection === "account";
               return (
-                <Link
-                  href={`/portal/${company}/account`}
-                  className={navLinkClass(active)}
-                  style={navLinkStyle(active)}
-                >
-                  <span className={navIconClass(active)} style={navIconStyle(active)}>
-                    {ACCOUNT_ICON}
-                  </span>
+                <Link href={`/portal/${company}/account`} className={navLinkClass(active)} style={navLinkStyle(active)}>
+                  <span className={navIconClass(active)} style={navIconStyle(active)}>{ACCOUNT_ICON}</span>
                   Account
                 </Link>
               );
@@ -275,7 +245,6 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
           </div>
         </aside>
 
-        {/* Main content */}
         <main className="flex-1 overflow-auto pb-20 sm:pb-0">
           {children}
         </main>

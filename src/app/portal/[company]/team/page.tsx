@@ -38,10 +38,10 @@ export default function TeamPage() {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
 
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteName, setInviteName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("");
-  const [inviteCompany, setInviteCompany] = useState<CompanyKey>(company);
   const [inviting, setInviting] = useState(false);
   const [inviteResult, setInviteResult] = useState<{ ok: boolean; message: string } | null>(null);
 
@@ -95,25 +95,54 @@ export default function TeamPage() {
     const res = await fetch("/api/admin/invite", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
-      body: JSON.stringify({ email: inviteEmail, full_name: inviteName, job_role: inviteRole, company: inviteCompany }),
+      body: JSON.stringify({ email: inviteEmail, full_name: inviteName, job_role: inviteRole, company }),
     });
     const json = await res.json();
-    setInviteResult(
-      res.ok
-        ? { ok: true, message: `Invite sent to ${inviteEmail}.` }
-        : { ok: false, message: json.error ?? "Something went wrong." }
-    );
-    if (res.ok) { setInviteName(""); setInviteEmail(""); setInviteRole(""); }
+    if (res.ok) {
+      setInviteResult({ ok: true, message: `Invite sent to ${inviteEmail}.` });
+      setInviteName("");
+      setInviteEmail("");
+      setInviteRole("");
+      setTimeout(() => {
+        setShowInviteModal(false);
+        setInviteResult(null);
+      }, 1500);
+    } else {
+      setInviteResult({ ok: false, message: json.error ?? "Something went wrong." });
+    }
     setInviting(false);
   }
 
+  function openInviteModal() {
+    setInviteResult(null);
+    setInviteName("");
+    setInviteEmail("");
+    setInviteRole("");
+    setShowInviteModal(true);
+  }
+
   return (
-    <div className="mx-auto max-w-4xl px-6 py-8 sm:px-10">
-      <div className="mb-8">
-        <h1 className="text-xl font-bold text-white">Team</h1>
-        <p className="mt-1 text-sm text-zinc-500">{COMPANY_LABELS[company]}</p>
+    <div className="max-w-4xl px-6 py-8 sm:px-10">
+      {/* Header */}
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-white">Team</h1>
+          <p className="mt-1 text-sm text-zinc-500">{COMPANY_LABELS[company]}</p>
+        </div>
+        {isAdmin && (
+          <button
+            onClick={openInviteModal}
+            className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-ink-800/50 px-3 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-700 hover:bg-ink-800 hover:text-white"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Invite
+          </button>
+        )}
       </div>
 
+      {/* Member list */}
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => <div key={i} className="h-16 animate-pulse rounded-xl bg-ink-800" />)}
@@ -126,7 +155,7 @@ export default function TeamPage() {
             </svg>
           </div>
           <p className="text-sm text-zinc-500">No team members yet.</p>
-          {isAdmin && <p className="mt-1 text-xs text-zinc-600">Use the invite form below to add someone.</p>}
+          {isAdmin && <p className="mt-1 text-xs text-zinc-600">Use the Invite button to add someone.</p>}
         </div>
       ) : (
         <div className="space-y-2">
@@ -135,7 +164,6 @@ export default function TeamPage() {
               key={member.id}
               className="group flex items-center gap-4 rounded-xl border border-zinc-900 bg-ink-800/40 px-4 py-3 transition-all hover:border-zinc-800 hover:bg-ink-800"
             >
-              {/* Avatar */}
               <div className="flex-shrink-0">
                 {member.avatar_url ? (
                   <img src={member.avatar_url} alt="" className="h-10 w-10 rounded-full object-cover" />
@@ -145,14 +173,10 @@ export default function TeamPage() {
                   </div>
                 )}
               </div>
-
-              {/* Name + email */}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-zinc-200">{memberDisplayName(member)}</p>
                 <p className="truncate text-xs text-zinc-500">{member.email}</p>
               </div>
-
-              {/* Role + actions */}
               <div className="flex flex-shrink-0 items-center gap-2">
                 {editingId === member.id ? (
                   <>
@@ -178,7 +202,7 @@ export default function TeamPage() {
                   <>
                     <span className="text-xs text-zinc-400">Remove member?</span>
                     <button onClick={() => deleteMember(member.id)} disabled={deleting}
-                      className="rounded-lg bg-red-950/60 border border-red-900/50 px-2.5 py-1 text-xs text-red-400 hover:bg-red-950 disabled:opacity-50">
+                      className="rounded-lg border border-red-900/50 bg-red-950/60 px-2.5 py-1 text-xs text-red-400 hover:bg-red-950 disabled:opacity-50">
                       {deleting ? "Removing…" : "Yes, remove"}
                     </button>
                     <button onClick={() => setConfirmDeleteId(null)}
@@ -227,57 +251,81 @@ export default function TeamPage() {
         </div>
       )}
 
-      {/* Admin invite form */}
-      {isAdmin && (
-        <div className="mt-12 border-t border-zinc-900 pt-10">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="h-px w-6 bg-zinc-800" />
-            <span className="text-xs font-medium tracking-[0.2em] text-zinc-500 uppercase">Invite Team Member</span>
-          </div>
-          <form onSubmit={handleInvite} className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-400">Full name</label>
-              <input type="text" value={inviteName} onChange={(e) => setInviteName(e.target.value)}
-                placeholder="Jane Smith"
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors" />
-            </div>
-            <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-400">Email address</label>
-              <input type="email" required value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="jane@groomr.uk"
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors" />
-            </div>
-            <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-400">Job role</label>
-              <input type="text" value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}
-                placeholder="e.g. Developer"
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors" />
-            </div>
-            <div>
-              <label className="mb-1.5 block text-xs font-medium text-zinc-400">Company access</label>
-              <select value={inviteCompany} onChange={(e) => setInviteCompany(e.target.value as CompanyKey)}
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors">
-                {(Object.keys(COMPANY_LABELS) as CompanyKey[]).map((k) => (
-                  <option key={k} value={k}>{COMPANY_LABELS[k]}</option>
-                ))}
-                <option value="all">All Companies (Admin)</option>
-              </select>
-            </div>
-            <div className="sm:col-span-2">
-              <button type="submit" disabled={inviting}
-                className="w-full rounded-xl bg-unhinged-green px-6 py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50">
-                {inviting ? "Sending…" : "Send invite"}
+      {/* Invite modal */}
+      {showInviteModal && isAdmin && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowInviteModal(false)}
+          />
+          <div className="relative w-full max-w-md rounded-2xl border border-zinc-800 bg-ink-950 p-6 shadow-2xl">
+            <div className="mb-5 flex items-start justify-between">
+              <div>
+                <h2 className="text-base font-semibold text-white">Invite team member</h2>
+                <p className="mt-0.5 text-xs text-zinc-500">{COMPANY_LABELS[company]}</p>
+              </div>
+              <button
+                onClick={() => setShowInviteModal(false)}
+                className="rounded-lg p-1 text-zinc-500 hover:text-zinc-300 transition-colors"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
             </div>
-          </form>
-          {inviteResult && (
-            <p className={`mt-3 text-xs ${inviteResult.ok ? "text-unhinged-green" : "text-red-400"}`}>
-              {inviteResult.message}
+
+            <form onSubmit={handleInvite} className="space-y-3">
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-zinc-400">Full name</label>
+                <input
+                  type="text"
+                  value={inviteName}
+                  onChange={(e) => setInviteName(e.target.value)}
+                  placeholder="Jane Smith"
+                  className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-zinc-400">Email address</label>
+                <input
+                  type="email"
+                  required
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder="jane@company.com"
+                  className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-zinc-400">Job role</label>
+                <input
+                  type="text"
+                  value={inviteRole}
+                  onChange={(e) => setInviteRole(e.target.value)}
+                  placeholder="e.g. Developer"
+                  className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
+                />
+              </div>
+
+              {inviteResult && (
+                <p className={`text-xs ${inviteResult.ok ? "text-unhinged-green" : "text-red-400"}`}>
+                  {inviteResult.message}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={inviting}
+                className="w-full rounded-xl bg-unhinged-green px-6 py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50"
+              >
+                {inviting ? "Sending…" : "Send invite"}
+              </button>
+            </form>
+
+            <p className="mt-3 text-xs text-zinc-700">
+              Allowed domains: {Object.keys(DOMAIN_COMPANY_MAP).map((d) => `@${d}`).join(", ")}
             </p>
-          )}
-          <p className="mt-3 text-xs text-zinc-700">
-            Allowed domains: {Object.keys(DOMAIN_COMPANY_MAP).map((d) => `@${d}`).join(", ")}
-          </p>
+          </div>
         </div>
       )}
     </div>
