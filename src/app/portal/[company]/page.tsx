@@ -98,17 +98,17 @@ export default function CompanyDashboard() {
       >
         <div className="max-w-3xl">
           {/* Logo */}
-          <div className="mb-14 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+          <div className="mb-12 flex items-center gap-4">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999178/monogram_pdyhij.svg"
               alt=""
               aria-hidden="true"
-              className="h-16 w-auto flex-shrink-0"
+              className="h-12 w-auto flex-shrink-0 sm:h-14"
             />
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
               alt="Paper &amp; Ponder"
-              className="h-auto w-52 sm:w-64"
+              className="h-auto w-36 sm:w-52"
             />
           </div>
 
