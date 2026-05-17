@@ -80,8 +80,8 @@ export default function Hero() {
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #D2FF14 0%, transparent 70%)" }}
+          className="absolute top-[12%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.07]"
+          style={{ background: "radial-gradient(ellipse at 50% 18%, #D2FF14 0%, transparent 60%)" }}
         />
         <div
           className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.06]"
@@ -137,7 +137,7 @@ export default function Hero() {
       </nav>
 
       {/* Hero content */}
-      <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 sm:px-8 lg:px-16">
+      <section className="relative z-10 flex flex-1 flex-col items-center justify-start pt-8 sm:justify-center sm:pt-0 px-4 sm:px-8 lg:px-16">
         <div
           className={`flex w-full flex-col items-center transition-all duration-700 ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
