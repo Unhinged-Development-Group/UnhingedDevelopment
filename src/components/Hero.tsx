@@ -3,15 +3,61 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+const GREEN_FILTER =
+  "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
+
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   return (
     <main className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* Backdrop */}
+      <div
+        className={`fixed inset-0 z-20 bg-black/60 backdrop-blur-sm transition-opacity duration-300 sm:hidden ${
+          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setMenuOpen(false)}
+      />
+
+      {/* Left drawer */}
+      <div
+        className={`fixed top-0 left-0 h-full z-30 w-72 bg-ink-900 border-r border-zinc-800 flex flex-col px-8 pt-28 pb-10 gap-6 transition-transform duration-300 ease-in-out sm:hidden ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <a
+          href="#who-we-are"
+          onClick={() => setMenuOpen(false)}
+          className="font-montserrat text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
+        >
+          Who we are
+        </a>
+        <a
+          href="#projects"
+          onClick={() => setMenuOpen(false)}
+          className="font-montserrat text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
+        >
+          Projects
+        </a>
+        <a
+          href="#contact"
+          onClick={() => setMenuOpen(false)}
+          className="font-montserrat text-3xl font-bold text-unhinged-green hover:opacity-70 transition-opacity"
+        >
+          Contact us
+        </a>
+      </div>
+
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
@@ -25,15 +71,28 @@ export default function Hero() {
       </div>
 
       {/* Nav */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
+      <nav className="relative z-40 flex items-center justify-between px-6 py-6 sm:px-10 lg:px-16">
         <div className="flex items-center gap-10">
-          <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
-            alt="Unhinged Development Group"
-            className="h-10 w-auto"
-            style={{ filter: "invert(1)", mixBlendMode: "screen" }}
-          />
-          {/* Nav links — left-aligned, hidden on mobile */}
+          {/* Logo — tap to open/close mobile drawer */}
+          <button
+            className="focus:outline-none sm:pointer-events-none"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+          >
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
+              alt="Unhinged Development Group"
+              className="h-10 w-auto transition-all duration-300"
+              style={{
+                filter: menuOpen ? GREEN_FILTER : "invert(1)",
+                transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
+                mixBlendMode: "screen",
+              }}
+            />
+          </button>
+
+          {/* Nav links — desktop only */}
           <div className="hidden sm:flex items-center gap-7">
             <a href="#who-we-are" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
             <a href="#projects" className="font-montserrat text-[22px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
@@ -73,7 +132,7 @@ export default function Hero() {
               aria-hidden="true"
               className="h-auto w-[60%] sm:w-[38%]"
               style={{
-                filter: "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)",
+                filter: GREEN_FILTER,
                 mixBlendMode: "screen",
               }}
             />
