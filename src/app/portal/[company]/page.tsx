@@ -105,11 +105,15 @@ export default function CompanyDashboard() {
               aria-hidden="true"
               className="h-12 w-auto flex-shrink-0 sm:h-14"
             />
-            <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/c_scale,w_800/f_png/v1778999177/Logo_jx500w.png"
-              alt="Paper &amp; Ponder"
-              className="h-auto w-36 sm:w-52"
-            />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" className="h-auto w-36 sm:w-52" aria-label="Paper &amp; Ponder" role="img">
+              <defs>
+                <style>{`
+                  .pp-wm { font-family: 'Dancing Script', cursive; font-size: 130px; font-weight: 500; fill: #7c2d12; text-anchor: middle; dominant-baseline: central; }
+                  .pp-amp { fill: #fb923c; }
+                `}</style>
+              </defs>
+              <text x="400" y="95" className="pp-wm">Paper <tspan className="pp-amp">&amp;</tspan> Ponder</text>
+            </svg>
           </div>
 
           <section className="mb-10">
