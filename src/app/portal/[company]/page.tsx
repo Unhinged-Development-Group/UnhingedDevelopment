@@ -106,7 +106,7 @@ export default function CompanyDashboard() {
               className="h-12 w-auto flex-shrink-0 sm:h-14"
             />
             <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/c_scale,w_800/f_png/v1778999177/Logo_jx500w.png"
               alt="Paper &amp; Ponder"
               className="h-auto w-36 sm:w-52"
             />
