@@ -53,13 +53,19 @@ const NAV = [
   },
 ];
 
+const COMPANIES: { key: CompanyKey; short: string }[] = [
+  { key: "unhinged-development", short: "Unhinged Dev" },
+  { key: "groomr", short: "Groomr" },
+  { key: "paper-and-ponder", short: "Paper & Ponder" },
+];
+
 export default function CompanyLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
   const company = params.company as string;
 
-  const [user, setUser] = useState<{ email?: string; avatarUrl?: string; initials?: string } | null>(null);
+  const [user, setUser] = useState<{ email?: string; avatarUrl?: string; initials?: string; isAdmin: boolean } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -72,13 +78,13 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
       const validCompanies = Object.keys(COMPANY_LABELS);
       if (!validCompanies.includes(company)) { router.push("/portal"); return; }
       if (userCompany !== "all" && userCompany !== company) {
-        router.push(`/portal/${userCompany}/documents`);
+        router.push(`/portal/${userCompany}`);
         return;
       }
 
       const name = user.email ?? "";
       const initials = name.split("@")[0].slice(0, 2).toUpperCase();
-      setUser({ email: user.email, avatarUrl: user.user_metadata?.avatar_url, initials });
+      setUser({ email: user.email, avatarUrl: user.user_metadata?.avatar_url, initials, isAdmin: userCompany === "all" });
       setLoading(false);
     })();
   }, [company, router]);
@@ -92,7 +98,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
   }
 
   const companyLabel = COMPANY_LABELS[company as CompanyKey] ?? company;
-  const activeSection = pathname.split("/")[3] ?? "documents";
+  const activeSection = pathname.split("/")[3] ?? "";
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -120,9 +126,55 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
         </Link>
       </header>
 
+      {/* Admin company switcher — mobile strip */}
+      {user?.isAdmin && (
+        <div className="border-b border-zinc-900 bg-ink-950 px-4 py-2 sm:hidden">
+          <div className="flex gap-2 overflow-x-auto">
+            {COMPANIES.map(({ key, short }) => (
+              <Link
+                key={key}
+                href={`/portal/${key}`}
+                className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  company === key
+                    ? "bg-unhinged-green text-ink-950"
+                    : "border border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300"
+                }`}
+              >
+                {short}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-1">
         {/* Desktop sidebar */}
         <aside className="hidden w-52 shrink-0 flex-col border-r border-zinc-900 pt-4 sm:flex">
+          {/* Admin company switcher */}
+          {user?.isAdmin && (
+            <div className="mb-2 px-3">
+              <p className="mb-1.5 px-3 text-[10px] font-semibold tracking-[0.15em] text-zinc-600 uppercase">Company</p>
+              <nav className="flex flex-col gap-0.5">
+                {COMPANIES.map(({ key, short }) => (
+                  <Link
+                    key={key}
+                    href={`/portal/${key}`}
+                    className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+                      company === key
+                        ? "bg-ink-800 text-white"
+                        : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
+                    }`}
+                  >
+                    <span className={`h-1.5 w-1.5 flex-shrink-0 rounded-full ${company === key ? "bg-unhinged-green" : "bg-zinc-700"}`} />
+                    {short}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-3 h-px bg-zinc-900" />
+            </div>
+          )}
+
+          {/* Section nav */}
           <nav className="flex flex-col gap-1 px-3">
             {NAV.map((item) => {
               const active = activeSection === item.key;
@@ -131,9 +183,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
                   key={item.key}
                   href={`/portal/${company}/${item.key}`}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
-                    active
-                      ? "bg-ink-800 text-white"
-                      : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
+                    active ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
                   }`}
                 >
                   <span className={active ? "text-unhinged-green" : ""}>{item.icon}</span>
@@ -142,6 +192,8 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
               );
             })}
           </nav>
+
+          {/* Account */}
           <div className="mt-auto border-t border-zinc-900 p-3">
             <Link
               href={`/portal/${company}/account`}

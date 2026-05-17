@@ -1,5 +1,5 @@
 "use client";
-import Placeholder from "@/components/portal/Placeholder";
+import SectionFilesPage from "@/components/portal/SectionFilesPage";
 export default function ProjectsPage() {
-  return <Placeholder section="Projects" description="Active projects, milestones and deliverables will live here." />;
+  return <SectionFilesPage section="projects" label="Projects" />;
 }

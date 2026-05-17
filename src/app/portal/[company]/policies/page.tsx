@@ -1,5 +1,5 @@
 "use client";
-import Placeholder from "@/components/portal/Placeholder";
+import SectionFilesPage from "@/components/portal/SectionFilesPage";
 export default function PoliciesPage() {
-  return <Placeholder section="Policies" description="Company policies and procedures will live here." />;
+  return <SectionFilesPage section="policies" label="Policies" />;
 }
