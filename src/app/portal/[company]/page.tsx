@@ -81,7 +81,6 @@ export default function CompanyDashboard() {
         style={{ backgroundColor: GROOMR.cream, minHeight: "100vh", fontFamily: "'Nunito', sans-serif" }}
       >
         <div className="max-w-3xl">
-          {/* Logo — Deep Slate lockup on cream; no filter needed */}
           <div className="mb-12">
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
@@ -93,7 +92,6 @@ export default function CompanyDashboard() {
             </p>
           </div>
 
-          {/* Mission */}
           <section className="mb-10">
             <div className="mb-3 flex items-center gap-3">
               <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
@@ -104,7 +102,6 @@ export default function CompanyDashboard() {
             </p>
           </section>
 
-          {/* Vision */}
           <section className="mb-10">
             <div className="mb-3 flex items-center gap-3">
               <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
@@ -115,7 +112,6 @@ export default function CompanyDashboard() {
             </p>
           </section>
 
-          {/* Values */}
           <section>
             <div className="mb-4 flex items-center gap-3">
               <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
@@ -150,18 +146,18 @@ export default function CompanyDashboard() {
   return (
     <div className="max-w-3xl px-6 py-10 sm:px-10">
       {company === "unhinged-development" && (
-        <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
+        <div className="mb-12 flex flex-col items-start gap-4 sm:gap-8">
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
             alt=""
             aria-hidden="true"
-            className="h-14 w-auto"
+            className="h-14 w-auto sm:h-56"
             style={{ filter: UDG_ICON_FILTER, mixBlendMode: "screen" }}
           />
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
             alt="Unhinged Development Group"
-            className="h-auto w-52 sm:w-64"
+            className="h-auto w-52 sm:w-72"
             style={{ filter: "invert(1)", mixBlendMode: "screen" }}
           />
         </div>
