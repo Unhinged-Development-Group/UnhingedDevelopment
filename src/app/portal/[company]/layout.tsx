@@ -171,7 +171,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
         <style>{`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');`}</style>
       )}
       {isPP && (
-        <style>{`@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Montserrat:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');`}</style>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');`}</style>
       )}
 
       {/* Top bar — always dark */}
