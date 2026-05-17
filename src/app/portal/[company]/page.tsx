@@ -105,10 +105,11 @@ export default function CompanyDashboard() {
               aria-hidden="true"
               className="h-12 w-auto flex-shrink-0 sm:h-14"
             />
-            <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
-              alt="Paper &amp; Ponder"
-              className="h-auto w-36 sm:w-52"
+            <object
+              data="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
+              type="image/svg+xml"
+              aria-label="Paper &amp; Ponder"
+              className="h-auto w-36 sm:w-52 pointer-events-none"
             />
           </div>
 
@@ -238,13 +239,13 @@ export default function CompanyDashboard() {
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
             alt=""
             aria-hidden="true"
-            className="h-12 w-auto flex-shrink-0 sm:h-16"
+            className="h-16 w-auto flex-shrink-0 sm:h-24"
             style={{ filter: UDG_ICON_FILTER, mixBlendMode: "screen" }}
           />
           <img
             src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
             alt="Unhinged Development Group"
-            className="h-auto w-40 sm:w-60"
+            className="h-auto w-52 sm:w-72"
             style={{ filter: "invert(1)", mixBlendMode: "screen" }}
           />
         </div>
