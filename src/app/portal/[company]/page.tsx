@@ -66,7 +66,7 @@ export default function CompanyDashboard() {
   const accent = content.accent;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10 sm:px-10">
+    <div className="max-w-3xl px-6 py-10 sm:px-10">
       {/* Logo header */}
       {company === "unhinged-development" && (
         <div className="mb-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6">
