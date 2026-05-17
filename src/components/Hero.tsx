@@ -166,34 +166,34 @@ export default function Hero() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 flex items-center justify-between border-t border-zinc-900 px-6 py-5 sm:px-10 lg:px-16">
-        <p className="text-xs text-zinc-400">
-          © {new Date().getFullYear()} Unhinged Development Group Ltd. All rights reserved.
+      <footer className="relative z-10 flex items-start justify-between border-t border-zinc-900 px-6 py-5 sm:px-10 lg:px-16">
+        <p className="text-xs leading-relaxed text-zinc-400">
+          © {new Date().getFullYear()}<br />
+          Unhinged Development Group Ltd.<br />
+          All rights reserved.
         </p>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-400">Registered in Scotland</span>
-          {/* Detailed scribbled Saltire */}
-          <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-auto opacity-80" aria-hidden="true">
-            <defs>
-              <filter id="scribble">
-                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="12" result="noise"/>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.9" xChannelSelector="R" yChannelSelector="G"/>
-              </filter>
-              <clipPath id="flag-clip">
-                <rect width="36" height="24" rx="1"/>
-              </clipPath>
-            </defs>
-            <g filter="url(#scribble)" clipPath="url(#flag-clip)">
-              <rect width="36" height="24" fill="#003893"/>
-              <line x1="-1" y1="-1" x2="37" y2="25" stroke="white" strokeWidth="9"/>
-              <line x1="37" y1="-1" x2="-1" y2="25" stroke="white" strokeWidth="9"/>
-              <line x1="-1" y1="-1" x2="37" y2="25" stroke="#003893" strokeWidth="4"/>
-              <line x1="37" y1="-1" x2="-1" y2="25" stroke="#003893" strokeWidth="4"/>
-              <line x1="-1" y1="-1" x2="37" y2="25" stroke="white" strokeWidth="2.5"/>
-              <line x1="37" y1="-1" x2="-1" y2="25" stroke="white" strokeWidth="2.5"/>
-            </g>
-          </svg>
-        </div>
+        <p className="text-right text-xs leading-relaxed text-zinc-400">
+          Registered in<br />
+          <span className="inline-flex items-center gap-1.5">
+            Scotland.
+            <svg viewBox="0 0 21 14" xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-auto" aria-label="Scotland">
+              <defs>
+                <filter id="saltire-f">
+                  <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="3" seed="7" result="noise"/>
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+                <clipPath id="saltire-c">
+                  <rect width="21" height="14" rx="1.5"/>
+                </clipPath>
+              </defs>
+              <g filter="url(#saltire-f)" clipPath="url(#saltire-c)">
+                <rect width="21" height="14" fill="#003893"/>
+                <line x1="-2" y1="-2" x2="23" y2="16" stroke="white" strokeWidth="5"/>
+                <line x1="23" y1="-2" x2="-2" y2="16" stroke="white" strokeWidth="5"/>
+              </g>
+            </svg>
+          </span>
+        </p>
       </footer>
     </main>
   );
