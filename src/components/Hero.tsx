@@ -86,7 +86,7 @@ export default function Hero() {
         />
         {/* Cone beam — originates at logo base, fans down onto the wordmark */}
         <div
-          className="absolute top-[45%] sm:top-[58%] left-1/2 -translate-x-1/2 h-[300px] w-[480px] opacity-[0.22] sm:opacity-[0.12]"
+          className="absolute top-[30%] sm:top-[44%] left-1/2 -translate-x-1/2 h-[380px] w-[480px] opacity-[0.22] sm:opacity-[0.12]"
           style={{
             background: "conic-gradient(at 50% 0%, transparent 0deg, transparent 136deg, rgba(210,255,20,0) 145deg, rgba(210,255,20,1) 157deg, rgba(210,255,20,1) 203deg, rgba(210,255,20,0) 215deg, transparent 224deg, transparent 360deg)",
             maskImage: "radial-gradient(ellipse at 50% 0%, black 0%, transparent 88%)",
