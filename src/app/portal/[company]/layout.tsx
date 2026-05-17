@@ -109,7 +109,9 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
             UDG
           </Link>
           <span className="h-4 w-px bg-zinc-800" />
-          <span className="text-sm font-medium text-zinc-300">{companyLabel}</span>
+          <Link href={`/portal/${company}`} className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+            {companyLabel}
+          </Link>
         </div>
         <Link
           href={`/portal/${company}/account`}
@@ -176,6 +178,17 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
 
           {/* Section nav */}
           <nav className="flex flex-col gap-1 px-3">
+            <Link
+              href={`/portal/${company}`}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                activeSection === "" ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
+              }`}
+            >
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className={`h-5 w-5 ${activeSection === "" ? "text-unhinged-green" : ""}`}>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Overview
+            </Link>
             {NAV.map((item) => {
               const active = activeSection === item.key;
               return (

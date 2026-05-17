@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
@@ -9,6 +9,17 @@ import { isValidEmailForCompany } from "@/lib/auth";
 export default function PortalLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const company = user.user_metadata?.company ?? "";
+      const destination = company === "all" ? "/portal/unhinged-development" : `/portal/${company}`;
+      router.replace(destination);
+    })();
+  }, [router]);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
