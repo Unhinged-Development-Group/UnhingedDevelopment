@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { email, company } = await req.json();
+  const { email, company, full_name, job_role } = await req.json();
   if (!email || !company) {
     return NextResponse.json({ error: "email and company are required" }, { status: 400 });
   }
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   const admin = createAdminClient();
   const { error } = await admin.auth.admin.inviteUserByEmail(email, {
-    data: { company },
+    data: { company, full_name: full_name || null, job_role: job_role || null },
     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/portal/setup`,
   });
 

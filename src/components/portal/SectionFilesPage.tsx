@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
-import { createClient, COMPANY_LABELS, type CompanyKey } from "@/lib/supabase";
-import { DOMAIN_COMPANY_MAP } from "@/lib/auth";
+import { createClient, type CompanyKey } from "@/lib/supabase";
 
 type FileObject = {
   name: string;
@@ -52,15 +51,7 @@ function FileIcon({ mime }: { mime: string }) {
   return <svg className="h-5 w-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>;
 }
 
-export default function SectionFilesPage({
-  section,
-  label,
-  showInvite = false,
-}: {
-  section: string;
-  label: string;
-  showInvite?: boolean;
-}) {
+export default function SectionFilesPage({ section, label }: { section: string; label: string }) {
   const params = useParams();
   const company = params.company as CompanyKey;
   const folder = `${company}/${section}`;
@@ -70,10 +61,6 @@ export default function SectionFilesPage({
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteCompany, setInviteCompany] = useState<CompanyKey>(company);
-  const [inviting, setInviting] = useState(false);
-  const [inviteResult, setInviteResult] = useState<{ ok: boolean; message: string } | null>(null);
 
   const supabase = createClient();
 
@@ -124,8 +111,7 @@ export default function SectionFilesPage({
     if (resolvedMime === "text/html") {
       const resp = await fetch(url);
       const html = await resp.text();
-      const blob = new Blob([html], { type: "text/html" });
-      window.open(URL.createObjectURL(blob), "_blank");
+      window.open(URL.createObjectURL(new Blob([html], { type: "text/html" })), "_blank");
     } else {
       window.open(url, "_blank");
     }
@@ -149,29 +135,6 @@ export default function SectionFilesPage({
     await loadFiles();
   }
 
-  async function handleInvite(e: React.FormEvent) {
-    e.preventDefault();
-    setInviting(true);
-    setInviteResult(null);
-    const { data: { session } } = await supabase.auth.getSession();
-    const res = await fetch("/api/admin/invite", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session?.access_token}`,
-      },
-      body: JSON.stringify({ email: inviteEmail, company: inviteCompany }),
-    });
-    const json = await res.json();
-    setInviteResult(
-      res.ok
-        ? { ok: true, message: `Invite sent to ${inviteEmail}.` }
-        : { ok: false, message: json.error ?? "Something went wrong." }
-    );
-    if (res.ok) setInviteEmail("");
-    setInviting(false);
-  }
-
   return (
     <div className="mx-auto max-w-4xl px-6 py-8 sm:px-10">
       <div className="mb-8 flex items-center justify-between">
@@ -193,9 +156,7 @@ export default function SectionFilesPage({
 
       {loading ? (
         <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-14 animate-pulse rounded-xl bg-ink-800" />
-          ))}
+          {[1, 2, 3].map((i) => <div key={i} className="h-14 animate-pulse rounded-xl bg-ink-800" />)}
         </div>
       ) : files.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -251,58 +212,6 @@ export default function SectionFilesPage({
               </div>
             </div>
           ))}
-        </div>
-      )}
-
-      {isAdmin && showInvite && (
-        <div className="mt-12 border-t border-zinc-900 pt-10">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="h-px w-6 bg-zinc-800" />
-            <span className="text-xs font-medium tracking-[0.2em] text-zinc-500 uppercase">
-              Invite User
-            </span>
-          </div>
-          <form onSubmit={handleInvite} className="flex flex-col gap-3 sm:flex-row sm:items-end">
-            <div className="flex-1">
-              <label className="mb-1.5 block text-xs font-medium text-zinc-400">Email address</label>
-              <input
-                type="email"
-                required
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="name@company.com"
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
-              />
-            </div>
-            <div className="sm:w-56">
-              <label className="mb-1.5 block text-xs font-medium text-zinc-400">Company access</label>
-              <select
-                value={inviteCompany}
-                onChange={(e) => setInviteCompany(e.target.value as CompanyKey)}
-                className="w-full rounded-xl border border-zinc-800 bg-ink-800 px-4 py-3 text-sm text-zinc-100 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"
-              >
-                {(Object.keys(COMPANY_LABELS) as CompanyKey[]).map((k) => (
-                  <option key={k} value={k}>{COMPANY_LABELS[k]}</option>
-                ))}
-                <option value="all">All Companies (Admin)</option>
-              </select>
-            </div>
-            <button
-              type="submit"
-              disabled={inviting}
-              className="rounded-xl bg-unhinged-green px-6 py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50"
-            >
-              {inviting ? "Sending…" : "Send invite"}
-            </button>
-          </form>
-          {inviteResult && (
-            <p className={`mt-3 text-xs ${inviteResult.ok ? "text-unhinged-green" : "text-red-400"}`}>
-              {inviteResult.message}
-            </p>
-          )}
-          <p className="mt-3 text-xs text-zinc-700">
-            Allowed domains: {Object.keys(DOMAIN_COMPANY_MAP).map((d) => `@${d}`).join(", ")}
-          </p>
         </div>
       )}
     </div>
