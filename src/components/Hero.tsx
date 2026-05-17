@@ -35,9 +35,9 @@ export default function Hero() {
           />
           {/* Nav links — left-aligned, hidden on mobile */}
           <div className="hidden sm:flex items-center gap-7">
-            <a href="#who-we-are" className="text-[15px] font-medium text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
-            <a href="#projects" className="text-[15px] font-medium text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
-            <a href="#contact" className="text-[15px] font-medium text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
+            <a href="#who-we-are" className="font-syne text-[30px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Who we are</a>
+            <a href="#projects" className="font-syne text-[30px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Projects</a>
+            <a href="#contact" className="font-syne text-[30px] font-semibold text-unhinged-green hover:opacity-80 transition-opacity">Contact us</a>
           </div>
         </div>
 
@@ -93,6 +93,7 @@ export default function Hero() {
           © {new Date().getFullYear()} Unhinged Development Group Ltd. All rights reserved.
         </p>
         <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-400">Registered in Scotland</span>
           {/* Detailed scribbled Saltire */}
           <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-auto opacity-80" aria-hidden="true">
             <defs>
@@ -106,18 +107,14 @@ export default function Hero() {
             </defs>
             <g filter="url(#scribble)" clipPath="url(#flag-clip)">
               <rect width="36" height="24" fill="#003893"/>
-              {/* White border bands of Saltire */}
               <line x1="-1" y1="-1" x2="37" y2="25" stroke="white" strokeWidth="9"/>
               <line x1="37" y1="-1" x2="-1" y2="25" stroke="white" strokeWidth="9"/>
-              {/* Blue centre re-drawn on top */}
               <line x1="-1" y1="-1" x2="37" y2="25" stroke="#003893" strokeWidth="4"/>
               <line x1="37" y1="-1" x2="-1" y2="25" stroke="#003893" strokeWidth="4"/>
-              {/* Final white cross arms */}
               <line x1="-1" y1="-1" x2="37" y2="25" stroke="white" strokeWidth="2.5"/>
               <line x1="37" y1="-1" x2="-1" y2="25" stroke="white" strokeWidth="2.5"/>
             </g>
           </svg>
-          <span className="text-xs text-zinc-400">Registered in Scotland</span>
         </div>
       </footer>
     </main>
