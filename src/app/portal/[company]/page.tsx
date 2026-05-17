@@ -6,6 +6,19 @@ import { type CompanyKey } from "@/lib/supabase";
 const UDG_ICON_FILTER =
   "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
 
+const GROOMR = {
+  gold: "#EAE45C",
+  sage: "#88A096",
+  terracotta: "#C87964",
+} as const;
+
+const GROOMR_VALUES = [
+  { name: "Trust first.", description: "We only feature groomers we'd trust with our own dogs." },
+  { name: "Community over competition.", description: "We champion independent groomers, not corporate chains." },
+  { name: "Simple by design.", description: "Booking a groom should take seconds, not a Sunday afternoon." },
+  { name: "Dogs at the centre.", description: "Every decision we make starts with what's best for the dog." },
+];
+
 type CompanyContent = {
   tagline: string;
   mission: string;
@@ -29,17 +42,13 @@ const CONTENT: Record<CompanyKey, CompanyContent> = {
     ],
   },
   groomr: {
-    tagline: "Modern grooming management, simplified.",
-    accent: "#eae45c",
+    tagline: "Your dog deserves a regular.",
+    accent: GROOMR.gold,
     mission:
-      "To make professional grooming management effortless for businesses and delightful for the clients they serve.",
+      "To make dog grooming effortless for owners and rewarding for groomers — by connecting local communities through a platform built on trust, simplicity, and a genuine love of dogs.",
     vision:
-      "The go-to platform for every grooming business, from sole traders to enterprise salons.",
-    values: [
-      { name: "Simplicity first", description: "Complex problems deserve elegant solutions. We cut the noise." },
-      { name: "Client obsessed", description: "Everything we build starts with the person using it." },
-      { name: "Move fast", description: "Ship early, learn fast, iterate relentlessly." },
-    ],
+      "A world where every dog has a groomer they love, and every groomer has a business they're proud of.",
+    values: GROOMR_VALUES,
   },
   "paper-and-ponder": {
     tagline: "Where ideas become beautifully bound.",
@@ -63,6 +72,68 @@ export default function CompanyDashboard() {
 
   if (!content) return null;
 
+  // Groomr: brand-specific dashboard using Brand Guidelines 2026 v2
+  if (company === "groomr") {
+    return (
+      <div className="max-w-3xl px-6 py-10 sm:px-10">
+        {/* Logo + tagline */}
+        <div className="mb-12">
+          <img
+            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
+            alt="Groomr"
+            className="mb-5 h-10 w-auto"
+            style={{ filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
+          />
+          <p className="text-base italic" style={{ color: GROOMR.gold }}>
+            &ldquo;Your dog deserves a regular.&rdquo;
+          </p>
+        </div>
+
+        {/* Mission */}
+        <section className="mb-10">
+          <div className="mb-3 flex items-center gap-3">
+            <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: GROOMR.sage }}>Mission</span>
+          </div>
+          <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">
+            To make dog grooming effortless for owners and rewarding for groomers — by connecting local communities through a platform built on trust, simplicity, and a genuine love of dogs.
+          </p>
+        </section>
+
+        {/* Vision */}
+        <section className="mb-10">
+          <div className="mb-3 flex items-center gap-3">
+            <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: GROOMR.sage }}>Vision</span>
+          </div>
+          <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">
+            A world where every dog has a groomer they love, and every groomer has a business they&rsquo;re proud of.
+          </p>
+        </section>
+
+        {/* Values */}
+        <section>
+          <div className="mb-4 flex items-center gap-3">
+            <div className="h-px w-6" style={{ backgroundColor: GROOMR.gold }} />
+            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: GROOMR.sage }}>Values</span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {GROOMR_VALUES.map((v, i) => (
+              <div
+                key={v.name}
+                className="rounded-xl border border-zinc-900 bg-ink-800/40 px-4 py-4"
+                style={{ borderTopColor: i % 2 === 0 ? GROOMR.gold : GROOMR.terracotta, borderTopWidth: "2px" }}
+              >
+                <p className="text-sm font-semibold text-zinc-200">{v.name}</p>
+                <p className="mt-1 text-xs leading-relaxed" style={{ color: GROOMR.sage }}>{v.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   const accent = content.accent;
 
   return (
@@ -82,17 +153,6 @@ export default function CompanyDashboard() {
             alt="Unhinged Development Group"
             className="h-auto w-52 sm:w-64"
             style={{ filter: "invert(1)", mixBlendMode: "screen" }}
-          />
-        </div>
-      )}
-
-      {company === "groomr" && (
-        <div className="mb-12">
-          <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
-            alt="Groomr"
-            className="h-10 w-auto"
-            style={{ filter: "brightness(0) invert(1)", mixBlendMode: "screen" }}
           />
         </div>
       )}
