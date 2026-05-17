@@ -79,12 +79,18 @@ export default function Hero() {
 
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Subtle ambient halo behind the logo figure */}
         <div
-          className="absolute top-[16%] sm:top-[34%] left-1/2 -translate-x-1/2 h-[600px] w-[500px] opacity-[0.15]"
+          className="absolute top-[8%] sm:top-[26%] left-1/2 -translate-x-1/2 h-[400px] w-[400px] rounded-full opacity-[0.07]"
+          style={{ background: "radial-gradient(circle, #D2FF14 0%, transparent 70%)" }}
+        />
+        {/* Cone beam — originates at logo base, fans down onto the wordmark */}
+        <div
+          className="absolute top-[45%] sm:top-[58%] left-1/2 -translate-x-1/2 h-[300px] w-[480px] opacity-[0.22] sm:opacity-[0.12]"
           style={{
-            background: "radial-gradient(ellipse 240px 480px at 50% 16%, #D2FF14 0%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, transparent 0%, black 6%, black 90%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 6%, black 90%, transparent 100%)",
+            background: "conic-gradient(at 50% 0%, transparent 0deg, transparent 136deg, rgba(210,255,20,0) 145deg, rgba(210,255,20,1) 157deg, rgba(210,255,20,1) 203deg, rgba(210,255,20,0) 215deg, transparent 224deg, transparent 360deg)",
+            maskImage: "radial-gradient(ellipse at 50% 0%, black 0%, transparent 88%)",
+            WebkitMaskImage: "radial-gradient(ellipse at 50% 0%, black 0%, transparent 88%)",
           }}
         />
         <div
