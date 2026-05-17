@@ -14,6 +14,22 @@ const GROOMR = {
   cream: "#F9F8F4",
 } as const;
 
+const PP = {
+  alabaster: "#fafaf9",
+  sand: "#ffedd5",
+  charcoal: "#1c1917",
+  deepClay: "#7c2d12",
+  terracotta: "#fb923c",
+  stone200: "#e7e5e4",
+  stone500: "#78716c",
+} as const;
+
+const PP_VALUES = [
+  { name: "Crafted with care.", description: "Every product is considered from concept through to production." },
+  { name: "Inspire reflection.", description: "We believe in the power of analogue in a digital world." },
+  { name: "Quality over quantity.", description: "We'd rather do fewer things exceptionally well." },
+];
+
 const GROOMR_VALUES = [
   { name: "Trust first.", description: "We only feature groomers we’d trust with our own dogs." },
   { name: "Community over competition.", description: "We champion independent groomers, not corporate chains." },
@@ -73,6 +89,77 @@ export default function CompanyDashboard() {
   const content = CONTENT[company];
 
   if (!content) return null;
+
+  if (company === "paper-and-ponder") {
+    return (
+      <div
+        className="px-6 py-10 sm:px-10"
+        style={{ backgroundColor: PP.alabaster, minHeight: "100vh", fontFamily: "'Montserrat', sans-serif" }}
+      >
+        <div className="max-w-3xl">
+          {/* Logo */}
+          <div className="mb-14 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999178/monogram_pdyhij.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-16 w-auto flex-shrink-0"
+            />
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
+              alt="Paper &amp; Ponder"
+              className="h-auto w-52 sm:w-64"
+            />
+          </div>
+
+          <section className="mb-10">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="h-px w-6" style={{ backgroundColor: PP.terracotta }} />
+              <span style={{ fontFamily: "'Space Mono', monospace", color: PP.deepClay, fontSize: "10px", fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase" }}>Mission</span>
+            </div>
+            <p className="max-w-2xl" style={{ color: PP.charcoal, fontSize: "14px", lineHeight: "1.65", fontWeight: 400 }}>
+              To create stationery and paper goods that inspire thoughtful reflection and meaningful creativity.
+            </p>
+          </section>
+
+          <section className="mb-10">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="h-px w-6" style={{ backgroundColor: PP.terracotta }} />
+              <span style={{ fontFamily: "'Space Mono', monospace", color: PP.deepClay, fontSize: "10px", fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase" }}>Vision</span>
+            </div>
+            <p className="max-w-2xl" style={{ color: PP.charcoal, fontSize: "14px", lineHeight: "1.65", fontWeight: 400 }}>
+              A brand synonymous with quality craftsmanship and the quiet joy of putting pen to paper.
+            </p>
+          </section>
+
+          <section>
+            <div className="mb-4 flex items-center gap-3">
+              <div className="h-px w-6" style={{ backgroundColor: PP.terracotta }} />
+              <span style={{ fontFamily: "'Space Mono', monospace", color: PP.deepClay, fontSize: "10px", fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase" }}>Values</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {PP_VALUES.map((v) => (
+                <div
+                  key={v.name}
+                  className="rounded-xl px-4 py-5"
+                  style={{
+                    backgroundColor: "#ffffff",
+                    border: `1px solid ${PP.stone200}`,
+                    borderTopColor: PP.terracotta,
+                    borderTopWidth: "2px",
+                    boxShadow: "0 1px 3px rgba(28,25,23,0.06), 0 1px 2px rgba(28,25,23,0.04)",
+                  }}
+                >
+                  <p style={{ color: PP.deepClay, fontWeight: 500, fontSize: "14px" }}>{v.name}</p>
+                  <p className="mt-1.5" style={{ color: PP.stone500, fontSize: "12px", lineHeight: "1.6" }}>{v.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
+    );
+  }
 
   if (company === "groomr") {
     return (
@@ -159,22 +246,6 @@ export default function CompanyDashboard() {
             alt="Unhinged Development Group"
             className="h-auto w-52 sm:w-72"
             style={{ filter: "invert(1)", mixBlendMode: "screen" }}
-          />
-        </div>
-      )}
-
-      {company === "paper-and-ponder" && (
-        <div className="mb-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-          <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999178/monogram_pdyhij.svg"
-            alt=""
-            aria-hidden="true"
-            className="h-16 w-auto flex-shrink-0"
-          />
-          <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999177/Logo_jx500w.svg"
-            alt="Paper & Ponder"
-            className="h-auto w-52 sm:w-64"
           />
         </div>
       )}

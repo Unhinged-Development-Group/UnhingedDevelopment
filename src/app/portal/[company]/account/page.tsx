@@ -13,11 +13,61 @@ const G = {
   terracotta: "#C87964",
 };
 
+const PP = {
+  alabaster: "#fafaf9",
+  charcoal: "#1c1917",
+  deepClay: "#7c2d12",
+  terracotta: "#fb923c",
+  stone200: "#e7e5e4",
+  stone500: "#78716c",
+};
+
+type BrandTheme = {
+  bg: string; font: string;
+  textH: string; textMuted: string;
+  cardBg: string; cardBorder: string;
+  avatarBg: string; avatarText: string;
+  spinnerBorder: string; spinnerTop: string;
+  inputBg: string; inputBorder: string; inputText: string;
+  labelColor: string;
+  primaryBg: string; primaryText: string;
+  signOutBorder: string; signOutText: string;
+  successText: string; errorText: string;
+};
+
+const GROOMR_THEME: BrandTheme = {
+  bg: G.cream, font: "'Nunito', sans-serif",
+  textH: G.deepSlate, textMuted: G.sage,
+  cardBg: "white", cardBorder: "rgba(149,165,166,0.25)",
+  avatarBg: G.gold, avatarText: G.deepSlate,
+  spinnerBorder: "rgba(44,62,80,0.15)", spinnerTop: G.gold,
+  inputBg: G.cream, inputBorder: "rgba(149,165,166,0.4)", inputText: G.deepSlate,
+  labelColor: G.sage,
+  primaryBg: G.gold, primaryText: G.deepSlate,
+  signOutBorder: "rgba(149,165,166,0.35)", signOutText: G.sage,
+  successText: G.sage, errorText: G.terracotta,
+};
+
+const PP_THEME: BrandTheme = {
+  bg: PP.alabaster, font: "'Montserrat', sans-serif",
+  textH: PP.charcoal, textMuted: PP.stone500,
+  cardBg: "white", cardBorder: PP.stone200,
+  avatarBg: PP.terracotta, avatarText: "#ffffff",
+  spinnerBorder: "rgba(28,25,23,0.08)", spinnerTop: PP.terracotta,
+  inputBg: "white", inputBorder: PP.stone200, inputText: PP.charcoal,
+  labelColor: PP.stone500,
+  primaryBg: PP.deepClay, primaryText: "#ffffff",
+  signOutBorder: PP.stone200, signOutText: PP.stone500,
+  successText: PP.deepClay, errorText: PP.terracotta,
+};
+
 export default function AccountPage() {
   const router = useRouter();
   const params = useParams();
   const company = params.company as string;
   const isGroomr = company === "groomr";
+  const isPP = company === "paper-and-ponder";
+  const theme: BrandTheme | null = isGroomr ? GROOMR_THEME : isPP ? PP_THEME : null;
   const supabase = createClient();
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -83,14 +133,19 @@ export default function AccountPage() {
 
   if (!user) return null;
 
+  const inputStyle = theme ? { border: `1px solid ${theme.inputBorder}`, backgroundColor: theme.inputBg, color: theme.inputText } : {};
+  const inputClass = theme
+    ? "w-full rounded-xl px-4 py-3 text-sm focus:outline-none"
+    : "w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors";
+
   return (
     <div
       className="max-w-lg px-6 py-10 sm:px-10"
-      style={isGroomr ? { backgroundColor: G.cream, minHeight: "100vh", fontFamily: "'Nunito', sans-serif" } : {}}
+      style={theme ? { backgroundColor: theme.bg, minHeight: "100vh", fontFamily: theme.font } : {}}
     >
       <h1
-        className={isGroomr ? "mb-8 text-xl font-bold" : "mb-8 text-xl font-bold text-white"}
-        style={isGroomr ? { color: G.deepSlate } : {}}
+        className={theme ? "mb-8 text-xl font-bold" : "mb-8 text-xl font-bold text-white"}
+        style={theme ? { color: theme.textH } : {}}
       >
         Account
       </h1>
@@ -99,24 +154,12 @@ export default function AccountPage() {
       <div className="mb-10 flex items-center gap-5">
         <button onClick={() => fileRef.current?.click()} className="relative flex-shrink-0 group" disabled={uploadingAvatar}>
           {user.avatarUrl ? (
-            <img
-              src={user.avatarUrl}
-              alt=""
-              className="h-20 w-20 rounded-full object-cover ring-2 transition-all"
-              style={{ ringColor: isGroomr ? G.gold : undefined }}
-            />
+            <img src={user.avatarUrl} alt="" className="h-20 w-20 rounded-full object-cover ring-2 ring-zinc-800 transition-all" />
           ) : (
-            <div
-              className="flex h-20 w-20 items-center justify-center rounded-full ring-2 transition-all"
-              style={isGroomr
-                ? { backgroundColor: G.gold, outlineColor: G.gold }
-                : { backgroundColor: "rgb(210,255,20)" }
-              }
-            >
-              <span
-                className="text-2xl font-bold"
-                style={{ color: G.deepSlate }}
-              >
+            <div className="flex h-20 w-20 items-center justify-center rounded-full ring-2 ring-zinc-800 transition-all"
+              style={theme ? { backgroundColor: theme.avatarBg } : { backgroundColor: "rgb(210,255,20)" }}>
+              <span className="text-2xl font-bold"
+                style={{ color: theme ? theme.avatarText : "#09090b" }}>
                 {user.initials}
               </span>
             </div>
@@ -129,10 +172,9 @@ export default function AccountPage() {
           </div>
           {uploadingAvatar && (
             <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60">
-              <div
-                className="h-5 w-5 animate-spin rounded-full border-2"
-                style={isGroomr
-                  ? { borderColor: "rgba(44,62,80,0.15)", borderTopColor: G.gold }
+              <div className="h-5 w-5 animate-spin rounded-full border-2"
+                style={theme
+                  ? { borderColor: theme.spinnerBorder, borderTopColor: theme.spinnerTop }
                   : { borderColor: "rgb(82,82,91)", borderTopColor: "rgb(210,255,20)" }
                 }
               />
@@ -141,84 +183,54 @@ export default function AccountPage() {
         </button>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
         <div>
-          <p
-            className="font-medium"
-            style={{ color: isGroomr ? G.deepSlate : "rgb(228,228,231)" }}
-          >
-            {user.email}
-          </p>
-          <p className="mt-0.5 text-xs" style={{ color: isGroomr ? G.sage : "rgb(82,82,91)" }}>
-            Click your photo to update it
-          </p>
+          <p className="font-medium" style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>{user.email}</p>
+          <p className="mt-0.5 text-xs" style={{ color: theme ? theme.textMuted : "rgb(82,82,91)" }}>Click your photo to update it</p>
         </div>
       </div>
 
       {/* Change password */}
       <div
         className="mb-10 rounded-2xl p-6"
-        style={isGroomr
-          ? { backgroundColor: "white", border: `1px solid rgba(149,165,166,0.25)` }
+        style={theme
+          ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.cardBorder}` }
           : { backgroundColor: "rgba(39,39,42,0.4)", border: "1px solid rgb(24,24,27)" }
         }
       >
-        <h2
-          className="mb-5 text-sm font-semibold"
-          style={{ color: isGroomr ? G.deepSlate : "rgb(212,212,216)" }}
-        >
+        <h2 className="mb-5 text-sm font-semibold" style={{ color: theme ? theme.textH : "rgb(212,212,216)" }}>
           Change password
         </h2>
         <form onSubmit={handlePasswordChange} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-xs font-medium" style={{ color: isGroomr ? G.sage : "rgb(161,161,170)" }}>
+            <label className="mb-1.5 block text-xs font-medium" style={{ color: theme ? theme.labelColor : "rgb(161,161,170)" }}>
               New password
             </label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={e => setNewPassword(e.target.value)}
-              required
-              minLength={8}
-              className={isGroomr ? "w-full rounded-xl px-4 py-3 text-sm focus:outline-none" : "w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"}
-              style={isGroomr ? { border: `1px solid rgba(149,165,166,0.4)`, backgroundColor: G.cream, color: G.deepSlate } : {}}
-              placeholder="Min. 8 characters"
-            />
+            <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required minLength={8}
+              className={inputClass} style={inputStyle} placeholder="Min. 8 characters" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-medium" style={{ color: isGroomr ? G.sage : "rgb(161,161,170)" }}>
+            <label className="mb-1.5 block text-xs font-medium" style={{ color: theme ? theme.labelColor : "rgb(161,161,170)" }}>
               Confirm password
             </label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              required
-              className={isGroomr ? "w-full rounded-xl px-4 py-3 text-sm focus:outline-none" : "w-full rounded-xl border border-zinc-800 bg-ink-900 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-unhinged-green/50 focus:outline-none focus:ring-1 focus:ring-unhinged-green/30 transition-colors"}
-              style={isGroomr ? { border: `1px solid rgba(149,165,166,0.4)`, backgroundColor: G.cream, color: G.deepSlate } : {}}
-              placeholder="Repeat new password"
-            />
+            <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required
+              className={inputClass} style={inputStyle} placeholder="Repeat new password" />
           </div>
           {pwStatus && (
-            <p className="text-xs" style={{ color: pwStatus.ok ? (isGroomr ? G.sage : "rgb(210,255,20)") : (isGroomr ? G.terracotta : "rgb(248,113,113)") }}>
+            <p className="text-xs" style={{ color: pwStatus.ok ? (theme ? theme.successText : "rgb(210,255,20)") : (theme ? theme.errorText : "rgb(248,113,113)") }}>
               {pwStatus.message}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={savingPw}
-            className={isGroomr ? "w-full rounded-xl py-3 text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50" : "w-full rounded-xl bg-unhinged-green py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50"}
-            style={isGroomr ? { backgroundColor: G.gold, color: G.deepSlate } : {}}
-          >
+          <button type="submit" disabled={savingPw}
+            className={theme ? "w-full rounded-xl py-3 text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50" : "w-full rounded-xl bg-unhinged-green py-3 text-sm font-semibold text-ink-950 transition-opacity hover:opacity-90 disabled:opacity-50"}
+            style={theme ? { backgroundColor: theme.primaryBg, color: theme.primaryText } : {}}>
             {savingPw ? "Saving…" : "Update password"}
           </button>
         </form>
       </div>
 
       {/* Sign out */}
-      <button
-        onClick={handleSignOut}
-        className={isGroomr ? "w-full rounded-xl py-3 text-sm font-medium transition-all" : "w-full rounded-xl border border-zinc-800 py-3 text-sm font-medium text-zinc-400 transition-all hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400"}
-        style={isGroomr ? { border: `1px solid rgba(149,165,166,0.35)`, color: G.sage } : {}}
-      >
+      <button onClick={handleSignOut}
+        className={theme ? "w-full rounded-xl py-3 text-sm font-medium transition-all" : "w-full rounded-xl border border-zinc-800 py-3 text-sm font-medium text-zinc-400 transition-all hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400"}
+        style={theme ? { border: `1px solid ${theme.signOutBorder}`, color: theme.signOutText } : {}}>
         Sign out
       </button>
     </div>

@@ -75,6 +75,17 @@ const G = {
   navInactiveText: "rgba(44,62,80,0.55)",
 } as const;
 
+const PP = {
+  alabaster: "#fafaf9",
+  charcoal: "#1c1917",
+  deepClay: "#7c2d12",
+  terracotta: "#fb923c",
+  stone200: "#e7e5e4",
+  stone500: "#78716c",
+  navActiveBg: "rgba(124,45,18,0.08)",
+  navInactiveText: "rgba(28,25,23,0.45)",
+} as const;
+
 export default function CompanyLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -111,15 +122,15 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
   }, [company, router]);
 
   const isGroomr = company === "groomr";
+  const isPP = company === "paper-and-ponder";
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         {isGroomr ? (
-          <div
-            className="h-6 w-6 animate-spin rounded-full border-2"
-            style={{ borderColor: "rgba(44,62,80,0.1)", borderTopColor: G.gold }}
-          />
+          <div className="h-6 w-6 animate-spin rounded-full border-2" style={{ borderColor: "rgba(44,62,80,0.1)", borderTopColor: G.gold }} />
+        ) : isPP ? (
+          <div className="h-6 w-6 animate-spin rounded-full border-2" style={{ borderColor: "rgba(28,25,23,0.08)", borderTopColor: PP.terracotta }} />
         ) : (
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-800 border-t-unhinged-green" />
         )}
@@ -130,30 +141,37 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
   const companyLabel = COMPANY_LABELS[company as CompanyKey] ?? company;
   const activeSection = pathname.split("/")[3] ?? "";
 
+  const isBranded = isGroomr || isPP;
+
   const navLinkClass = (active: boolean) =>
-    isGroomr
+    isBranded
       ? "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all"
       : `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
           active ? "bg-ink-800 text-white" : "text-zinc-500 hover:bg-ink-800/50 hover:text-zinc-300"
         }`;
 
-  const navLinkStyle = (active: boolean): React.CSSProperties =>
-    isGroomr
-      ? active
-        ? { backgroundColor: G.navActiveBg, color: G.deepSlate }
-        : { color: G.navInactiveText }
-      : {};
+  const navLinkStyle = (active: boolean): React.CSSProperties => {
+    if (isGroomr) return active ? { backgroundColor: G.navActiveBg, color: G.deepSlate } : { color: G.navInactiveText };
+    if (isPP) return active ? { backgroundColor: PP.navActiveBg, color: PP.deepClay } : { color: PP.navInactiveText };
+    return {};
+  };
 
-  const navIconStyle = (active: boolean): React.CSSProperties =>
-    isGroomr && active ? { color: G.gold } : {};
+  const navIconStyle = (active: boolean): React.CSSProperties => {
+    if (isGroomr && active) return { color: G.gold };
+    if (isPP && active) return { color: PP.terracotta };
+    return {};
+  };
 
   const navIconClass = (active: boolean) =>
-    !isGroomr && active ? "text-unhinged-green" : "";
+    !isBranded && active ? "text-unhinged-green" : "";
 
   return (
     <div className="flex min-h-screen flex-col">
       {isGroomr && (
         <style>{`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap');`}</style>
+      )}
+      {isPP && (
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');`}</style>
       )}
 
       {/* Top bar — always dark */}
@@ -207,8 +225,12 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
       <div className="flex flex-1">
         {/* Desktop sidebar */}
         <aside
-          className={`hidden w-52 shrink-0 flex-col border-r pt-4 sm:flex${isGroomr ? "" : " border-zinc-900"}`}
-          style={isGroomr ? { backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" } : undefined}
+          className={`hidden w-52 shrink-0 flex-col border-r pt-4 sm:flex${isBranded ? "" : " border-zinc-900"}`}
+          style={
+            isGroomr ? { backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" }
+            : isPP ? { backgroundColor: PP.alabaster, borderColor: PP.stone200, fontFamily: "'Montserrat', sans-serif" }
+            : undefined
+          }
         >
           <nav className="flex flex-col gap-1 px-3">
             {(() => {
@@ -232,7 +254,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
               );
             })}
           </nav>
-          <div className="mt-auto p-3" style={{ borderTop: `1px solid ${isGroomr ? G.pebble : "rgb(24,24,27)"}` }}>
+          <div className="mt-auto p-3" style={{ borderTop: `1px solid ${isGroomr ? G.pebble : isPP ? PP.stone200 : "rgb(24,24,27)"}` }}>
             {(() => {
               const active = activeSection === "account";
               return (
@@ -251,19 +273,25 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
       </div>
 
       {/* Mobile bottom tab bar */}
-      {isGroomr ? (
+      {isBranded ? (
         <nav
           className="fixed bottom-0 left-0 right-0 z-20 flex border-t sm:hidden"
-          style={{ backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" }}
+          style={
+            isGroomr
+              ? { backgroundColor: G.cream, borderColor: G.pebble, fontFamily: "'Nunito', sans-serif" }
+              : { backgroundColor: PP.alabaster, borderColor: PP.stone200, fontFamily: "'Montserrat', sans-serif" }
+          }
         >
           {NAV.map((item) => {
             const active = activeSection === item.key;
+            const activeColor = isGroomr ? G.gold : PP.terracotta;
+            const inactiveColor = isGroomr ? G.navInactiveText : PP.navInactiveText;
             return (
               <Link
                 key={item.key}
                 href={`/portal/${company}/${item.key}`}
                 className="flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors"
-                style={{ color: active ? G.gold : G.navInactiveText }}
+                style={{ color: active ? activeColor : inactiveColor }}
               >
                 {item.icon}
                 {item.label}
@@ -273,7 +301,7 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
           <Link
             href={`/portal/${company}/account`}
             className="flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors"
-            style={{ color: activeSection === "account" ? G.gold : G.navInactiveText }}
+            style={{ color: activeSection === "account" ? (isGroomr ? G.gold : PP.terracotta) : (isGroomr ? G.navInactiveText : PP.navInactiveText) }}
           >
             {ACCOUNT_ICON}
             Account
