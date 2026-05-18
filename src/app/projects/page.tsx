@@ -9,19 +9,21 @@ export const metadata: Metadata = {
 
 const projects = [
   {
-    name: "Groomr Ltd",
+    name: "Groomr.",
     slug: "groomr",
-    status: "Live",
+    status: "In Development",
+    launch: "August 2027",
     description:
-      "A modern platform redefining the grooming experience. Built for professionals and clients who expect more from their booking and service workflow.",
+      "A booking and service platform built for the grooming industry. Groomr connects clients with professionals and gives salons and independent groomers the tools to run their business without the faff.",
     tags: ["Platform", "B2C", "Service"],
   },
   {
-    name: "Paper & Ponder Ltd",
+    name: "Paper & Ponder",
     slug: "paper-and-ponder",
-    status: "Live",
+    status: "In Development",
+    launch: "September 2027",
     description:
-      "Thoughtful products for people who still believe in putting pen to paper. Stationery and creative tools designed with intention.",
+      "Stationery and creative tools for people who still reach for a pen. Paper & Ponder is built around the belief that analogue thinking deserves products made with the same care and intention.",
     tags: ["Consumer", "E-commerce", "Creative"],
   },
 ];
@@ -51,14 +53,18 @@ export default function ProjectsPage() {
                   <h2 className="font-bitcount text-2xl sm:text-3xl font-light text-white">
                     {project.name}
                   </h2>
-                  <span className="mt-1 shrink-0 inline-flex items-center gap-1.5 rounded-full border border-unhinged-green/30 bg-unhinged-green/10 px-2.5 py-1 text-xs text-unhinged-green">
-                    <span className="h-1 w-1 rounded-full bg-unhinged-green" />
+                  <span className="mt-1 shrink-0 inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-800/60 px-2.5 py-1 text-xs text-zinc-400">
+                    <span className="h-1 w-1 rounded-full bg-zinc-500" />
                     {project.status}
                   </span>
                 </div>
 
                 <p className="text-zinc-400 text-sm leading-relaxed flex-1">
                   {project.description}
+                </p>
+
+                <p className="text-xs text-zinc-600">
+                  Expected launch — {project.launch}
                 </p>
 
                 <div className="flex flex-wrap gap-2">
