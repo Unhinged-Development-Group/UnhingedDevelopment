@@ -79,19 +79,9 @@ export default function Hero() {
 
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Subtle ambient halo behind the logo figure */}
         <div
-          className="absolute top-[8%] sm:top-[26%] left-1/2 -translate-x-1/2 h-[400px] w-[400px] rounded-full opacity-[0.07]"
-          style={{ background: "radial-gradient(circle, #D2FF14 0%, transparent 70%)" }}
-        />
-        {/* Cone beam — originates at logo base, fans down onto the wordmark */}
-        <div
-          className="absolute top-[30%] sm:top-[44%] left-1/2 -translate-x-1/2 h-[380px] w-[480px] opacity-[0.22] sm:opacity-[0.12]"
-          style={{
-            background: "conic-gradient(at 50% 0%, transparent 0deg, transparent 136deg, rgba(210,255,20,0) 145deg, rgba(210,255,20,1) 157deg, rgba(210,255,20,1) 203deg, rgba(210,255,20,0) 215deg, transparent 224deg, transparent 360deg)",
-            maskImage: "radial-gradient(ellipse at 50% 0%, black 0%, transparent 88%)",
-            WebkitMaskImage: "radial-gradient(ellipse at 50% 0%, black 0%, transparent 88%)",
-          }}
+          className="absolute top-[22%] sm:top-[32%] left-1/2 -translate-x-1/2 h-[500px] w-[700px] opacity-[0.13]"
+          style={{ background: "radial-gradient(ellipse at 50% 45%, #D2FF14 0%, transparent 60%)" }}
         />
         <div
           className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.06]"
@@ -184,14 +174,12 @@ export default function Hero() {
         </p>
         <p className="text-xs leading-relaxed text-zinc-400">
           Registered in<br />
-          <span className="inline-flex items-center gap-1.5">
-            Scotland.
-            <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg" className="h-3 w-auto opacity-90" aria-label="Scotland">
-              <rect width="18" height="12" rx="1" fill="#003893"/>
-              <line x1="-1" y1="-1" x2="19" y2="13" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-              <line x1="19" y1="-1" x2="-1" y2="13" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-            </svg>
-          </span>
+          Scotland.<br />
+          <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg" className="h-3 w-auto opacity-90 mt-0.5" aria-label="Scotland">
+            <rect width="18" height="12" rx="1" fill="#003893"/>
+            <line x1="-1" y1="-1" x2="19" y2="13" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+            <line x1="19" y1="-1" x2="-1" y2="13" stroke="white" strokeWidth="4" strokeLinecap="round"/>
+          </svg>
         </p>
       </footer>
     </main>
