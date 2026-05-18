@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import TransitionLink from "@/components/TransitionLink";
 
 const GREEN_FILTER =
   "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
@@ -35,27 +36,27 @@ export default function Hero() {
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Link
+        <TransitionLink
           href="/who-we-are"
           onClick={() => setMenuOpen(false)}
           className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Who we are
-        </Link>
-        <Link
+        </TransitionLink>
+        <TransitionLink
           href="/projects"
           onClick={() => setMenuOpen(false)}
           className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Projects
-        </Link>
-        <Link
+        </TransitionLink>
+        <TransitionLink
           href="/contact"
           onClick={() => setMenuOpen(false)}
           className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Contact us
-        </Link>
+        </TransitionLink>
 
         <div className="mt-4 border-t border-zinc-800 pt-6">
           <Link
@@ -113,9 +114,9 @@ export default function Hero() {
 
           {/* Nav links — desktop only */}
           <div className="hidden sm:flex items-center gap-7">
-            <Link href="/who-we-are" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Who we are</Link>
-            <Link href="/projects" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Projects</Link>
-            <Link href="/contact" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Contact us</Link>
+            <TransitionLink href="/who-we-are" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Who we are</TransitionLink>
+            <TransitionLink href="/projects" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Projects</TransitionLink>
+            <TransitionLink href="/contact" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Contact us</TransitionLink>
           </div>
         </div>
 
