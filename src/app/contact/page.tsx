@@ -15,11 +15,11 @@ export default function ContactPage() {
 
       <section className="relative z-10 flex-1 px-6 py-10 sm:px-10 lg:px-16">
         <div className="max-w-xl mx-auto">
-          <p className="font-bitcount text-unhinged-green text-sm tracking-widest uppercase mb-6">
+          <p className="font-bitcount font-light text-unhinged-green text-sm tracking-widest uppercase mb-6">
             Contact us
           </p>
 
-          <h1 className="font-bitcount text-5xl sm:text-6xl font-medium text-white leading-tight mb-4">
+          <h1 className="font-bitcount text-5xl sm:text-6xl font-light text-white leading-tight mb-4">
             Let&apos;s talk.
           </h1>
           <p className="text-zinc-400 text-sm sm:text-base mb-10">

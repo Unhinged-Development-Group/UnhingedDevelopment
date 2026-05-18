@@ -39,7 +39,7 @@ export default function ContactForm() {
   if (status === "success") {
     return (
       <div className="rounded-2xl border border-unhinged-green/30 bg-unhinged-green/5 p-8 text-center">
-        <p className="font-bitcount text-2xl text-unhinged-green mb-2">Message sent.</p>
+        <p className="font-bitcount text-2xl font-light text-unhinged-green mb-2">Message sent.</p>
         <p className="text-zinc-400 text-sm">We&apos;ll be in touch shortly.</p>
       </div>
     );
