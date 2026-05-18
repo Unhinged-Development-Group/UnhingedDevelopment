@@ -4,7 +4,7 @@ import PageFooter from "@/components/PageFooter";
 
 export const metadata: Metadata = {
   title: "Who We Are — Unhinged Development Group",
-  description: "A Scottish venture studio building products differently. Parent company to Groomr Ltd and Paper & Ponder Ltd.",
+  description: "A small, independent software development company based out of Glasgow, Scotland. We build products we genuinely believe in.",
 };
 
 export default function WhoWeArePage() {
@@ -24,17 +24,14 @@ export default function WhoWeArePage() {
 
           <div className="space-y-5 text-zinc-300 text-base sm:text-lg leading-relaxed">
             <p>
-              Unhinged Development Group is a Scottish venture studio and holding company.
-              We build products that move fast, cut waste, and actually solve real problems —
-              no corporate overhead, no design-by-committee.
+              A small, independent software development company based out of Glasgow, Scotland.
+              We build products we genuinely believe in and we put our heart &amp; soul into every one of them.
             </p>
             <p>
-              We operate as a lean group of companies, each focused on a specific market.
-              Direct ownership, fast iteration, and an uncompromising focus on shipping things
-              that matter to the people who use them.
+              Our products focus on specific markets and are created to solve problems we have experienced first hand.
             </p>
             <p>
-              Registered in Scotland, built everywhere.
+              Registered in Scotland. Built for the world.
             </p>
           </div>
 
