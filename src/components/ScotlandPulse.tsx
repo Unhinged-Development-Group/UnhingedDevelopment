@@ -7,7 +7,7 @@ const ISLANDS_B = "M708.146,1184.838l-1.841-16.806l-2.04-2.299l-6.719-2.883l-2.7
 export default function ScotlandPulse() {
   return (
     <svg
-      viewBox="220 280 680 1020"
+      viewBox="75 700 390 520"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full"
       aria-hidden="true"
@@ -35,14 +35,10 @@ export default function ScotlandPulse() {
       `}</style>
       <g style={{ filter: 'drop-shadow(0 0 10px rgba(210,255,20,0.5))' }}>
         <path className="scot-base" d={MAINLAND} />
-        <path className="scot-base" d={ISLANDS_A} />
-        <path className="scot-base" d={ISLANDS_B} />
-      </g>
+        </g>
       <g style={{ filter: 'drop-shadow(0 0 8px #D2FF14)' }}>
         <path className="scot-pulse" d={MAINLAND} />
-        <path className="scot-pulse" d={ISLANDS_A} style={{ animationDelay: '-3s' }} />
-        <path className="scot-pulse" d={ISLANDS_B} style={{ animationDelay: '-6s' }} />
-      </g>
+        </g>
     </svg>
   );
 }
