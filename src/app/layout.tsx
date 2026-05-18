@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import PageTransitionOverlay from "@/components/PageTransitionOverlay";
 
 const FAVICON_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/e_negate/co_rgb:D2FF14,e_colorize:100/c_fit,h_64,w_64/f_png/v1778965077/IMG_0772_l4ddjj.png";
@@ -42,10 +41,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans">
-        <PageTransitionOverlay />
-        {children}
-      </body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
