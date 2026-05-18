@@ -33,27 +33,6 @@
   }
 }
 
-@keyframes scotland-trace {
-  to { stroke-dashoffset: -1000; }
-}
-
-.scotland-base {
-  fill: none;
-  stroke: rgba(210, 255, 20, 0.12);
-  stroke-width: 1;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-.scotland-pulse {
-  fill: none;
-  stroke: #D2FF14;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 55 945;
-  animation: scotland-trace 6s linear infinite;
-}
 
 @layer utilities {
   .gradient-text {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import PageFooter from "@/components/PageFooter";
+import ScotlandPulse from "@/components/ScotlandPulse";
 
 export const metadata: Metadata = {
   title: "Who We Are — Unhinged Development Group",
@@ -45,22 +46,7 @@ export default function WhoWeArePage() {
             </div>
 
             <div className="hidden lg:flex lg:items-start lg:justify-center shrink-0 w-40 pt-6">
-              <svg
-                viewBox="0 0 190 280"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full"
-                style={{ filter: "drop-shadow(0 0 10px rgba(210, 255, 20, 0.45))" }}
-                aria-hidden="true"
-              >
-                <path
-                  className="scotland-base"
-                  d="M 152,20 L 158,38 L 160,62 L 152,72 L 130,80 L 150,88 L 162,105 L 162,130 L 165,142 L 150,150 L 162,160 L 158,180 L 135,195 L 108,205 L 82,208 L 62,215 L 52,222 L 46,210 L 44,198 L 42,182 L 40,168 L 32,175 L 25,190 L 20,205 L 28,208 L 35,196 L 40,182 L 42,168 L 38,155 L 35,140 L 38,125 L 42,108 L 38,92 L 44,78 L 38,62 L 44,48 L 40,35 L 44,28 L 58,22 L 88,15 L 118,12 Z"
-                />
-                <path
-                  className="scotland-pulse"
-                  d="M 152,20 L 158,38 L 160,62 L 152,72 L 130,80 L 150,88 L 162,105 L 162,130 L 165,142 L 150,150 L 162,160 L 158,180 L 135,195 L 108,205 L 82,208 L 62,215 L 52,222 L 46,210 L 44,198 L 42,182 L 40,168 L 32,175 L 25,190 L 20,205 L 28,208 L 35,196 L 40,182 L 42,168 L 38,155 L 35,140 L 38,125 L 42,108 L 38,92 L 44,78 L 38,62 L 44,48 L 40,35 L 44,28 L 58,22 L 88,15 L 118,12 Z"
-                />
-              </svg>
+              <ScotlandPulse />
             </div>
 
           </div>
