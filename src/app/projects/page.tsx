@@ -33,11 +33,11 @@ export default function ProjectsPage() {
 
       <section className="relative z-10 flex-1 px-6 py-10 sm:px-10 lg:px-16">
         <div className="max-w-4xl mx-auto">
-          <p className="font-bitcount text-unhinged-green text-sm tracking-widest uppercase mb-6">
+          <p className="font-bitcount font-light text-unhinged-green text-sm tracking-widest uppercase mb-6">
             Projects
           </p>
 
-          <h1 className="font-bitcount text-5xl sm:text-7xl font-medium text-white leading-tight mb-12">
+          <h1 className="font-bitcount text-5xl sm:text-7xl font-light text-white leading-tight mb-12">
             What we&apos;re<br />building.
           </h1>
 
@@ -48,7 +48,7 @@ export default function ProjectsPage() {
                 className="group rounded-2xl border border-zinc-800 bg-ink-900 p-7 flex flex-col gap-4 hover:border-zinc-700 transition-colors"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <h2 className="font-bitcount text-2xl sm:text-3xl text-white">
+                  <h2 className="font-bitcount text-2xl sm:text-3xl font-light text-white">
                     {project.name}
                   </h2>
                   <span className="mt-1 shrink-0 inline-flex items-center gap-1.5 rounded-full border border-unhinged-green/30 bg-unhinged-green/10 px-2.5 py-1 text-xs text-unhinged-green">

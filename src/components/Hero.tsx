@@ -38,21 +38,21 @@ export default function Hero() {
         <Link
           href="/who-we-are"
           onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-3xl font-medium text-unhinged-green hover:opacity-70 transition-opacity"
+          className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Who we are
         </Link>
         <Link
           href="/projects"
           onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-3xl font-medium text-unhinged-green hover:opacity-70 transition-opacity"
+          className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Projects
         </Link>
         <Link
           href="/contact"
           onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-3xl font-medium text-unhinged-green hover:opacity-70 transition-opacity"
+          className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
         >
           Contact us
         </Link>
@@ -113,9 +113,9 @@ export default function Hero() {
 
           {/* Nav links — desktop only */}
           <div className="hidden sm:flex items-center gap-7">
-            <Link href="/who-we-are" className="font-bitcount text-[22px] font-normal text-unhinged-green hover:opacity-80 transition-opacity">Who we are</Link>
-            <Link href="/projects" className="font-bitcount text-[22px] font-normal text-unhinged-green hover:opacity-80 transition-opacity">Projects</Link>
-            <Link href="/contact" className="font-bitcount text-[22px] font-normal text-unhinged-green hover:opacity-80 transition-opacity">Contact us</Link>
+            <Link href="/who-we-are" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Who we are</Link>
+            <Link href="/projects" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Projects</Link>
+            <Link href="/contact" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity">Contact us</Link>
           </div>
         </div>
 
