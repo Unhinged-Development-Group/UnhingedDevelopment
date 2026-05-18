@@ -14,7 +14,7 @@ const projects = [
     status: "In Development",
     launch: "August 2027",
     description:
-      "A booking and service platform built for the grooming industry. Groomr connects clients with professionals and gives salons and independent groomers the tools to run their business without the faff.",
+      "A UK dog groomer booking platform connecting owners to local, independent groomers — and a complete business hub for groomers to run an efficient business.",
     tags: ["Platform", "B2C", "Service"],
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     status: "In Development",
     launch: "September 2027",
     description:
-      "Stationery and creative tools for people who still reach for a pen. Paper & Ponder is built around the belief that analogue thinking deserves products made with the same care and intention.",
+      "An AI journaling companion that uses your hand-written journal entries to analyse, discuss and reflect on your feelings.",
     tags: ["Consumer", "E-commerce", "Creative"],
   },
 ];
@@ -50,7 +50,7 @@ export default function ProjectsPage() {
                 className="group rounded-2xl border border-zinc-800 bg-ink-900 p-7 flex flex-col gap-4 hover:border-zinc-700 transition-colors"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <h2 className="font-bitcount text-2xl sm:text-3xl font-light text-white">
+                  <h2 className="font-montserrat text-2xl sm:text-3xl font-semibold text-white">
                     {project.name}
                   </h2>
                   <span className="mt-1 shrink-0 inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-800/60 px-2.5 py-1 text-xs text-zinc-400">
