@@ -4,7 +4,7 @@ import PageFooter from "@/components/PageFooter";
 
 export const metadata: Metadata = {
   title: "Who We Are — Unhinged Development Group",
-  description: "A small, independent software development company based out of Glasgow, Scotland. We build products we genuinely believe in.",
+  description: "Founded in 2026 in Glasgow, Scotland. A small, independent software company building products rooted in problems we've lived ourselves.",
 };
 
 export default function WhoWeArePage() {
@@ -24,11 +24,16 @@ export default function WhoWeArePage() {
 
           <div className="space-y-5 text-zinc-300 text-base sm:text-lg leading-relaxed">
             <p>
-              A small, independent software development company based out of Glasgow, Scotland.
-              We build products we genuinely believe in and we put our heart &amp; soul into every one of them.
+              Founded in 2026 out of necessity — and a fair amount of spare time — Unhinged Development Group
+              is a small, independent software company based in Glasgow, Scotland.
             </p>
             <p>
-              Our products focus on specific markets and are created to solve problems we have experienced first hand.
+              We started building during a period of unemployment. No investors, no grand plan — just a genuine
+              frustration with problems that hadn&apos;t been solved well, and the skills to do something about it.
+            </p>
+            <p>
+              Everything we build is focused on a specific market and rooted in problems we&apos;ve lived ourselves.
+              We care about the details and we&apos;re not interested in shipping something we wouldn&apos;t use.
             </p>
             <p>
               Registered in Scotland. Built for the world.
