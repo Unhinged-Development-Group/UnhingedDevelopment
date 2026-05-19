@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const LOGO_WHITE = "invert(1) brightness(1) sepia(0) saturate(100%) hue-rotate(0deg) brightness(1)";
-const LOGO_GREEN = "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(-325deg) brightness(1.667)";
+const GREEN_FILTER =
+  "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
 
 const LOGO_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png";
@@ -75,10 +75,10 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
               alt="Unhinged Development Group"
               className="h-10 w-auto"
               style={{
-                filter: menuOpen ? LOGO_GREEN : LOGO_WHITE,
+                filter: menuOpen ? GREEN_FILTER : "invert(1)",
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
                 mixBlendMode: "screen",
-                transition: "filter 80ms ease, transform 300ms ease",
+                transition: "filter 0ms ease 150ms, transform 300ms ease-in-out",
               }}
             />
           </button>
