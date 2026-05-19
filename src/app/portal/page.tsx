@@ -104,7 +104,7 @@ export default function PortalLogin() {
           </svg>
           Back
         </Link>
-        <span className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">UDG Staff Portal</span>
+        <span className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">UDG Team Portal</span>
       </nav>
 
       {/* Login form */}
@@ -116,7 +116,7 @@ export default function PortalLogin() {
               <div className="h-px w-6 bg-unhinged-green" />
               <span className="text-xs font-medium tracking-[0.2em] text-unhinged-green uppercase">Secure Access</span>
             </div>
-            <h1 className="text-2xl font-bold text-white">Staff Portal</h1>
+            <h1 className="text-2xl font-bold text-white">UDG Team Portal</h1>
             <p className="mt-1 text-sm text-zinc-500">Access company documents and resources.</p>
           </div>
 
