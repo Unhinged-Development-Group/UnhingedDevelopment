@@ -73,7 +73,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             <img
               src={LOGO_URL}
               alt="Unhinged Development Group"
-              className="h-10 w-auto transition-all duration-300"
+              className="h-10 w-auto transition-transform duration-300"
               style={{
                 filter: menuOpen ? GREEN_FILTER : "invert(1)",
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
