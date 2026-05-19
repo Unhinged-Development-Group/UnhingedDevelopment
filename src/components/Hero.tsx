@@ -39,7 +39,7 @@ export default function Hero() {
               alt=""
               aria-hidden="true"
               className="h-auto w-[60%] sm:w-[38%]"
-              style={{ filter: GREEN_FILTER, mixBlendMode: "screen" }}
+              style={{ filter: GREEN_FILTER, mixBlendMode: "screen", transform: "rotate(-8deg)" }}
             />
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
