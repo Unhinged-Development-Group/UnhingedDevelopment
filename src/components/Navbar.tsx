@@ -78,7 +78,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
                 filter: menuOpen ? LOGO_GREEN : LOGO_WHITE,
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
                 mixBlendMode: "screen",
-                transition: "filter 200ms ease, transform 300ms ease",
+                transition: "filter 80ms ease, transform 300ms ease",
               }}
             />
           </button>
