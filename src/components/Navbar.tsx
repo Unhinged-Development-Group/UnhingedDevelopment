@@ -70,16 +70,27 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
           >
-            <img
-              src={LOGO_URL}
-              alt="Unhinged Development Group"
-              className="h-10 w-auto transition-transform duration-300"
+            <span
+              className="relative block h-10 transition-transform duration-300"
               style={{
-                filter: menuOpen ? GREEN_FILTER : "invert(1)",
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
                 mixBlendMode: "screen",
               }}
-            />
+            >
+              <img
+                src={LOGO_URL}
+                alt="Unhinged Development Group"
+                className="h-10 w-auto transition-opacity duration-300"
+                style={{ filter: "invert(1)", opacity: menuOpen ? 0 : 1 }}
+              />
+              <img
+                src={LOGO_URL}
+                aria-hidden="true"
+                alt=""
+                className="absolute top-0 left-0 h-10 w-auto transition-opacity duration-300"
+                style={{ filter: GREEN_FILTER, opacity: menuOpen ? 1 : 0 }}
+              />
+            </span>
           </button>
 
           {/* Desktop: non-interactive on home, links home on inner pages */}
