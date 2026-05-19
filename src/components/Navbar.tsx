@@ -9,7 +9,7 @@ const GREEN_FILTER =
 const LOGO_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png";
 
-export default function Navbar() {
+export default function Navbar({ isHome = false }: { isHome?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -33,34 +33,18 @@ export default function Navbar() {
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Link
-          href="/"
-          onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-xl font-light text-zinc-500 hover:text-zinc-300 transition-colors"
-        >
-          ← Home
-        </Link>
-        <Link
-          href="/who-we-are"
-          onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
-        >
-          Who we are
-        </Link>
-        <Link
-          href="/projects"
-          onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
-        >
-          Projects
-        </Link>
-        <Link
-          href="/contact"
-          onClick={() => setMenuOpen(false)}
-          className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity"
-        >
-          Contact us
-        </Link>
+        {!isHome && (
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="font-bitcount text-xl font-light text-zinc-500 hover:text-zinc-300 transition-colors"
+          >
+            ← Home
+          </Link>
+        )}
+        <Link href="/who-we-are" onClick={() => setMenuOpen(false)} className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity">Who we are</Link>
+        <Link href="/projects" onClick={() => setMenuOpen(false)} className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity">Projects</Link>
+        <Link href="/contact" onClick={() => setMenuOpen(false)} className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity">Contact us</Link>
         <div className="mt-4 border-t border-zinc-800 pt-6">
           <Link
             href="/portal"
@@ -98,15 +82,24 @@ export default function Navbar() {
             />
           </button>
 
-          {/* Desktop: logo links home */}
-          <Link href="/" className="hidden sm:block">
+          {/* Desktop: non-interactive on home, links home on inner pages */}
+          {isHome ? (
             <img
               src={LOGO_URL}
               alt="Unhinged Development Group"
-              className="h-10 w-auto"
+              className="hidden sm:block h-10 w-auto"
               style={{ filter: "invert(1)", mixBlendMode: "screen" }}
             />
-          </Link>
+          ) : (
+            <Link href="/" className="hidden sm:block">
+              <img
+                src={LOGO_URL}
+                alt="Unhinged Development Group"
+                className="h-10 w-auto"
+                style={{ filter: "invert(1)", mixBlendMode: "screen" }}
+              />
+            </Link>
+          )}
 
           {/* Desktop nav links */}
           <div className="hidden sm:flex items-center gap-7">
