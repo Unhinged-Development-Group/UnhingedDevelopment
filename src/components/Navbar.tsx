@@ -77,7 +77,6 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
               style={{
                 filter: menuOpen ? GREEN_FILTER : "invert(1)",
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
-                mixBlendMode: "screen",
                 transition: "filter 0ms ease 150ms, transform 300ms ease-in-out",
               }}
             />
