@@ -3,18 +3,23 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const GREEN_FILTER =
-  "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
-
 const LOGO_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png";
+const LOGO_GREEN_URL =
+  "https://res.cloudinary.com/dr8adq7nl/image/upload/e_negate/co_rgb:D2FF14,e_colorize:100/v1778965077/IMG_0772_l4ddjj.png";
 
 export default function Navbar({ isHome = false }: { isHome?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showGreen, setShowGreen] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowGreen(menuOpen), 150);
+    return () => clearTimeout(timer);
   }, [menuOpen]);
 
   return (
@@ -71,13 +76,13 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             aria-expanded={menuOpen}
           >
             <img
-              src={LOGO_URL}
+              src={showGreen ? LOGO_GREEN_URL : LOGO_URL}
               alt="Unhinged Development Group"
               className="h-10 w-auto"
               style={{
-                filter: menuOpen ? GREEN_FILTER : "invert(1)",
+                filter: showGreen ? undefined : "invert(1)",
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
-                transition: "filter 0ms ease 150ms, transform 300ms ease-in-out",
+                transition: "transform 300ms ease-in-out",
               }}
             />
           </button>
