@@ -17,11 +17,11 @@ export default function Hero() {
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute top-[22%] sm:top-[32%] left-1/2 -translate-x-1/2 h-[500px] w-[700px] opacity-[0.143]"
+          className="absolute top-[22%] sm:top-[32%] left-1/2 -translate-x-1/2 h-[500px] w-[700px] opacity-[0.20]"
           style={{ background: "radial-gradient(ellipse at 50% 45%, #D2FF14 0%, transparent 60%)" }}
         />
         <div
-          className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.066]"
+          className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.092]"
           style={{ background: "radial-gradient(circle, #a8cc00 0%, transparent 70%)" }}
         />
       </div>
