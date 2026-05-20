@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className="absolute top-[22%] sm:top-[32%] left-1/2 -translate-x-1/2 h-[500px] w-[700px] opacity-[0.28]"
-          style={{ background: "radial-gradient(ellipse at 50% 45%, #D2FF14 0%, transparent 75%)" }}
+          style={{ background: "radial-gradient(ellipse at 50% 70%, #D2FF14 0%, transparent 65%)" }}
         />
         <div
           className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.12]"
@@ -45,7 +45,7 @@ export default function Hero() {
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
-              style={{ filter: "invert(1) drop-shadow(0 0 4px rgba(255,255,255,0.35)) drop-shadow(0 0 28px rgba(210, 255, 20, 0.60))", mixBlendMode: "screen" }}
+              style={{ filter: "invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 32px rgba(210, 255, 20, 0.75))", mixBlendMode: "screen" }}
             />
           </div>
         </div>
