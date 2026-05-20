@@ -17,7 +17,7 @@ export default function Hero() {
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute top-[22%] sm:top-[32%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.28]"
+          className="absolute top-[10%] sm:top-[22%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.28]"
           style={{ background: "radial-gradient(ellipse at 50% 55%, #D2FF14 0%, transparent 45%)" }}
         />
         <div
@@ -41,20 +41,12 @@ export default function Hero() {
               className="h-auto w-[60%] sm:w-[38%]"
               style={{ filter: GREEN_FILTER, mixBlendMode: "screen", transform: "rotate(-8deg)" }}
             />
-            <div
+            <img
+              src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
+              alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
-              style={{
-                WebkitMaskImage: "linear-gradient(to bottom, black 55%, transparent 68%)",
-                maskImage: "linear-gradient(to bottom, black 55%, transparent 68%)",
-              }}
-            >
-              <img
-                src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
-                alt="Unhinged Development Group"
-                className="h-auto w-full"
-                style={{ filter: "invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 32px rgba(210, 255, 20, 0.75)) drop-shadow(0 4px 12px rgba(210, 255, 20, 0.50))", mixBlendMode: "screen" }}
-              />
-            </div>
+              style={{ filter: "invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 32px rgba(210, 255, 20, 0.75))", mixBlendMode: "screen" }}
+            />
           </div>
         </div>
       </section>
