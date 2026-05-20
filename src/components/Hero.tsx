@@ -29,8 +29,8 @@ export default function Hero() {
       {/* Hero content */}
       <section className="relative z-10 flex flex-1 flex-col items-center justify-start pt-8 sm:justify-center sm:pt-0 px-4 sm:px-8 lg:px-16">
         <div
-          className={`flex w-full flex-col items-center transition-all duration-700 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          className={`flex w-full flex-col items-center transition-transform duration-700 ${
+            mounted ? "translate-y-0" : "translate-y-6"
           }`}
         >
           <div className="flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
