@@ -29,11 +29,10 @@ export default function ScotlandPulse() {
           stroke-width: 4;
           stroke-linecap: round;
           stroke-linejoin: round;
-          /* Several small pulses spaced along the path (cycle = 350 + 3650 =
-             4000) so a pulse passes any given point more often, while the
-             10s animation duration keeps each individual pulse moving
-             slowly. */
-          stroke-dasharray: 350 3650;
+          /* 0.8s pause between pulses at any given point:
+             speed = 16000 / 10s = 1600 px/s, so a 1280-unit gap takes
+             1280 / 1600 = 0.8s to pass. Pulse width 350 → ~0.22s lit. */
+          stroke-dasharray: 350 1280;
           animation: scot-trace 10s linear infinite;
         }
       `}</style>
