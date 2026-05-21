@@ -15,6 +15,8 @@
 
   body {
     @apply bg-ink-950 text-zinc-100 antialiased;
+    touch-action: pan-y pinch-zoom;
+    overscroll-behavior-x: contain;
   }
 
   ::selection {
