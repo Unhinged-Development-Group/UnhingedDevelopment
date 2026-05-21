@@ -9,14 +9,6 @@ const LOGO_URL =
 const LOGO_GREEN_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/e_negate/co_rgb:D2FF14,e_colorize:100/v1778965077/IMG_0772_l4ddjj.png";
 
-// Soft yellow-green glow that marks the active nav link — compensates for
-// removing the per-page eyebrow heading so the current page is still
-// obvious at a glance.
-const ACTIVE_GLOW: CSSProperties = {
-  textShadow:
-    "0 0 8px rgba(210, 255, 20, 0.9), 0 0 22px rgba(210, 255, 20, 0.55)",
-};
-
 const DRAWER_WIDTH = 288;     // matches w-72
 const EDGE_HIT = 24;          // px from left edge that arms the open gesture
 const ACTIVATION = 8;         // horizontal px before we hijack the touch
@@ -167,9 +159,9 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             ← Home
           </Link>
         )}
-        <Link href="/who-we-are" onClick={() => setMenuOpen(false)} className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity" style={isActive("/who-we-are") ? ACTIVE_GLOW : undefined}>Who we are</Link>
-        <Link href="/projects" onClick={() => setMenuOpen(false)} className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity" style={isActive("/projects") ? ACTIVE_GLOW : undefined}>Projects</Link>
-        <Link href="/contact" onClick={() => setMenuOpen(false)} className="font-bitcount text-3xl font-light text-unhinged-green hover:opacity-70 transition-opacity" style={isActive("/contact") ? ACTIVE_GLOW : undefined}>Contact us</Link>
+        <Link href="/who-we-are" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light hover:opacity-70 transition-opacity ${isActive("/who-we-are") ? "text-white" : "text-unhinged-green"}`}>Who we are</Link>
+        <Link href="/projects" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light hover:opacity-70 transition-opacity ${isActive("/projects") ? "text-white" : "text-unhinged-green"}`}>Projects</Link>
+        <Link href="/contact" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light hover:opacity-70 transition-opacity ${isActive("/contact") ? "text-white" : "text-unhinged-green"}`}>Contact us</Link>
         <div className="mt-4 border-t border-zinc-800 pt-6">
           <Link
             href="/portal"
@@ -228,9 +220,9 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
 
           {/* Desktop nav links */}
           <div className="hidden sm:flex items-center gap-7">
-            <Link href="/who-we-are" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity" style={isActive("/who-we-are") ? ACTIVE_GLOW : undefined}>Who we are</Link>
-            <Link href="/projects" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity" style={isActive("/projects") ? ACTIVE_GLOW : undefined}>Projects</Link>
-            <Link href="/contact" className="font-bitcount text-[22px] font-light text-unhinged-green hover:opacity-80 transition-opacity" style={isActive("/contact") ? ACTIVE_GLOW : undefined}>Contact us</Link>
+            <Link href="/who-we-are" className={`font-bitcount text-[22px] font-light hover:opacity-80 transition-opacity ${isActive("/who-we-are") ? "text-white" : "text-unhinged-green"}`}>Who we are</Link>
+            <Link href="/projects" className={`font-bitcount text-[22px] font-light hover:opacity-80 transition-opacity ${isActive("/projects") ? "text-white" : "text-unhinged-green"}`}>Projects</Link>
+            <Link href="/contact" className={`font-bitcount text-[22px] font-light hover:opacity-80 transition-opacity ${isActive("/contact") ? "text-white" : "text-unhinged-green"}`}>Contact us</Link>
           </div>
         </div>
 
