@@ -108,6 +108,20 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
 
   return (
     <>
+      {/* Edge-swipe absorber: 24px-wide transparent strip with touch-action:none
+         so iOS Safari cannot start its system-level back-swipe gesture here.
+         Only active on mobile and only while the drawer is closed (drawer
+         covers this strip when open so it does not block close gestures). */}
+      <div
+        aria-hidden
+        className="fixed top-0 left-0 h-full w-6 z-[25] sm:hidden"
+        style={{
+          touchAction: "none",
+          pointerEvents: menuOpen ? "none" : "auto",
+          background: "transparent",
+        }}
+      />
+
       {/* Backdrop */}
       <div
         className="fixed inset-0 z-20 bg-black/60 backdrop-blur-sm sm:hidden"
