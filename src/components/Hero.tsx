@@ -16,8 +16,9 @@ export default function Hero() {
     <>
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Mobile glow — broad, centered behind the stacked orb + wordmark */}
         <div
-          className="absolute top-[22%] sm:top-[32%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.28]"
+          className="absolute top-[22%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.28] sm:hidden"
           style={{ background: "radial-gradient(350px 160px at 50% 50%, #D2FF14 0%, transparent 100%)" }}
         />
         <div
@@ -33,7 +34,17 @@ export default function Hero() {
             mounted ? "translate-y-0" : "translate-y-6"
           }`}
         >
-          <div className="flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
+          <div className="relative flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
+            {/* Desktop glow — sits behind the wordmark only.
+               Lives inside the max-w-3xl container so it tracks the wordmark
+               at any viewport width. Wordmark spans roughly 40%-98% of the
+               container, so we centre the glow at ~69% with a tighter ellipse
+               and let the bleed extend a bit past the right edge. */}
+            <div
+              aria-hidden
+              className="hidden sm:block pointer-events-none absolute top-1/2 left-[69%] -translate-x-1/2 -translate-y-1/2 h-[360px] w-[560px] opacity-[0.28] -z-10"
+              style={{ background: "radial-gradient(260px 140px at 50% 50%, #D2FF14 0%, transparent 100%)" }}
+            />
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
