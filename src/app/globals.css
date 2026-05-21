@@ -15,8 +15,16 @@
 
   body {
     @apply bg-ink-950 text-zinc-100 antialiased;
-    touch-action: pan-y pinch-zoom;
     overscroll-behavior-x: contain;
+  }
+
+  /* touch-action does not inherit; apply to every element so iOS Safari
+     never claims a horizontal swipe regardless of which child the finger
+     happens to land on. */
+  *,
+  *::before,
+  *::after {
+    touch-action: pan-y pinch-zoom;
   }
 
   ::selection {
