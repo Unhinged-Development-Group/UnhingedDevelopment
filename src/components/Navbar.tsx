@@ -1,16 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 const LOGO_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png";
 const LOGO_GREEN_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/e_negate/co_rgb:D2FF14,e_colorize:100/v1778965077/IMG_0772_l4ddjj.png";
 
+const DRAWER_WIDTH = 288;     // matches w-72
+const EDGE_HIT = 24;          // px from left edge that arms the open gesture
+const ACTIVATION = 8;         // horizontal px before we hijack the touch
+const VERT_SLOP = 10;         // vertical px that releases the gesture as a scroll
+const OPEN_FRAC = 0.4;        // dragged past this fraction = snap open
+const FLING = 0.5;            // px/ms past this velocity = snap in fling direction
+const SM_BREAKPOINT = 640;
+
 export default function Navbar({ isHome = false }: { isHome?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showGreen, setShowGreen] = useState(false);
+  const [dragX, setDragX] = useState<number | null>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -22,21 +32,100 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
     return () => clearTimeout(timer);
   }, [menuOpen]);
 
+  useEffect(() => {
+    let mode: "edge" | "drawer" | null = null;
+    let startX = 0, startY = 0, startT = 0;
+    let lastX = 0, lastT = 0;
+    let activated = false;
+
+    const onStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      if (window.innerWidth >= SM_BREAKPOINT) return;
+      const t = e.touches[0];
+      const drawer = drawerRef.current;
+      const onDrawer = !!(drawer && drawer.contains(e.target as Node));
+      if (!menuOpen && t.clientX <= EDGE_HIT) mode = "edge";
+      else if (menuOpen && onDrawer) mode = "drawer";
+      else { mode = null; return; }
+      startX = t.clientX; startY = t.clientY; startT = e.timeStamp;
+      lastX = startX; lastT = startT;
+      activated = false;
+    };
+
+    const onMove = (e: TouchEvent) => {
+      if (mode === null) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (!activated) {
+        if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > VERT_SLOP) { mode = null; return; }
+        if (Math.abs(dx) < ACTIVATION) return;
+        activated = true;
+      }
+      // Steal the gesture from the browser's edge-swipe back navigation
+      e.preventDefault();
+      const next = mode === "edge"
+        ? Math.max(-DRAWER_WIDTH, Math.min(0, -DRAWER_WIDTH + dx))
+        : Math.max(-DRAWER_WIDTH, Math.min(0, dx));
+      setDragX(next);
+      lastX = t.clientX; lastT = e.timeStamp;
+    };
+
+    const onEnd = () => {
+      if (mode !== null && activated) {
+        const dx = lastX - startX;
+        const dt = lastT - startT;
+        const v = dt > 0 ? dx / dt : 0;
+        const shouldOpen = mode === "edge"
+          ? (dx > DRAWER_WIDTH * OPEN_FRAC || v > FLING)
+          : (dx > -DRAWER_WIDTH * (1 - OPEN_FRAC) && v > -FLING);
+        setMenuOpen(shouldOpen);
+      }
+      mode = null;
+      activated = false;
+      setDragX(null);
+    };
+
+    window.addEventListener("touchstart", onStart, { passive: true });
+    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("touchend", onEnd);
+    window.addEventListener("touchcancel", onEnd);
+    return () => {
+      window.removeEventListener("touchstart", onStart);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onEnd);
+      window.removeEventListener("touchcancel", onEnd);
+    };
+  }, [menuOpen]);
+
+  const dragging = dragX !== null;
+  const drawerStyle: CSSProperties | undefined = dragging
+    ? { transform: `translateX(${dragX}px)`, transition: "none" }
+    : undefined;
+  const backdropProgress = dragging
+    ? Math.max(0, Math.min(1, (DRAWER_WIDTH + (dragX ?? 0)) / DRAWER_WIDTH))
+    : (menuOpen ? 1 : 0);
+
   return (
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-20 bg-black/60 backdrop-blur-sm transition-opacity duration-300 sm:hidden ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className="fixed inset-0 z-20 bg-black/60 backdrop-blur-sm sm:hidden"
+        style={{
+          opacity: backdropProgress,
+          pointerEvents: backdropProgress > 0 ? "auto" : "none",
+          transition: dragging ? "none" : "opacity 300ms",
+        }}
         onClick={() => setMenuOpen(false)}
       />
 
       {/* Left drawer */}
       <div
+        ref={drawerRef}
         className={`fixed top-0 left-0 h-full z-30 w-72 bg-ink-900 border-r border-zinc-800 flex flex-col px-8 pt-28 pb-10 gap-6 transition-transform duration-300 ease-in-out sm:hidden ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
+          dragging ? "" : (menuOpen ? "translate-x-0" : "-translate-x-full")
         }`}
+        style={drawerStyle}
       >
         {!isHome && (
           <Link
