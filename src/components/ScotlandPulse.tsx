@@ -9,7 +9,7 @@ export default function ScotlandPulse() {
     <svg
       viewBox="75 700 390 520"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full"
+      className="h-full w-auto"
       aria-hidden="true"
     >
       <style>{`
@@ -30,7 +30,7 @@ export default function ScotlandPulse() {
           stroke-linecap: round;
           stroke-linejoin: round;
           stroke-dasharray: 400 15600;
-          animation: scot-trace 8s linear infinite;
+          animation: scot-trace 5.5s linear infinite;
         }
       `}</style>
       <g style={{ filter: 'drop-shadow(0 0 10px rgba(210,255,20,0.5))' }}>
