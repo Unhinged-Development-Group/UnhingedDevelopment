@@ -67,7 +67,7 @@ export default function AccountSetup() {
   return (
     <div className="flex min-h-screen flex-col">
       <nav className="flex items-center justify-between px-6 py-6 sm:px-10">
-        <span className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">UDG Staff Portal</span>
+        <span className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">UDG Team Portal</span>
       </nav>
 
       <div className="flex flex-1 items-center justify-center px-4 pb-20">
