@@ -13,8 +13,15 @@ export default function ScotlandPulse() {
       aria-hidden="true"
     >
       <style>{`
+        /* Single pulse cycle:
+           0..91% of duration moves the lone dash from start to fully
+           off the far end of the path; 91..100% holds it off-path
+           (= 0.8s of darkness) before the next pulse appears at the
+           start. */
         @keyframes scot-trace {
-          to { stroke-dashoffset: -16000; }
+          0%   { stroke-dashoffset: 0; }
+          91%  { stroke-dashoffset: -16400; }
+          100% { stroke-dashoffset: -16400; }
         }
         .scot-base {
           fill: none;
@@ -29,11 +36,10 @@ export default function ScotlandPulse() {
           stroke-width: 4;
           stroke-linecap: round;
           stroke-linejoin: round;
-          /* 0.8s pause between pulses at any given point:
-             speed = 16000 / 10s = 1600 px/s, so a 1280-unit gap takes
-             1280 / 1600 = 0.8s to pass. Pulse width 350 → ~0.22s lit. */
-          stroke-dasharray: 350 1280;
-          animation: scot-trace 10s linear infinite;
+          /* Gap (16000) > path length so only one dash is on the path
+             at any time. */
+          stroke-dasharray: 400 16000;
+          animation: scot-trace 8.8s linear infinite;
         }
       `}</style>
       <g style={{ filter: 'drop-shadow(0 0 10px rgba(210,255,20,0.5))' }}>
