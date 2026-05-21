@@ -108,19 +108,17 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
 
   return (
     <>
-      {/* Edge-swipe absorber: transparent strip pinned to the left edge with
-         touch-action:none so iOS Safari cannot start its system-level
-         back-swipe gesture. Sits at z-[50] — above the navbar (z-40) — so it
-         is the topmost element along the entire left edge; the navbar's
-         touch-action:pan-y was not strong enough on iOS to veto the gesture
-         on its own. Width is 32px so the iOS gesture zone is fully covered
-         (the logo button starts at x=24 due to px-6 nav padding, so the
-         strip overlaps the logo's left 8px — still ~32px of tap area left).
-         Disabled while the drawer is open so close-drag touches reach the
-         drawer underneath. */}
+      {/* Edge-swipe absorber: 24px transparent strip with touch-action:none
+         so iOS Safari cannot start its system back-swipe. Sits at z-[50]
+         (above the navbar at z-40) so it owns the entire left edge — the
+         navbar's inherited pan-y was not enough on iOS to veto the gesture
+         on its own. Width matches the EDGE_HIT constant in the drag handler
+         so there is no dead zone between "strip catches the touch" and
+         "JS recognises an edge swipe". Disabled while the drawer is open so
+         close-drag touches fall through to the drawer underneath. */}
       <div
         aria-hidden
-        className="fixed top-0 left-0 h-full w-8 z-[50] sm:hidden"
+        className="fixed top-0 left-0 h-full w-6 z-[50] sm:hidden"
         style={{
           touchAction: "none",
           pointerEvents: menuOpen ? "none" : "auto",
