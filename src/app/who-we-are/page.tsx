@@ -18,10 +18,6 @@ export default function WhoWeArePage() {
           <div className="flex flex-col lg:flex-row lg:items-start gap-12 lg:gap-16">
 
             <div className="flex-1 min-w-0">
-              <p className="font-bitcount font-light text-unhinged-green text-sm tracking-widest uppercase mb-6">
-                Who we are
-              </p>
-
               <h1 className="font-bitcount text-5xl sm:text-7xl font-light text-white leading-tight mb-10">
                 Built<br />differently.
               </h1>
@@ -45,7 +41,7 @@ export default function WhoWeArePage() {
               </div>
             </div>
 
-            <div className="hidden lg:flex lg:items-start lg:justify-center shrink-0 w-40 pt-6">
+            <div className="hidden lg:flex lg:items-start lg:justify-center shrink-0 lg:h-72 pt-2">
               <ScotlandPulse />
             </div>
 
