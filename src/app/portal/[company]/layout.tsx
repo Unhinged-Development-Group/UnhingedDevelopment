@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import Link from "next/link";
 import { createClient, COMPANY_LABELS, type CompanyKey } from "@/lib/supabase";
@@ -55,6 +55,19 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
     isAdmin: boolean;
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectorOpen, setSelectorOpen] = useState(false);
+  const selectorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!selectorOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
+        setSelectorOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [selectorOpen]);
 
   useEffect(() => {
     (async () => {
@@ -139,19 +152,37 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
           </Link>
           <span className="h-4 w-px bg-zinc-800" />
           {user?.isAdmin ? (
-            <div className="relative flex items-center">
-              <select
-                value={company}
-                onChange={(e) => router.push(`/portal/${e.target.value}`)}
-                className="appearance-none bg-transparent text-sm font-medium text-zinc-300 border-none outline-none cursor-pointer pr-5 hover:text-white transition-colors"
+            <div className="relative" ref={selectorRef}>
+              <button
+                onClick={() => setSelectorOpen((o) => !o)}
+                className="flex items-center gap-2 text-sm font-medium text-zinc-300 hover:text-white transition-colors"
               >
-                {COMPANIES.map(({ key, short }) => (
-                  <option key={key} value={key} style={{ backgroundColor: "#09090b", color: "#d4d4d8" }}>
-                    {short}
-                  </option>
-                ))}
-              </select>
-              <UDGIcon name="chevron-down" className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-500" accentColor="#D2FF14" />
+                {COMPANIES.find((c) => c.key === company)?.short ?? company}
+                <UDGIcon
+                  name="chevron-down"
+                  className={`h-3 w-3 text-zinc-500 transition-transform duration-200 ${selectorOpen ? "rotate-180" : ""}`}
+                  accentColor="#D2FF14"
+                />
+              </button>
+              {selectorOpen && (
+                <div className="absolute top-full left-0 z-50 mt-2 w-64 overflow-hidden rounded-xl border border-zinc-800 bg-ink-950 shadow-2xl">
+                  {COMPANIES.map(({ key, short }) => (
+                    <button
+                      key={key}
+                      onClick={() => { router.push(`/portal/${key}`); setSelectorOpen(false); }}
+                      className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium transition-colors ${
+                        key === company
+                          ? "bg-zinc-800/80 text-white"
+                          : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                      }`}
+                    >
+                      {key === company && <span className="h-1.5 w-1.5 rounded-full bg-unhinged-green shrink-0" />}
+                      {key !== company && <span className="h-1.5 w-1.5 shrink-0" />}
+                      {short}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <Link href={`/portal/${company}`} className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
