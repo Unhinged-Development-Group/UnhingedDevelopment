@@ -9,7 +9,7 @@ const PULSE_STROKE = 0.9;
 // Trail length as a fraction of total path length — stays consistent if the
 // source SVG is swapped.
 const PULSE_FRACTION = 0.025;
-const TRAVERSAL_S = 8;
+const TRAVERSAL_S = 5;
 const PAUSE_S = 0.8;
 
 export default function ScotlandPulse() {

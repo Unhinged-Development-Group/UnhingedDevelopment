@@ -138,6 +138,70 @@ def clockwise_angle(cx, cy, px, py):
     return angle
 
 
+# ── bounding-box estimator ─────────────────────────────────────────────────
+
+def approx_bbox(sp, tx, ty):
+    """
+    Walk a single subpath's tokens tracking the cursor.
+    Returns (x0, x1, y0, y1) in the transformed (viewBox) coordinate space.
+    Cubic control points are ignored; only endpoint coords are collected.
+    """
+    toks = sp['slice']
+    cx, cy = sp['start']
+    sx, sy = cx, cy
+    xs = [cx + tx]
+    ys = [cy + ty]
+
+    i = 3          # skip original M x y — we already have the abs start
+    n = len(toks)
+
+    while i < n:
+        cmd = toks[i]; i += 1
+
+        if cmd in ('M', 'm'):
+            x, y = float(toks[i]), float(toks[i + 1]); i += 2
+            if cmd == 'M': cx, cy = x, y
+            else:          cx += x; cy += y
+            sx, sy = cx, cy
+            xs.append(cx + tx); ys.append(cy + ty)
+            while i < n and not toks[i].isalpha():
+                x, y = float(toks[i]), float(toks[i + 1]); i += 2
+                if cmd == 'm': cx += x; cy += y
+                else:          cx, cy = x, y
+                xs.append(cx + tx); ys.append(cy + ty)
+
+        elif cmd in ('C', 'c'):
+            while i < n and not toks[i].isalpha():
+                nums = [float(toks[i + j]) for j in range(6)]; i += 6
+                if cmd == 'c': cx += nums[4]; cy += nums[5]
+                else:          cx, cy = nums[4], nums[5]
+                xs.append(cx + tx); ys.append(cy + ty)
+
+        elif cmd in ('L', 'l'):
+            while i < n and not toks[i].isalpha():
+                x, y = float(toks[i]), float(toks[i + 1]); i += 2
+                if cmd == 'l': cx += x; cy += y
+                else:          cx, cy = x, y
+                xs.append(cx + tx); ys.append(cy + ty)
+
+        elif cmd in ('H', 'h'):
+            while i < n and not toks[i].isalpha():
+                v = float(toks[i]); i += 1
+                cx = cx + v if cmd == 'h' else v
+                xs.append(cx + tx); ys.append(cy + ty)
+
+        elif cmd in ('V', 'v'):
+            while i < n and not toks[i].isalpha():
+                v = float(toks[i]); i += 1
+                cy = cy + v if cmd == 'v' else v
+                xs.append(cx + tx); ys.append(cy + ty)
+
+        elif cmd in ('Z', 'z'):
+            cx, cy = sx, sy
+
+    return min(xs), max(xs), min(ys), max(ys)
+
+
 # ── subpath serialiser ─────────────────────────────────────────────────────
 
 def render_subpath(sp, tx, ty):
@@ -214,6 +278,22 @@ def main():
     visible = [s for s in islands if in_viewbox(s)]
     dropped = len(islands) - len(visible)
     print(f"Islands: keeping {len(visible)}, dropping {dropped} (out of viewBox / bad position)")
+
+    # Drop islands whose approximate bounding box has an extreme aspect ratio.
+    # A ratio > 4x indicates a cursor-tracking artefact (path renders as a
+    # thin line rather than a closed island shape).
+    MAX_ASPECT = 4.0
+    def reasonable_aspect(sp):
+        x0, x1, y0, y1 = approx_bbox(sp, tx, ty)
+        w = max(x1 - x0, 0.01)
+        h = max(y1 - y0, 0.01)
+        return max(w, h) / min(w, h) <= MAX_ASPECT
+
+    valid = [s for s in visible if reasonable_aspect(s)]
+    aspect_dropped = len(visible) - len(valid)
+    if aspect_dropped:
+        print(f"Islands: dropping {aspect_dropped} with aspect ratio > {MAX_ASPECT}x (artefacts)")
+    visible = valid
 
     # Sort visible islands clockwise from their centroid
     if visible:
