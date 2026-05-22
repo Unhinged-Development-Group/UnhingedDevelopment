@@ -21,10 +21,6 @@ export default function Hero() {
           className="absolute top-[22%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.28] sm:hidden"
           style={{ background: "radial-gradient(350px 160px at 50% 50%, #D2FF14 0%, transparent 100%)" }}
         />
-        <div
-          className="absolute -bottom-60 -left-40 h-[500px] w-[500px] rounded-full opacity-[0.12]"
-          style={{ background: "radial-gradient(circle, #a8cc00 0%, transparent 70%)" }}
-        />
       </div>
 
       {/* Hero content */}
