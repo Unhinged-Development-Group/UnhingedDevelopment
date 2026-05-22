@@ -145,6 +145,7 @@ export default function AccountPage() {
       className="w-full px-6 py-10 sm:px-10"
       style={theme ? { backgroundColor: theme.bg, fontFamily: theme.font } : {}}
     >
+      <div className="max-w-lg">
       <h1
         className={theme ? "mb-8 text-xl font-bold" : "mb-8 text-xl font-bold text-white"}
         style={theme ? { color: theme.textH } : {}}
@@ -232,6 +233,7 @@ export default function AccountPage() {
         style={theme ? { border: `1px solid ${theme.signOutBorder}`, color: theme.signOutText } : {}}>
         Sign out
       </button>
+      </div>
     </div>
   );
 }
