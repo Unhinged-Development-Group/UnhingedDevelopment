@@ -50,7 +50,7 @@ export default function ScotlandPulse() {
     <svg
       viewBox={SCOTLAND_VIEWBOX}
       xmlns="http://www.w3.org/2000/svg"
-      className="h-full w-auto"
+      className="h-full w-full"
       aria-hidden="true"
     >
       <style>{styleBlock}</style>

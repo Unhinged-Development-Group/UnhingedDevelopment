@@ -41,7 +41,7 @@ export default function WhoWeArePage() {
               </div>
             </div>
 
-            <div className="hidden lg:flex lg:self-center lg:justify-center shrink-0 lg:h-[480px]">
+            <div className="hidden lg:flex lg:self-center lg:justify-center shrink-0 lg:h-[480px] lg:w-[360px] overflow-hidden">
               <ScotlandPulse />
             </div>
 
