@@ -40,7 +40,7 @@ export default function ProjectsPage() {
           </p>
 
           <h1 className="font-bitcount text-5xl sm:text-7xl font-light text-white leading-tight mb-12">
-            What we&apos;re<br />building.
+            What we&apos;re<br />building<span className="text-unhinged-green">.</span>
           </h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

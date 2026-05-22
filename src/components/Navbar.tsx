@@ -159,9 +159,9 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             ← Home
           </Link>
         )}
-        <Link href="/who-we-are" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light hover:opacity-70 transition-opacity ${isActive("/who-we-are") ? "text-white" : "text-unhinged-green"}`}>Who we are</Link>
-        <Link href="/projects" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light hover:opacity-70 transition-opacity ${isActive("/projects") ? "text-white" : "text-unhinged-green"}`}>Projects</Link>
-        <Link href="/contact" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light hover:opacity-70 transition-opacity ${isActive("/contact") ? "text-white" : "text-unhinged-green"}`}>Contact us</Link>
+        <Link href="/who-we-are" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light ${isActive("/who-we-are") ? "text-white" : "text-unhinged-green"}`}>Who we are</Link>
+        <Link href="/projects" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light ${isActive("/projects") ? "text-white" : "text-unhinged-green"}`}>Projects</Link>
+        <Link href="/contact" onClick={() => setMenuOpen(false)} className={`font-bitcount text-3xl font-light ${isActive("/contact") ? "text-white" : "text-unhinged-green"}`}>Contact us</Link>
         <div className="mt-4 border-t border-zinc-800 pt-6">
           <Link
             href="/portal"
@@ -220,9 +220,9 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
 
           {/* Desktop nav links */}
           <div className="hidden sm:flex items-center gap-7">
-            <Link href="/who-we-are" className={`font-bitcount text-[22px] font-light hover:opacity-80 transition-opacity ${isActive("/who-we-are") ? "text-white" : "text-unhinged-green"}`}>Who we are</Link>
-            <Link href="/projects" className={`font-bitcount text-[22px] font-light hover:opacity-80 transition-opacity ${isActive("/projects") ? "text-white" : "text-unhinged-green"}`}>Projects</Link>
-            <Link href="/contact" className={`font-bitcount text-[22px] font-light hover:opacity-80 transition-opacity ${isActive("/contact") ? "text-white" : "text-unhinged-green"}`}>Contact us</Link>
+            <Link href="/who-we-are" className={`font-bitcount text-[22px] font-light ${isActive("/who-we-are") ? "text-white" : "text-unhinged-green"}`}>Who we are</Link>
+            <Link href="/projects" className={`font-bitcount text-[22px] font-light ${isActive("/projects") ? "text-white" : "text-unhinged-green"}`}>Projects</Link>
+            <Link href="/contact" className={`font-bitcount text-[22px] font-light ${isActive("/contact") ? "text-white" : "text-unhinged-green"}`}>Contact us</Link>
           </div>
         </div>
 

@@ -20,7 +20,7 @@ export default function ContactPage() {
           </p>
 
           <h1 className="font-bitcount text-5xl sm:text-6xl font-light text-white leading-tight mb-4">
-            Let&apos;s talk.
+            Let&apos;s talk<span className="text-unhinged-green">.</span>
           </h1>
           <p className="text-zinc-400 text-sm sm:text-base mb-10">
             Got a project in mind, a question, or just want to say hello? Drop us a message.

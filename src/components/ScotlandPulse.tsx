@@ -10,7 +10,6 @@ const PULSE_STROKE = 0.9;
 // source SVG is swapped.
 const PULSE_FRACTION = 0.025;
 const TRAVERSAL_S = 5;
-const PAUSE_S = 0.8;
 
 export default function ScotlandPulse() {
   const pulseRef = useRef<SVGPathElement>(null);
@@ -23,8 +22,6 @@ export default function ScotlandPulse() {
   }, []);
 
   const dashLen = length ? length * PULSE_FRACTION : 0;
-  const totalS = TRAVERSAL_S + PAUSE_S;
-  const movePct = (TRAVERSAL_S / totalS) * 100;
 
   // Keyframes must be re-emitted as a <style> block because @keyframes
   // can't reference CSS custom properties for offset values.
@@ -32,7 +29,6 @@ export default function ScotlandPulse() {
     ? `
         @keyframes scot-trace {
           0%   { stroke-dashoffset: 0; }
-          ${movePct.toFixed(2)}% { stroke-dashoffset: -${length + dashLen}; }
           100% { stroke-dashoffset: -${length + dashLen}; }
         }
       `
@@ -41,7 +37,7 @@ export default function ScotlandPulse() {
   const pulseStyle: CSSProperties = length
     ? {
         strokeDasharray: `${dashLen} ${length}`,
-        animation: `scot-trace ${totalS}s linear infinite`,
+        animation: `scot-trace ${TRAVERSAL_S}s linear infinite`,
       }
     : { strokeDasharray: "0 999999" };
 

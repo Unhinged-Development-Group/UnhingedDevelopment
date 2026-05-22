@@ -19,7 +19,7 @@ export default function WhoWeArePage() {
 
             <div className="flex-1 min-w-0">
               <h1 className="font-bitcount text-5xl sm:text-7xl font-light text-white leading-tight mb-10">
-                Built<br />differently.
+                Built<br />differently<span className="text-unhinged-green">.</span>
               </h1>
 
               <div className="space-y-5 text-zinc-300 text-base sm:text-lg leading-relaxed">
