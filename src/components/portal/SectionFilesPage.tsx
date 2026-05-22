@@ -151,6 +151,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   const [moveNavItems, setMoveNavItems] = useState<StorageItem[]>([]);
   const [moveNavLoading, setMoveNavLoading] = useState(false);
   const [moving, setMoving] = useState(false);
+  const [moveError, setMoveError] = useState<string | null>(null);
 
   // Lock modal (set / change / remove password on a folder)
   const [lockFolder, setLockFolder] = useState<string | null>(null);
@@ -383,38 +384,59 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
   // ── Move operations ────────────────────────────────────────────────────────
 
+  // Move a single storage file by downloading then re-uploading.
+  // Avoids the .move() API which requires an RLS "update" policy that is often not configured.
+  async function transferFile(src: string, dest: string): Promise<void> {
+    const { data: blob, error: dlErr } = await supabase.storage.from(BUCKET).download(src);
+    if (dlErr || !blob) throw new Error(`Download failed: ${dlErr?.message ?? "unknown"}`);
+    const fileName = src.split("/").pop() ?? "file";
+    const { error: ulErr } = await supabase.storage.from(BUCKET).upload(dest, blob, {
+      contentType: mimeFromName(fileName),
+      upsert: true,
+    });
+    if (ulErr) throw new Error(`Upload failed: ${ulErr.message}`);
+    const { error: rmErr } = await supabase.storage.from(BUCKET).remove([src]);
+    if (rmErr) throw new Error(`Delete failed: ${rmErr.message}`);
+  }
+
   async function commitMove() {
     if (!moveItem) return;
     setMoving(true);
-    const srcPath = `${currentPath}/${moveItem.name}`;
-    const destPath = `${moveNavPath}/${moveItem.name}`;
+    setMoveError(null);
+    try {
+      const srcPath = `${currentPath}/${moveItem.name}`;
+      const destPath = `${moveNavPath}/${moveItem.name}`;
 
-    if (moveItem.isFolder) {
-      const files = await listAllFiles(srcPath);
-      for (const f of files) {
-        const dest = destPath + f.slice(srcPath.length);
-        await supabase.storage.from(BUCKET).move(f, dest);
+      if (moveItem.isFolder) {
+        const files = await listAllFiles(srcPath);
+        for (const f of files) {
+          const dest = destPath + f.slice(srcPath.length);
+          await transferFile(f, dest);
+        }
+        // Update meta keys if folder had password meta
+        const oldRel = relPath(moveItem.name);
+        const newRelBase = moveNavCrumbs.length > 0
+          ? `${moveNavCrumbs.join("/")}/${moveItem.name}`
+          : moveItem.name;
+        const affected = Object.entries(folderMeta).filter(
+          ([k]) => k === oldRel || k.startsWith(oldRel + "/")
+        );
+        for (const [oldKey] of affected) {
+          const newKey = newRelBase + oldKey.slice(oldRel.length);
+          await supabase.from("portal_folder_meta")
+            .update({ folder_path: newKey })
+            .eq("company", company).eq("section", section).eq("folder_path", oldKey);
+        }
+      } else {
+        await transferFile(srcPath, destPath);
       }
-      // Update meta keys if folder had meta
-      const oldRel = relPath(moveItem.name);
-      const newRelBase = moveNavCrumbs.length > 0
-        ? `${moveNavCrumbs.join("/")}/${moveItem.name}`
-        : moveItem.name;
-      const affected = Object.entries(folderMeta).filter(
-        ([k]) => k === oldRel || k.startsWith(oldRel + "/")
-      );
-      for (const [oldKey, hash] of affected) {
-        const newKey = newRelBase + oldKey.slice(oldRel.length);
-        await supabase.from("portal_folder_meta")
-          .update({ folder_path: newKey })
-          .eq("company", company).eq("section", section).eq("folder_path", oldKey);
-        void hash;
-      }
-    } else {
-      await supabase.storage.from(BUCKET).move(srcPath, destPath);
+      setMoveItem(null);
+      await loadItems(); await loadMeta();
+    } catch (err) {
+      setMoveError(err instanceof Error ? err.message : "Move failed — please try again.");
+    } finally {
+      setMoving(false);
     }
-    setMoveItem(null); setMoving(false);
-    await loadItems(); await loadMeta();
   }
 
   // ── Lock / unlock operations ───────────────────────────────────────────────
@@ -679,7 +701,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                         </svg>
                       </button>
                       {/* Move */}
-                      <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: true }); setMoveNavCrumbs([]); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
+                      <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: true }); setMoveNavCrumbs([]); setMoveError(null); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
                         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
                       </button>
                       {isAdmin && (
@@ -695,7 +717,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                       </button>
                       {/* Move */}
-                      <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: false }); setMoveNavCrumbs([]); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
+                      <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: false }); setMoveNavCrumbs([]); setMoveError(null); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
                         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
                       </button>
                       {isAdmin && (
@@ -763,6 +785,9 @@ export default function SectionFilesPage({ section, label }: { section: string; 
               )}
             </div>
 
+            {moveError && (
+              <p className="mb-3 text-xs rounded-lg px-3 py-2 bg-red-500/10 text-red-400">{moveError}</p>
+            )}
             <div className="flex gap-2">
               <button onClick={commitMove} disabled={moving || moveNavPath === currentPath}
                 className="flex-1 rounded-xl py-2 text-sm font-medium transition-all disabled:opacity-40"
@@ -771,7 +796,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                   : { backgroundColor: "#D2FF14", color: "#030303" }}>
                 {moving ? "Moving…" : `Move here`}
               </button>
-              <button onClick={() => setMoveItem(null)}
+              <button onClick={() => { setMoveItem(null); setMoveError(null); }}
                 className="rounded-xl px-4 py-2 text-sm transition-colors"
                 style={{ color: theme ? theme.textMuted : "rgb(113,113,122)" }}>
                 Cancel
