@@ -655,7 +655,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
         <>
           {/* ── Folder squares ───────────────────────────────────── */}
           {items.some((i) => i.id === null) && (
-            <div className="mb-4 grid grid-cols-4 gap-2 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9">
+            <div className="mb-4 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
               {items.filter((i) => i.id === null).map((item) => {
                 const rel = relPath(item.name);
                 const isLocked = !!folderMeta[rel];
@@ -667,7 +667,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     key={item.name}
                     className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-xl p-2.5 transition-all"
                     style={theme
-                      ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
+                      ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}`, boxShadow: "0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)" }
                       : { backgroundColor: "rgb(39,39,42)", border: "1px solid rgb(63,63,70)" }}
                     onClick={() => renamingFolder !== item.name && tryOpenFolder(item.name)}
                   >
