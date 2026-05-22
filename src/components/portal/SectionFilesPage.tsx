@@ -668,7 +668,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-xl p-2.5 transition-all"
                     style={theme
                       ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
-                      : { backgroundColor: "rgb(24,24,27)", border: "1px solid rgb(39,39,42)" }}
+                      : { backgroundColor: "rgb(39,39,42)", border: "1px solid rgb(63,63,70)" }}
                     onClick={() => renamingFolder !== item.name && tryOpenFolder(item.name)}
                   >
                     {/* Hover actions – top-right corner */}
@@ -762,7 +762,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-lg p-2 transition-all"
                     style={theme
                       ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
-                      : { backgroundColor: "rgb(24,24,27)", border: "1px solid rgb(39,39,42)" }}
+                      : { backgroundColor: "rgb(39,39,42)", border: "1px solid rgb(63,63,70)" }}
                     onClick={() => openFile(item.name, mime)}
                   >
                     {/* Hover actions */}

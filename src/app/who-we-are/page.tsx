@@ -36,7 +36,7 @@ export default function WhoWeArePage() {
                   We care about the details and we&apos;re not interested in shipping something we wouldn&apos;t use.
                 </p>
                 <p>
-                  Registered in Scotland. Built for the world.
+                  Registered in Scotland. <span className="text-unhinged-green">Built for the world.</span>
                 </p>
               </div>
             </div>
