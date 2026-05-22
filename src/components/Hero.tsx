@@ -14,14 +14,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* Background orbs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Mobile glow — broad, centered behind the stacked orb + wordmark */}
-        <div
-          className="absolute top-[22%] left-1/2 -translate-x-1/2 h-[600px] w-[700px] opacity-[0.28] sm:hidden"
-          style={{ background: "radial-gradient(350px 160px at 50% 50%, #D2FF14 0%, transparent 100%)" }}
-        />
-      </div>
 
       {/* Hero content */}
       <section className="relative z-10 flex flex-1 flex-col items-center justify-start pt-8 sm:justify-center sm:pt-0 px-4 sm:px-8 lg:px-16">
@@ -31,16 +23,6 @@ export default function Hero() {
           }`}
         >
           <div className="relative flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
-            {/* Desktop glow — sits behind the wordmark only.
-               Lives inside the max-w-3xl container so it tracks the wordmark
-               at any viewport width. Wordmark spans roughly 40%-98% of the
-               container, so we centre the glow at ~69% with a tighter ellipse
-               and let the bleed extend a bit past the right edge. */}
-            <div
-              aria-hidden
-              className="hidden sm:block pointer-events-none absolute top-1/2 left-[69%] -translate-x-1/2 -translate-y-1/2 h-[360px] w-[560px] opacity-[0.28] -z-10"
-              style={{ background: "radial-gradient(260px 140px at 50% 50%, #D2FF14 0%, transparent 100%)" }}
-            />
             <img
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
               alt=""
@@ -52,7 +34,7 @@ export default function Hero() {
               src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_make_transparent:50/e_trim:10/c_pad,b_transparent,w_iw_add_40,h_ih_add_40/e_negate/f_png/v1778965083/IMG_0771_a3c6az.png"
               alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
-              style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.25)) drop-shadow(0 0 16px rgba(210, 255, 20, 0.35))" }}
+              style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.15))" }}
             />
           </div>
         </div>
