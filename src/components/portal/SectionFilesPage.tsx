@@ -384,21 +384,6 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
   // ── Move operations ────────────────────────────────────────────────────────
 
-  // Move a single storage file by downloading then re-uploading.
-  // Avoids the .move() API which requires an RLS "update" policy that is often not configured.
-  async function transferFile(src: string, dest: string): Promise<void> {
-    const { data: blob, error: dlErr } = await supabase.storage.from(BUCKET).download(src);
-    if (dlErr || !blob) throw new Error(`Download failed: ${dlErr?.message ?? "unknown"}`);
-    const fileName = src.split("/").pop() ?? "file";
-    const { error: ulErr } = await supabase.storage.from(BUCKET).upload(dest, blob, {
-      contentType: mimeFromName(fileName),
-      upsert: true,
-    });
-    if (ulErr) throw new Error(`Upload failed: ${ulErr.message}`);
-    const { error: rmErr } = await supabase.storage.from(BUCKET).remove([src]);
-    if (rmErr) throw new Error(`Delete failed: ${rmErr.message}`);
-  }
-
   async function commitMove() {
     if (!moveItem) return;
     setMoving(true);
@@ -411,7 +396,8 @@ export default function SectionFilesPage({ section, label }: { section: string; 
         const files = await listAllFiles(srcPath);
         for (const f of files) {
           const dest = destPath + f.slice(srcPath.length);
-          await transferFile(f, dest);
+          const { error } = await supabase.storage.from(BUCKET).move(f, dest);
+          if (error) throw new Error(error.message);
         }
         // Update meta keys if folder had password meta
         const oldRel = relPath(moveItem.name);
@@ -428,7 +414,8 @@ export default function SectionFilesPage({ section, label }: { section: string; 
             .eq("company", company).eq("section", section).eq("folder_path", oldKey);
         }
       } else {
-        await transferFile(srcPath, destPath);
+        const { error } = await supabase.storage.from(BUCKET).move(srcPath, destPath);
+        if (error) throw new Error(error.message);
       }
       setMoveItem(null);
       await loadItems(); await loadMeta();
