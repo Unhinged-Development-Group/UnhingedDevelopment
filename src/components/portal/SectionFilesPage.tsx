@@ -371,18 +371,15 @@ export default function SectionFilesPage({ section, label }: { section: string; 
     const affected = Object.entries(folderMeta).filter(
       ([k]) => k === oldRel || k.startsWith(oldRel + "/")
     );
-    for (const [oldKey, hash] of affected) {
+    for (const [oldKey] of affected) {
       const newKey = newRel + oldKey.slice(oldRel.length);
       await supabase.from("portal_folder_meta")
         .update({ folder_path: newKey })
         .eq("company", company).eq("section", section).eq("folder_path", oldKey);
-      _ = hash; // suppress unused var warning
     }
     setRenamingFolder(null); setRenaming(false);
     await loadItems(); await loadMeta();
   }
-  // silence TS unused variable
-  const _ = null;
 
   // ── Move operations ────────────────────────────────────────────────────────
 
