@@ -382,7 +382,7 @@ export default function TeamPage() {
 
   return (
     <div
-      className="max-w-4xl px-6 py-8 sm:px-10"
+      className="w-full px-6 py-8 sm:px-10"
       style={theme ? { backgroundColor: theme.bg, minHeight: "100vh", fontFamily: theme.font } : {}}
     >
       {/* Header */}
