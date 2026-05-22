@@ -35,7 +35,7 @@ export default function ProjectsPage() {
 
       <section className="relative z-10 flex-1 px-6 py-10 sm:px-10 lg:px-16">
         <div className="max-w-4xl mx-auto">
-          <p className="font-bitcount font-light text-unhinged-green text-sm tracking-widest uppercase mb-6">
+          <p className="font-bitcount font-light text-unhinged-green text-sm tracking-widest uppercase mb-6 sm:hidden">
             Projects
           </p>
 
