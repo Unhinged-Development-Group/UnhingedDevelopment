@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Status pill</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 280px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 24px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  body::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+  .wrap { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 18px; }
+  h6 {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.3em;
+    color: #D2FF14; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  h6::before { content: ""; width: 24px; height: 1px; background: #D2FF14; }
+
+  .row {
+    display: flex; align-items: center; gap: 18px;
+    padding: 14px 16px;
+    border: 1px solid #18181B;
+    border-radius: 14px;
+    background: #080808;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    border-radius: 9999px;
+    padding: 4px 10px;
+    font-size: 12px; line-height: 1;
+  }
+  .pill .dot { width: 4px; height: 4px; border-radius: 50%; }
+
+  /* Project status — neutral zinc */
+  .pill-project {
+    border: 1px solid #3F3F46;
+    background: rgba(39,39,42,0.6);
+    color: #A1A1AA;
+  }
+  .pill-project .dot { background: #71717A; }
+
+  /* Portal "live" pill — lime pulsing */
+  .pill-portal {
+    border: 1px solid #27272A;
+    background: #0e0e0e;
+    color: #D4D4D8;
+    padding: 6px 14px;
+  }
+  .pill-portal .dot {
+    background: #D2FF14; width: 6px; height: 6px;
+    animation: portal-pulse 4s cubic-bezier(0.4,0,0.6,1) infinite;
+  }
+  @keyframes portal-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Tag chip — outline only */
+  .pill-tag {
+    border: 1px solid #27272A;
+    color: #71717A;
+    padding: 2px 10px;
+  }
+
+  .meta {
+    display: grid; grid-template-columns: auto 1fr; gap: 4px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #71717A;
+  }
+  .meta dt { letter-spacing: 0.08em; text-transform: uppercase; }
+  .meta dd { margin: 0; color: #D4D4D8; }
+
+  .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #FAFAFA;
+    min-width: 140px;
+  }
+  .desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: #71717A;
+    flex: 1; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h6>Pills &amp; chips</h6>
+
+  <div class="row">
+    <span class="label">Project status</span>
+    <span class="pill pill-project"><span class="dot"></span>In Development</span>
+    <span class="desc">Neutral zinc — never lime. Used on project tiles in the wild.</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Portal “live”</span>
+    <span class="pill pill-portal"><span class="dot"></span>UDG Team Portal</span>
+    <span class="desc">The only place lime appears as a status colour. Slow 4s pulse.</span>
+  </div>
+
+  <div class="row">
+    <span class="label">Tag chip</span>
+    <span class="pill pill-tag">Platform</span>
+    <span class="pill pill-tag">B2C</span>
+    <span class="pill pill-tag">Service</span>
+  </div>
+</div>
+</body>
+</html>

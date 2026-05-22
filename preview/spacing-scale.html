@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spacing scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 220px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-mono);
+    padding: 22px 24px;
+    box-sizing: border-box;
+  }
+  .grid { display: flex; align-items: flex-end; gap: 14px; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .bar { background: #D2FF14; width: 28px; border-radius: 4px 4px 0 0; }
+  .lbl { font-size: 10px; color: #A1A1AA; }
+  .px { font-size: 10px; color: #52525B; }
+  h6 { margin: 0 0 14px; font-size: 10px; font-weight: 500; letter-spacing: 0.25em; color: #71717A; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <h6>Spacing tokens — 4px base</h6>
+  <div class="grid">
+    <div class="col"><div class="bar" style="height:4px"></div><div class="lbl">1</div><div class="px">4</div></div>
+    <div class="col"><div class="bar" style="height:8px"></div><div class="lbl">2</div><div class="px">8</div></div>
+    <div class="col"><div class="bar" style="height:12px"></div><div class="lbl">3</div><div class="px">12</div></div>
+    <div class="col"><div class="bar" style="height:16px"></div><div class="lbl">4</div><div class="px">16</div></div>
+    <div class="col"><div class="bar" style="height:20px"></div><div class="lbl">5</div><div class="px">20</div></div>
+    <div class="col"><div class="bar" style="height:24px"></div><div class="lbl">6</div><div class="px">24</div></div>
+    <div class="col"><div class="bar" style="height:32px"></div><div class="lbl">8</div><div class="px">32</div></div>
+    <div class="col"><div class="bar" style="height:40px"></div><div class="lbl">10</div><div class="px">40</div></div>
+    <div class="col"><div class="bar" style="height:48px"></div><div class="lbl">12</div><div class="px">48</div></div>
+    <div class="col"><div class="bar" style="height:64px"></div><div class="lbl">16</div><div class="px">64</div></div>
+    <div class="col"><div class="bar" style="height:80px"></div><div class="lbl">20</div><div class="px">80</div></div>
+    <div class="col"><div class="bar" style="height:96px"></div><div class="lbl">24</div><div class="px">96</div></div>
+  </div>
+</body>
+</html>

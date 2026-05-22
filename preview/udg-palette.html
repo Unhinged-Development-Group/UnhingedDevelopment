@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UDG palette</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 260px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 24px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+  /* faint noise to honour the brand's "never flat black" rule */
+  body::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+  .wrap { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 18px; }
+
+  h6 {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: #D2FF14;
+    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  h6::before { content: ""; width: 24px; height: 1px; background: #D2FF14; }
+
+  .row { display: flex; flex-direction: column; gap: 8px; }
+  .row-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #71717A;
+  }
+
+  .grid-ink   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .grid-green { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .grid-zinc  { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+
+  .cell { display: flex; flex-direction: column; gap: 6px; }
+  .swatch {
+    height: 56px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .swatch.glow {
+    box-shadow: 0 0 24px rgba(210,255,20,0.35);
+  }
+  .name {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #FAFAFA;
+    line-height: 1.2;
+  }
+  .hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #71717A;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h6>Unhinged Development Group</h6>
+
+    <div class="row">
+      <div class="row-label">Ink — near-black surfaces</div>
+      <div class="grid-ink">
+        <div class="cell"><div class="swatch" style="background:#030303"></div><div class="name">Ink 950</div><div class="hex">#030303</div></div>
+        <div class="cell"><div class="swatch" style="background:#080808"></div><div class="name">Ink 900</div><div class="hex">#080808</div></div>
+        <div class="cell"><div class="swatch" style="background:#0e0e0e"></div><div class="name">Ink 800</div><div class="hex">#0E0E0E</div></div>
+        <div class="cell"><div class="swatch" style="background:#141414"></div><div class="name">Ink 700</div><div class="hex">#141414</div></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Signature lime — the one accent</div>
+      <div class="grid-green">
+        <div class="cell"><div class="swatch glow" style="background:#D2FF14"></div><div class="name">Unhinged green</div><div class="hex">#D2FF14</div></div>
+        <div class="cell"><div class="swatch" style="background:#E4FF6B"></div><div class="name">Green light</div><div class="hex">#E4FF6B</div></div>
+        <div class="cell"><div class="swatch" style="background:#A8CC00"></div><div class="name">Ember</div><div class="hex">#A8CC00</div></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Zinc — text & borders</div>
+      <div class="grid-zinc">
+        <div class="cell"><div class="swatch" style="background:#FAFAFA"></div><div class="name">Zinc 50</div><div class="hex">#FAFAFA</div></div>
+        <div class="cell"><div class="swatch" style="background:#D4D4D8"></div><div class="name">Zinc 300</div><div class="hex">#D4D4D8</div></div>
+        <div class="cell"><div class="swatch" style="background:#A1A1AA"></div><div class="name">Zinc 400</div><div class="hex">#A1A1AA</div></div>
+        <div class="cell"><div class="swatch" style="background:#52525B"></div><div class="name">Zinc 600</div><div class="hex">#52525B</div></div>
+        <div class="cell"><div class="swatch" style="background:#27272A"></div><div class="name">Zinc 800</div><div class="hex">#27272A</div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

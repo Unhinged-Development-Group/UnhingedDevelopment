@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Zinc neutrals</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 230px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  h6 { margin: 0 0 10px; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.25em; color: #71717A; text-transform: uppercase; }
+  .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .cell { display: flex; flex-direction: column; gap: 4px; }
+  .swatch { height: 56px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); }
+  .lbl { font-family: var(--font-mono); font-size: 10px; color: #A1A1AA; }
+  .hex { font-family: var(--font-mono); font-size: 9.5px; color: #52525B; }
+
+  .demo { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+  .demo span { font-size: 12px; }
+</style>
+</head>
+<body>
+  <h6>Text + borders (zinc)</h6>
+  <div class="grid">
+    <div class="cell"><div class="swatch" style="background:#FAFAFA"></div><div class="lbl">zinc-50</div><div class="hex">#FAFAFA</div></div>
+    <div class="cell"><div class="swatch" style="background:#D4D4D8"></div><div class="lbl">zinc-300</div><div class="hex">#D4D4D8</div></div>
+    <div class="cell"><div class="swatch" style="background:#A1A1AA"></div><div class="lbl">zinc-400</div><div class="hex">#A1A1AA</div></div>
+    <div class="cell"><div class="swatch" style="background:#71717A"></div><div class="lbl">zinc-500</div><div class="hex">#71717A</div></div>
+    <div class="cell"><div class="swatch" style="background:#52525B"></div><div class="lbl">zinc-600</div><div class="hex">#52525B</div></div>
+    <div class="cell"><div class="swatch" style="background:#27272A"></div><div class="lbl">zinc-800</div><div class="hex">#27272A</div></div>
+    <div class="cell"><div class="swatch" style="background:#18181B"></div><div class="lbl">zinc-900</div><div class="hex">#18181B</div></div>
+  </div>
+
+  <div class="demo">
+    <span style="color:#FAFAFA;font-weight:600">Strong heading</span>
+    <span style="color:#D4D4D8">Body text on dark</span>
+    <span style="color:#A1A1AA">Muted</span>
+    <span style="color:#71717A">Caption</span>
+    <span style="color:#52525B">Disabled</span>
+  </div>
+</body>
+</html>

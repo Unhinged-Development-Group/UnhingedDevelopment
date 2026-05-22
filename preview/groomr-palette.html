@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Groomr palette</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 230px;
+    background: #F9F8F4;
+    color: #2C3E50;
+    font-family: 'Nunito', system-ui, sans-serif;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  h6 { margin: 0 0 16px; font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #88A096; text-transform: uppercase; display: inline-flex; align-items: center; gap: 12px; }
+  h6::before { content: ""; width: 24px; height: 1px; background: #EAE45C; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .cell { display: flex; flex-direction: column; gap: 8px; }
+  .swatch { height: 100px; border-radius: 14px; box-shadow: 0 1px 3px rgba(44,62,80,0.08); }
+  .name { font-size: 12px; font-weight: 700; color: #2C3E50; }
+  .hex { font-family: 'Space Mono', monospace; font-size: 10px; color: #88A096; }
+</style>
+</head>
+<body>
+  <h6>Groomr</h6>
+  <div class="grid">
+    <div class="cell">
+      <div class="swatch" style="background:#F9F8F4;border:1px solid rgba(149,165,166,0.3);"></div>
+      <div>
+        <div class="name">Alabaster Cream</div>
+        <div class="hex">#F9F8F4</div>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="swatch" style="background:#EAE45C;"></div>
+      <div>
+        <div class="name">Groomr Gold</div>
+        <div class="hex">#EAE45C</div>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="swatch" style="background:#88A096;"></div>
+      <div>
+        <div class="name">Sage Leaf</div>
+        <div class="hex">#88A096</div>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="swatch" style="background:#C87964;"></div>
+      <div>
+        <div class="name">Muted Terracotta</div>
+        <div class="hex">#C87964</div>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="swatch" style="background:#95A5A6;"></div>
+      <div>
+        <div class="name">Pebble Grey</div>
+        <div class="hex">#95A5A6</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

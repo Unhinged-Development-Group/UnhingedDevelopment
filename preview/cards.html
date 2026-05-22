@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cards</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 270px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 22px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .card {
+    border: 1px solid #27272A;
+    background: #080808;
+    border-radius: 24px;
+    padding: 22px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #3F3F46; }
+  .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .h { font-weight: 600; font-size: 24px; line-height: 1.1; margin: 0; letter-spacing: -0.01em; }
+  .h.gr { font-family: 'Fredoka', 'Nunito', sans-serif; font-weight: 700; color: #FAFAFA; }
+  .h.pp { font-family: 'Montserrat', sans-serif; font-weight: 500; color: #FAFAFA; }
+  .pill {
+    flex: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid #3F3F46;
+    background: rgba(39,39,42,0.6);
+    font-size: 11px; color: #A1A1AA;
+  }
+  .pill::before { content:""; width: 4px; height: 4px; border-radius: 50%; background: #71717A; }
+  .desc { color: #A1A1AA; font-size: 13px; line-height: 1.55; flex: 1; }
+  .meta { color: #52525B; font-size: 11px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    padding: 2px 9px;
+    border-radius: 999px;
+    border: 1px solid #27272A;
+    color: #71717A;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+  <article class="card">
+    <div class="top">
+      <h3 class="h gr">Groomr.</h3>
+      <span class="pill">In Development</span>
+    </div>
+    <p class="desc">A booking and service platform built for the grooming industry. Tools for salons and independent groomers to run their business without the faff.</p>
+    <p class="meta">Expected launch — August 2027</p>
+    <div class="tags"><span class="tag">Platform</span><span class="tag">B2C</span><span class="tag">Service</span></div>
+  </article>
+  <article class="card">
+    <div class="top">
+      <h3 class="h pp">Paper &amp; Ponder</h3>
+      <span class="pill">In Development</span>
+    </div>
+    <p class="desc">An AI companion for handwritten journals. You write by hand in the Obsidian Journal; the app scans the page, reads it, and holds a conversation about what you wrote.</p>
+    <p class="meta">Expected launch — September 2027</p>
+    <div class="tags"><span class="tag">Consumer</span><span class="tag">AI</span><span class="tag">Hardware</span></div>
+  </article>
+</body>
+</html>

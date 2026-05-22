@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shadows & glow</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 260px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .cell {
+    background: #080808;
+    border: 1px solid #1a1a1a;
+    border-radius: 18px;
+    padding: 22px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 170px;
+  }
+  .a { box-shadow: 0 0 0 0; }
+  .b { background: #FFFFFF; box-shadow: 0 4px 6px -1px rgba(149,165,166,0.10), 0 2px 4px -1px rgba(149,165,166,0.06); border-color: rgba(149,165,166,0.2); color: #2C3E50; }
+  .c { background: #FFFFFF; box-shadow: 0 1px 3px rgba(28,25,23,0.06), 0 1px 2px rgba(28,25,23,0.04); border-color: #E7E5E4; color: #1C1917; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .glow {
+    font-family: 'Bitcount Grid Single', monospace;
+    font-weight: 300;
+    font-size: 38px;
+    color: #D2FF14;
+    line-height: 0.95;
+    text-shadow: 0 0 40px rgba(210,255,20,0.45);
+  }
+  .body { font-size: 12px; opacity: 0.7; text-align: center; }
+</style>
+</head>
+<body>
+  <div class="cell a">
+    <div class="lbl" style="color:#71717A">UDG · signature glow</div>
+    <div class="glow">D2FF14</div>
+    <div class="body" style="color:#A1A1AA;margin-top:14px">text-shadow 0 0 40px rgba(210,255,20,.35)</div>
+  </div>
+  <div class="cell b">
+    <div class="lbl" style="color:#88A096">Groomr · soft</div>
+    <div style="font-family:Fredoka,sans-serif;font-weight:600;font-size:22px">Card</div>
+    <div class="body" style="color:#88A096;margin-top:10px">0 4px 6px −1px rgba(149,165,166,.10)</div>
+  </div>
+  <div class="cell c">
+    <div class="lbl" style="color:#78716C">P&P · paper</div>
+    <div style="font-family:Montserrat,sans-serif;font-weight:500;font-size:22px">Card</div>
+    <div class="body" style="color:#78716C;margin-top:10px">0 1px 3px rgba(28,25,23,.06)</div>
+  </div>
+</body>
+</html>

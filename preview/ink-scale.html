@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ink scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 200px;
+    background: #030303;
+    font-family: var(--font-sans);
+    color: #FAFAFA;
+    padding: 22px 24px;
+    box-sizing: border-box;
+  }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .chip {
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .swatch { height: 80px; }
+  .meta {
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+  }
+  .name { font-family: var(--font-mono); color: #FAFAFA; }
+  .hex { color: #71717A; margin-top: 2px; font-family: var(--font-mono); }
+  .role { color: #A1A1AA; font-size: 10.5px; margin-top: 6px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="chip">
+      <div class="swatch" style="background:#030303;border-bottom:1px solid #1a1a1a;"></div>
+      <div class="meta"><div class="name">--ink-950</div><div class="hex">#030303</div><div class="role">Page background</div></div>
+    </div>
+    <div class="chip">
+      <div class="swatch" style="background:#080808"></div>
+      <div class="meta"><div class="name">--ink-900</div><div class="hex">#080808</div><div class="role">Cards / surface</div></div>
+    </div>
+    <div class="chip">
+      <div class="swatch" style="background:#0e0e0e"></div>
+      <div class="meta"><div class="name">--ink-800</div><div class="hex">#0E0E0E</div><div class="role">Raised, buttons</div></div>
+    </div>
+    <div class="chip">
+      <div class="swatch" style="background:#141414"></div>
+      <div class="meta"><div class="name">--ink-700</div><div class="hex">#141414</div><div class="role">Hover surface</div></div>
+    </div>
+  </div>
+</body>
+</html>

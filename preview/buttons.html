@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 280px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: #71717A; text-transform: uppercase; width: 100px; flex: 0 0 100px; }
+
+  /* Primary — gradient fill */
+  .btn-primary {
+    padding: 11px 22px; border-radius: 14px;
+    background: linear-gradient(to right, #D2FF14, #A8CC00);
+    color: #030303; font-weight: 600; font-size: 13px;
+    border: none; cursor: pointer;
+  }
+  .btn-solid {
+    padding: 11px 22px; border-radius: 14px;
+    background: #D2FF14; color: #030303;
+    font-weight: 600; font-size: 13px; border: none;
+  }
+  /* Secondary — ghost pill */
+  .btn-ghost {
+    padding: 9px 16px; border-radius: 999px;
+    background: #0e0e0e; color: #D4D4D8;
+    font-size: 13px; border: 1px solid #27272A;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-ghost:hover { border-color: rgba(210,255,20,0.5); color: #fff; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2FF14; }
+  .chev { width: 12px; height: 12px; color: #71717A; }
+
+  /* Nav links — display font (Bitcount, light). NAV ONLY. */
+  .nav-link {
+    font-family: 'Bitcount Grid Single', monospace;
+    font-weight: 300;
+    color: #D2FF14;
+    font-size: 18px;
+    padding: 4px 0;
+  }
+
+  /* Regular text link — Inter (body font), inline within prose. */
+  .text-link {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: #D2FF14;
+    font-size: 14px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(210,255,20,0.5);
+  }
+  .text-link:hover { text-decoration-color: #D2FF14; }
+
+  .btn-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: #0e0e0e; border: 1px solid #27272A;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #D4D4D8;
+  }
+  .btn-disabled { opacity: 0.5; pointer-events: none; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="lbl">Primary</div>
+    <button class="btn-primary">Send message</button>
+    <button class="btn-solid">Sign in</button>
+    <button class="btn-primary btn-disabled">Sending…</button>
+  </div>
+  <div class="row">
+    <div class="lbl">Pill / chrome</div>
+    <a class="btn-ghost"><span class="dot"></span>UDG Team Portal
+      <svg class="chev" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="btn-ghost">Send magic link</a>
+  </div>
+  <div class="row">
+    <div class="lbl">Nav link</div>
+    <a class="nav-link">Who we are</a>
+    <a class="nav-link">Projects</a>
+    <a class="nav-link">Contact us</a>
+    <span style="font-family:var(--font-mono);font-size:10px;color:#52525B;margin-left:auto">Bitcount · top nav only</span>
+  </div>
+  <div class="row" style="line-height:1.7">
+    <div class="lbl">Text link</div>
+    <span style="font-size:14px;color:#D4D4D8;flex:1">
+      A regular inline link uses <a class="text-link">Inter at 500 weight</a>, lime, with a subtle underline — it belongs in prose, not in chrome.
+    </span>
+  </div>
+  <div class="row">
+    <div class="lbl">Icon</div>
+    <button class="btn-icon"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/></svg></button>
+    <button class="btn-icon"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    <button class="btn-icon"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</body>
+</html>

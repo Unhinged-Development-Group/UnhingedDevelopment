@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motion</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 240px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .cell {
+    background: #080808;
+    border: 1px solid #1a1a1a;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 170px;
+    overflow: hidden;
+    position: relative;
+  }
+  .name { font-family: 'Bitcount Grid Single', monospace; font-weight: 300; font-size: 17px; color: #D2FF14; }
+  .meta { font-family: var(--font-mono); font-size: 10px; color: #71717A; }
+  .body { font-size: 12px; color: #A1A1AA; line-height: 1.45; flex: 1; }
+
+  .stage { height: 50px; display: flex; align-items: center; justify-content: center; }
+
+  .fadeup { animation: fu 1.6s 0.2s ease-out infinite; }
+  @keyframes fu {
+    0%, 100% { opacity: 0; transform: translateY(14px); }
+    35%, 75% { opacity: 1; transform: translateY(0); }
+  }
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #D2FF14;
+    animation: pulse 4s cubic-bezier(0.4,0,0.6,1) infinite;
+  }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(210,255,20,0.5); } 50% { box-shadow: 0 0 0 12px rgba(210,255,20,0); } }
+  .chev {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; color: #D4D4D8;
+    animation: nudge 1.6s ease-in-out infinite;
+  }
+  .chev svg { color: #D2FF14; }
+  @keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+</style>
+</head>
+<body>
+  <div class="cell">
+    <div class="name">fade-up</div>
+    <div class="meta">600ms · ease-out</div>
+    <div class="stage"><span class="fadeup" style="font-family:'Bitcount Grid Single';font-weight:300;font-size:26px;">Built.</span></div>
+    <div class="body">Hero entrance. opacity 0→1, translateY 20→0.</div>
+  </div>
+  <div class="cell">
+    <div class="name">pulse</div>
+    <div class="meta">4s · live indicator</div>
+    <div class="stage"><div class="dot"></div></div>
+    <div class="body">"UDG Team Portal" dot. Soft, slow, never urgent.</div>
+  </div>
+  <div class="cell">
+    <div class="name">nudge</div>
+    <div class="meta">200ms · hover translate</div>
+    <div class="stage">
+      <span class="chev">
+        Continue
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </span>
+    </div>
+    <div class="body">Chevrons move 0.5–2px on hover. Only "playful" detail.</div>
+  </div>
+</body>
+</html>

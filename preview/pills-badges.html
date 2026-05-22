@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pills & badges</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 200px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #71717A; width: 110px; flex: 0 0 110px; }
+
+  .status {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid #3F3F46;
+    background: rgba(39,39,42,0.6);
+    font-size: 11px; color: #A1A1AA;
+  }
+  .status::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: #71717A; }
+  .status.live::before { background: #D2FF14; box-shadow: 0 0 0 2px rgba(210,255,20,0.18); }
+  .status.live { color: #D4D4D8; border-color: rgba(210,255,20,0.3); }
+
+  .tag {
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid #27272A;
+    color: #71717A;
+    font-size: 11px;
+  }
+
+  .label {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px 6px 8px;
+    border-radius: 999px;
+    background: rgba(210,255,20,0.1);
+    color: #D2FF14;
+    font-size: 11px;
+    border: 1px solid rgba(210,255,20,0.25);
+  }
+  .label .ring { width: 14px; height: 14px; border-radius: 50%; background: #D2FF14; color: #030303; font-weight: 800; font-size: 9px; display: inline-flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="lbl">Status</div>
+    <span class="status">In Development</span>
+    <span class="status">Coming soon</span>
+    <span class="status live">Live</span>
+    <span class="status" style="color:#F87171;border-color:rgba(248,113,113,0.35)"><span style="background:#F87171;width:4px;height:4px;border-radius:50%;display:inline-block;margin-right:6px"></span>Paused</span>
+  </div>
+  <div class="row">
+    <div class="lbl">Tag chip</div>
+    <span class="tag">Platform</span>
+    <span class="tag">B2C</span>
+    <span class="tag">Service</span>
+    <span class="tag">Consumer</span>
+    <span class="tag">E-commerce</span>
+    <span class="tag">Creative</span>
+  </div>
+  <div class="row">
+    <div class="lbl">Highlight</div>
+    <span class="label"><span class="ring">1</span>Step one — sign in</span>
+    <span class="label" style="background:transparent;color:#A1A1AA;border-color:#27272A"><span class="ring" style="background:transparent;color:#71717A;border:1px solid #3F3F46">2</span>Step two</span>
+  </div>
+</body>
+</html>

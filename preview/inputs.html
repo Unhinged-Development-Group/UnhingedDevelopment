@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 260px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .lbl { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: #71717A; }
+  .input {
+    width: 100%; padding: 11px 14px; box-sizing: border-box;
+    border-radius: 14px;
+    background: #080808; border: 1px solid #27272A;
+    color: #FAFAFA; font-size: 13px; font-family: inherit;
+  }
+  .input::placeholder { color: #52525B; }
+  .input.focused {
+    border-color: rgba(210,255,20,0.5);
+    box-shadow: 0 0 0 3px rgba(210,255,20,0.12);
+  }
+  .input.error { border-color: rgba(248,113,113,0.6); }
+  .hint { font-size: 11px; color: #71717A; }
+  .err { font-size: 11px; color: #F87171; }
+  textarea.input { resize: none; height: 78px; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="field">
+      <div class="lbl">Name</div>
+      <input class="input" placeholder="Your name" value="">
+      <div class="hint">Default state</div>
+    </div>
+    <div class="field">
+      <div class="lbl">Email</div>
+      <input class="input focused" value="hello@unhinged.dev">
+      <div class="hint" style="color:#D2FF14">Focused · lime 50% border + 12% ring</div>
+    </div>
+    <div class="field">
+      <div class="lbl">Password</div>
+      <input class="input error" type="password" value="••••••">
+      <div class="err">Not authorised for this account.</div>
+    </div>
+    <div class="field">
+      <div class="lbl">Message</div>
+      <textarea class="input" placeholder="Tell us what's on your mind…"></textarea>
+    </div>
+  </div>
+</body>
+</html>

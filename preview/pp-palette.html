@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Paper & Ponder palette</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 220px;
+    background: #FAFAF9;
+    color: #1C1917;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  h6 { margin: 0 0 14px; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.3em; color: #7C2D12; text-transform: uppercase; display: inline-flex; align-items: center; gap: 12px; }
+  h6::before { content: ""; width: 24px; height: 1px; background: #FB923C; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .cell { display: flex; flex-direction: column; gap: 6px; }
+  .swatch { height: 88px; border-radius: 12px; box-shadow: 0 1px 2px rgba(28,25,23,0.04); }
+  .name { font-size: 11px; font-weight: 500; }
+  .hex { font-family: 'Space Mono', monospace; font-size: 10px; color: #78716C; }
+</style>
+</head>
+<body>
+  <h6>Paper &amp; Ponder</h6>
+  <div class="grid">
+    <div class="cell"><div class="swatch" style="background:#FAFAF9;border:1px solid #E7E5E4"></div><div class="name">Alabaster</div><div class="hex">#FAFAF9</div></div>
+    <div class="cell"><div class="swatch" style="background:#FFEDD5;border:1px solid #E7E5E4"></div><div class="name">Sand</div><div class="hex">#FFEDD5</div></div>
+    <div class="cell"><div class="swatch" style="background:#E7E5E4"></div><div class="name">Stone 200</div><div class="hex">#E7E5E4</div></div>
+    <div class="cell"><div class="swatch" style="background:#78716C"></div><div class="name">Stone 500</div><div class="hex">#78716C</div></div>
+    <div class="cell"><div class="swatch" style="background:#FB923C"></div><div class="name">Terracotta</div><div class="hex">#FB923C</div></div>
+    <div class="cell"><div class="swatch" style="background:#7C2D12"></div><div class="name">Deep clay</div><div class="hex">#7C2D12</div></div>
+  </div>
+</body>
+</html>

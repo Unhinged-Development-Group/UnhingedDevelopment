@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Display type</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 320px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 28px 28px;
+    box-sizing: border-box;
+  }
+  .specimen {
+    font-family: 'Bitcount Grid Single', monospace;
+    font-weight: 300;
+    color: #FAFAFA;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    font-size: 78px;
+  }
+  .specimen .green { color: #D2FF14; text-shadow: 0 0 24px rgba(210,255,20,0.4); }
+  .meta {
+    margin-top: 20px;
+    display: flex; align-items: baseline; gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #71717A;
+  }
+  .meta b { color: #D4D4D8; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="specimen">Built<br>differently<span class="green">.</span></div>
+  <div class="meta">
+    <span><b>Bitcount Grid Single</b> · 300 light</span>
+    <span>line-height 0.95</span>
+    <span>tracking −0.01em</span>
+  </div>
+</body>
+</html>

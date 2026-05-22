@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nav pill</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 180px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-sans);
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 18px;
+    border-radius: 16px;
+    border: 1px solid #18181B;
+    background: rgba(8,8,8,0.7);
+  }
+  .left { display: flex; align-items: center; gap: 28px; }
+  .logo { font-family: 'Bitcount Grid Single', monospace; font-weight: 300; font-size: 22px; }
+  .links { display: flex; gap: 18px; }
+  .links a { font-family: 'Bitcount Grid Single', monospace; font-weight: 300; font-size: 16px; color: #D2FF14; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: 1px solid #27272A;
+    background: #0e0e0e;
+    color: #D4D4D8;
+    font-size: 12px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #D2FF14; animation: p 4s infinite; }
+  @keyframes p { 0%,100% { box-shadow: 0 0 0 0 rgba(210,255,20,0.5); } 50% { box-shadow: 0 0 0 6px rgba(210,255,20,0); } }
+  .chev { width: 11px; height: 11px; color: #71717A; }
+  .note { font-family: var(--font-mono); font-size: 10.5px; color: #52525B; }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <div class="left">
+      <span class="logo">UDG</span>
+      <div class="links">
+        <a>Who we are</a>
+        <a>Projects</a>
+        <a>Contact us</a>
+      </div>
+    </div>
+    <a class="cta">
+      <span class="dot"></span>UDG Team Portal
+      <svg class="chev" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="note">Top nav — display-light Bitcount nav links · lime pulsing dot · ghost pill CTA</div>
+</body>
+</html>

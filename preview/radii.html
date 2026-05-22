@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Radii</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; min-height: 230px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: var(--font-mono);
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  h6 { margin: 0 0 18px; font-size: 10px; font-weight: 500; letter-spacing: 0.25em; color: #71717A; text-transform: uppercase; }
+  .row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .box {
+    width: 78px; height: 78px;
+    background: #0e0e0e;
+    border: 1px solid #27272A;
+  }
+  .box.accent { border-color: rgba(210,255,20,0.4); background: rgba(210,255,20,0.06); }
+  .lbl { font-size: 10px; color: #A1A1AA; text-align: center; }
+  .px { font-size: 10px; color: #52525B; }
+</style>
+</head>
+<body>
+  <h6>Corner radii</h6>
+  <div class="row">
+    <div class="cell"><div class="box" style="border-radius:6px"></div><div class="lbl">sm</div><div class="px">6 · chip</div></div>
+    <div class="cell"><div class="box" style="border-radius:10px"></div><div class="lbl">md</div><div class="px">10 · small btn</div></div>
+    <div class="cell"><div class="box" style="border-radius:14px"></div><div class="lbl">lg</div><div class="px">14 · light card</div></div>
+    <div class="cell"><div class="box accent" style="border-radius:20px"></div><div class="lbl">xl</div><div class="px">20 · button, input</div></div>
+    <div class="cell"><div class="box accent" style="border-radius:24px"></div><div class="lbl">2xl</div><div class="px">24 · card tile</div></div>
+    <div class="cell"><div class="box" style="border-radius:999px"></div><div class="lbl">full</div><div class="px">∞ · pill, dot</div></div>
+  </div>
+</body>
+</html>

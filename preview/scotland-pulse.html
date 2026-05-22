@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scotland pulse</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 360px;
+    background: #030303;
+    color: #FAFAFA;
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 24px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 24px;
+    align-items: stretch;
+  }
+  body::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+  .text { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; }
+  h6 {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.3em;
+    color: #D2FF14; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  h6::before { content: ""; width: 24px; height: 1px; background: #D2FF14; }
+  h1 {
+    margin: 0;
+    font-family: 'Bitcount Grid Single', monospace;
+    font-weight: 300;
+    font-size: 40px; line-height: 0.95;
+    color: #FAFAFA; letter-spacing: -0.01em;
+  }
+  p {
+    margin: 0;
+    font-size: 12px; line-height: 1.55;
+    color: #A1A1AA;
+    max-width: 320px;
+  }
+  dl {
+    margin: auto 0 0; padding: 0;
+    display: grid; grid-template-columns: auto 1fr; gap: 4px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+  }
+  dt { color: #71717A; letter-spacing: 0.08em; text-transform: uppercase; }
+  dd { margin: 0; color: #D4D4D8; }
+
+  .stage {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stage svg { height: 100%; width: auto; max-width: 100%; }
+</style>
+</head>
+<body>
+  <div class="text">
+    <h6>Scotland pulse</h6>
+    <h1>Built<br>for the world.</h1>
+    <p>An animated SVG silhouette of Scotland on the <em>Who we are</em> page. A faint outline of every island sits below a single lime stroke that traces the mainland coast on a slow loop. The brand's only piece of bespoke geographic illustration.</p>
+    <dl>
+      <dt>traverse</dt><dd>5.0s linear</dd>
+      <dt>loop</dt><dd>continuous — no pause</dd>
+      <dt>trail</dt><dd>2.5% of path length</dd>
+      <dt>stroke</dt><dd>#D2FF14 · 0.9u</dd>
+      <dt>base</dt><dd>#D2FF14 @ 12% · 0.6u</dd>
+    </dl>
+  </div>
+
+  <div class="stage">
+    <svg id="scot" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+  </div>
+
+<script src="../assets/unhinged/scotland-path.js"></script>
+<script>
+  (function () {
+    const svg = document.getElementById('scot');
+    svg.setAttribute('viewBox', SCOTLAND_VIEWBOX);
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const baseG = document.createElementNS(NS, 'g');
+    baseG.style.filter = 'drop-shadow(0 0 1.5px rgba(210,255,20,0.5))';
+    const base = document.createElementNS(NS, 'path');
+    base.setAttribute('d', SCOTLAND_PATH);
+    base.setAttribute('fill', 'none');
+    base.setAttribute('stroke', 'rgba(210,255,20,0.12)');
+    base.setAttribute('stroke-width', '0.6');
+    base.setAttribute('stroke-linejoin', 'round');
+    base.setAttribute('stroke-linecap', 'round');
+    baseG.appendChild(base);
+    svg.appendChild(baseG);
+
+    const pulseG = document.createElementNS(NS, 'g');
+    pulseG.style.filter = 'drop-shadow(0 0 1.2px #D2FF14)';
+    const pulse = document.createElementNS(NS, 'path');
+    pulse.setAttribute('d', SCOTLAND_PULSE_PATH);
+    pulse.setAttribute('fill', 'none');
+    pulse.setAttribute('stroke', '#D2FF14');
+    pulse.setAttribute('stroke-width', '0.9');
+    pulse.setAttribute('stroke-linejoin', 'round');
+    pulse.setAttribute('stroke-linecap', 'round');
+    pulseG.appendChild(pulse);
+    svg.appendChild(pulseG);
+
+    requestAnimationFrame(() => {
+      const len = pulse.getTotalLength();
+      const dash = len * 0.025;
+      const total = 5;
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes scot-trace {
+          0%   { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: -${len + dash}; }
+        }`;
+      document.head.appendChild(style);
+
+      pulse.style.strokeDasharray = `${dash} ${len}`;
+      pulse.style.animation = `scot-trace ${total}s linear infinite`;
+    });
+  })();
+</script>
+</body>
+</html>
