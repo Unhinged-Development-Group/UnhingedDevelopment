@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const FAVICON_URL =
@@ -41,7 +42,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans bg-black">{children}</body>
+      <body className="font-sans bg-black">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
