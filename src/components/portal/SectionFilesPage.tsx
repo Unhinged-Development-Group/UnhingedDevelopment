@@ -92,6 +92,14 @@ async function sha256(text: string): Promise<string> {
   return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 function sanitizeFolderName(s: string) { return s.trim().replace(/[/\\?%*:|"<>]/g, ""); }
+function getPreviewColor(f: StorageItem, theme: BrandTheme | null): string {
+  if (f.id === null) return theme ? theme.textMuted : "rgb(82,82,91)";
+  const mime = f.metadata?.mimetype || mimeFromName(f.name);
+  if (mime.includes("pdf"))   return theme ? theme.pdfColor  : "rgb(248,113,113)";
+  if (mime.includes("image")) return theme ? theme.imgColor  : "rgb(96,165,250)";
+  if (mime.includes("video")) return "rgb(167,139,250)";
+  return theme ? theme.fileColor : "rgb(113,113,122)";
+}
 
 // ── Sub-components ───────────────────────────────────────────────────────────
 
@@ -155,6 +163,9 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   const [moving, setMoving] = useState(false);
   const [moveError, setMoveError] = useState<string | null>(null);
 
+  // Folder content previews – shown as small coloured squares inside each folder card
+  const [folderPreviews, setFolderPreviews] = useState<Record<string, StorageItem[]>>({});
+
   // Lock modal (set / change / remove password on a folder)
   const [lockFolder, setLockFolder] = useState<string | null>(null);
   const [lockStage, setLockStage] = useState<"verify" | "set" | "remove">("set");
@@ -216,6 +227,31 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   useEffect(() => { loadMeta(); }, [loadMeta]);
   useEffect(() => { if (folderMode) folderInputRef.current?.focus(); }, [folderMode]);
   useEffect(() => { if (renamingFolder) renameRef.current?.focus(); }, [renamingFolder]);
+
+  // Load file previews for all visible folders (shows as coloured squares inside folder cards)
+  useEffect(() => {
+    const folders = items.filter((i) => i.id === null);
+    setFolderPreviews({});
+    if (folders.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      const updates: Record<string, StorageItem[]> = {};
+      await Promise.all(
+        folders.map(async (f) => {
+          const { data } = await supabase.storage
+            .from(BUCKET)
+            .list(`${currentPath}/${f.name}`, { limit: 9 });
+          if (!cancelled && data) {
+            updates[f.name] = (data as StorageItem[]).filter(
+              (x) => x.name !== ".emptyFolderPlaceholder"
+            );
+          }
+        })
+      );
+      if (!cancelled) setFolderPreviews(updates);
+    })();
+    return () => { cancelled = true; };
+  }, [items]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Load move-modal folder list whenever moveNavCrumbs changes
   useEffect(() => {
@@ -591,11 +627,11 @@ export default function SectionFilesPage({ section, label }: { section: string; 
         </div>
       </div>
 
-      {/* ── List ────────────────────────────────────────────────── */}
+      {/* ── Grid ─────────────────────────────────────────────── */}
       {loading ? (
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-14 animate-pulse rounded-xl"
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="aspect-square animate-pulse rounded-2xl"
               style={theme ? { backgroundColor: theme.skeletonBg } : { backgroundColor: "rgba(39,39,42,0.4)" }} />
           ))}
         </div>
@@ -616,73 +652,40 @@ export default function SectionFilesPage({ section, label }: { section: string; 
           </p>
         </div>
       ) : (
-        <div className="space-y-2">
-          {items.map((item) => {
-            const isFolder = item.id === null;
-            const rel = relPath(item.name);
-            const isLocked = isFolder && !!folderMeta[rel];
-            const isUnlocked = isFolder && unlocked.has(rel);
+        <>
+          {/* ── Folder squares ───────────────────────────────────── */}
+          {items.some((i) => i.id === null) && (
+            <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {items.filter((i) => i.id === null).map((item) => {
+                const rel = relPath(item.name);
+                const isLocked = !!folderMeta[rel];
+                const isUnlocked = unlocked.has(rel);
+                const preview = folderPreviews[item.name] ?? [];
 
-            return (
-              <div key={item.name}
-                className={theme
-                  ? "group flex items-center gap-4 rounded-xl px-4 py-3 transition-all"
-                  : "group flex items-center gap-4 rounded-xl border border-zinc-900 bg-ink-800/40 px-4 py-3 transition-all hover:border-zinc-800 hover:bg-ink-800"}
-                style={theme ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` } : {}}>
-
-                {isFolder ? <FolderIcon theme={theme} /> : <FileIcon mime={item.metadata?.mimetype || mimeFromName(item.name)} theme={theme} />}
-
-                <div className="min-w-0 flex-1">
-                  {isFolder ? (
-                    renamingFolder === item.name ? (
-                      <input ref={renameRef} value={renameValue}
-                        onChange={(e) => setRenameValue(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter") commitRename(); if (e.key === "Escape") setRenamingFolder(null); }}
-                        onBlur={commitRename}
-                        disabled={renaming}
-                        className="w-full rounded border px-2 py-0.5 text-sm outline-none"
-                        style={inputStyle} />
-                    ) : (
-                      <button onClick={() => tryOpenFolder(item.name)}
-                        className="flex items-center gap-1.5 truncate text-left text-sm font-medium underline-offset-2 hover:underline">
-                        <span style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>{item.name}</span>
-                        {isLocked && (
-                          <UDGIcon
-                            name={isUnlocked ? "unlock" : "lock"}
-                            className="h-3 w-3 shrink-0"
-                            mainColor={isUnlocked ? (theme ? theme.accent : "#D2FF14") : (theme ? theme.textMuted : "rgb(113,113,122)")}
-                            accentColor={theme?.accent ?? "#D2FF14"}
-                          />
-                        )}
-                      </button>
-                    )
-                  ) : (
-                    <button onClick={() => openFile(item.name, item.metadata?.mimetype ?? "")}
-                      className="truncate text-left text-sm font-medium underline-offset-2 hover:underline"
-                      style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
-                      {displayName(item.name)}
-                    </button>
-                  )}
-                  <p className="text-xs" style={{ color: theme ? theme.textMuted : "rgb(82,82,91)" }}>
-                    {isFolder ? "Folder" : item.metadata?.size ? formatBytes(item.metadata.size) : ""}
-                  </p>
-                </div>
-
-                {/* Hover actions */}
-                <div className="flex shrink-0 items-center gap-1 opacity-0 transition-all group-hover:opacity-100">
-                  {isFolder ? (
-                    <>
-                      <button onClick={() => tryOpenFolder(item.name)} className={actionBtn()} style={actionBtnStyle()}>Open</button>
-                      {/* Rename */}
-                      <button title="Rename" onClick={() => { setRenamingFolder(item.name); setRenameValue(item.name); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
+                return (
+                  <div
+                    key={item.name}
+                    className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-2xl p-4 transition-all"
+                    style={theme
+                      ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
+                      : { backgroundColor: "rgb(24,24,27)", border: "1px solid rgb(39,39,42)" }}
+                    onClick={() => renamingFolder !== item.name && tryOpenFolder(item.name)}
+                  >
+                    {/* Hover actions – top-right corner */}
+                    <div
+                      className="absolute top-2 right-2 z-10 flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button title="Rename" onClick={() => { setRenamingFolder(item.name); setRenameValue(item.name); }}
+                        className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
                         <UDGIcon name="edit" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
-                      {/* Lock */}
-                      <button title={isLocked ? "Manage password" : "Set password"} onClick={() => openLockModal(item.name)} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
+                      <button title={isLocked ? "Manage password" : "Set password"} onClick={() => openLockModal(item.name)}
+                        className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
                         <UDGIcon name={isLocked ? "lock" : "unlock"} className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
-                      {/* Move */}
-                      <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: true }); setMoveNavCrumbs([]); setMoveError(null); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
+                      <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: true }); setMoveNavCrumbs([]); setMoveError(null); }}
+                        className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
                         <UDGIcon name="move" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {isAdmin && (
@@ -690,29 +693,128 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                           <UDGIcon name="trash" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                         </button>
                       )}
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => openFile(item.name, item.metadata?.mimetype ?? "")} className={actionBtn()} style={actionBtnStyle()}>Open</button>
-                      <button title="Download" onClick={() => downloadFile(item.name, item.metadata?.mimetype ?? "")} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <UDGIcon name="download" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
+                    </div>
+
+                    {/* File preview squares */}
+                    <div className="mb-2 grid flex-1 grid-cols-4 content-start gap-1 pt-1">
+                      {preview.length > 0
+                        ? preview.slice(0, 8).map((f, i) => (
+                            <div key={i} className="aspect-square rounded-sm opacity-60"
+                              style={{ backgroundColor: getPreviewColor(f, theme) }} />
+                          ))
+                        : (
+                            <div className="col-span-4 flex h-full items-center justify-center opacity-20">
+                              <UDGIcon name="folder" className="h-10 w-10"
+                                mainColor={theme ? theme.textMuted : "rgb(161,161,170)"}
+                                accentColor={theme?.accent ?? "#D2FF14"} />
+                            </div>
+                          )
+                      }
+                    </div>
+
+                    {/* Footer: name + lock indicator */}
+                    <div className="border-t pt-2.5" style={{ borderColor: theme ? theme.border : "rgb(39,39,42)" }}>
+                      {renamingFolder === item.name ? (
+                        <input
+                          ref={renameRef}
+                          value={renameValue}
+                          onChange={(e) => setRenameValue(e.target.value)}
+                          onKeyDown={(e) => { if (e.key === "Enter") commitRename(); if (e.key === "Escape") setRenamingFolder(null); }}
+                          onBlur={commitRename}
+                          disabled={renaming}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-full rounded border px-2 py-0.5 text-xs outline-none"
+                          style={inputStyle}
+                        />
+                      ) : (
+                        <div className="flex items-center gap-1.5">
+                          <p className="truncate text-xs font-semibold" style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
+                            {item.name}
+                          </p>
+                          {isLocked && (
+                            <UDGIcon
+                              name={isUnlocked ? "unlock" : "lock"}
+                              className="h-3 w-3 shrink-0"
+                              mainColor={isUnlocked ? (theme ? theme.accent : "#D2FF14") : (theme ? theme.textMuted : "rgb(113,113,122)")}
+                              accentColor={theme?.accent ?? "#D2FF14"}
+                            />
+                          )}
+                        </div>
+                      )}
+                      <p className="mt-0.5 text-[10px]" style={{ color: theme ? theme.textMuted : "rgb(82,82,91)" }}>
+                        {preview.length > 0 ? `${preview.length} item${preview.length !== 1 ? "s" : ""}` : "Folder"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── File squares ─────────────────────────────────────── */}
+          {items.some((i) => i.id !== null) && (
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              {items.filter((i) => i.id !== null).map((item) => {
+                const mime = item.metadata?.mimetype || mimeFromName(item.name);
+                return (
+                  <div
+                    key={item.name}
+                    className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-xl p-3 transition-all"
+                    style={theme
+                      ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
+                      : { backgroundColor: "rgb(24,24,27)", border: "1px solid rgb(39,39,42)" }}
+                    onClick={() => openFile(item.name, mime)}
+                  >
+                    {/* Hover actions */}
+                    <div
+                      className="absolute top-1.5 right-1.5 z-10 flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button title="Download" onClick={() => downloadFile(item.name, mime)} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
+                        <UDGIcon name="download" className="h-3 w-3" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
-                      {/* Move */}
                       <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: false }); setMoveNavCrumbs([]); setMoveError(null); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <UDGIcon name="move" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
+                        <UDGIcon name="move" className="h-3 w-3" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {isAdmin && (
                         <button title="Delete" onClick={() => deleteFile(item.name)} className={iconBtn(true)}>
-                          <UDGIcon name="trash" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
+                          <UDGIcon name="trash" className="h-3 w-3" accentColor={theme?.accent ?? "#D2FF14"} />
                         </button>
                       )}
-                    </>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                    </div>
+
+                    {/* File type icon */}
+                    <div className="flex flex-1 items-center justify-center">
+                      {mime?.includes("pdf") ? (
+                        <UDGIcon name="file" className="h-10 w-10"
+                          mainColor={theme ? theme.pdfColor : "rgb(248,113,113)"}
+                          accentColor={theme ? theme.pdfColor : "rgb(248,113,113)"} />
+                      ) : mime?.includes("image") ? (
+                        <UDGIcon name="photo" className="h-10 w-10"
+                          mainColor={theme ? theme.imgColor : "rgb(96,165,250)"}
+                          accentColor={theme ? theme.imgColor : "rgb(96,165,250)"} />
+                      ) : (
+                        <UDGIcon name="file" className="h-10 w-10"
+                          mainColor={theme ? theme.fileColor : "rgb(161,161,170)"}
+                          accentColor={theme ? theme.fileColor : "rgb(161,161,170)"} />
+                      )}
+                    </div>
+
+                    {/* File name + size */}
+                    <div className="w-full">
+                      <p className="truncate text-center text-[10px] font-medium leading-tight" style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
+                        {displayName(item.name)}
+                      </p>
+                      <p className="text-center text-[9px] leading-tight" style={{ color: theme ? theme.textMuted : "rgb(82,82,91)" }}>
+                        {item.metadata?.size ? formatBytes(item.metadata.size) : ""}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
 
       {/* ── Move modal ───────────────────────────────────────────── */}
