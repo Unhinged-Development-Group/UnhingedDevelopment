@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { SCOTLAND_PATH, SCOTLAND_VIEWBOX } from "./scotland-path";
+import { SCOTLAND_PATH, SCOTLAND_PULSE_PATH, SCOTLAND_VIEWBOX } from "./scotland-path";
 
 // Stroke widths are in the same user-units as the path (viewBox ~114x181).
 const BASE_STROKE = 0.6;
@@ -45,8 +45,7 @@ export default function ScotlandPulse() {
       }
     : { strokeDasharray: "0 999999" };
 
-  const sharedPathProps = {
-    d: SCOTLAND_PATH,
+  const commonProps = {
     fill: "none" as const,
     strokeLinejoin: "round" as const,
     strokeLinecap: "round" as const,
@@ -62,7 +61,8 @@ export default function ScotlandPulse() {
       {styleBlock && <style>{styleBlock}</style>}
       <g style={{ filter: "drop-shadow(0 0 1.5px rgba(210,255,20,0.5))" }}>
         <path
-          {...sharedPathProps}
+          {...commonProps}
+          d={SCOTLAND_PATH}
           stroke="rgba(210,255,20,0.12)"
           strokeWidth={BASE_STROKE}
         />
@@ -70,7 +70,8 @@ export default function ScotlandPulse() {
       <g style={{ filter: "drop-shadow(0 0 1.2px #D2FF14)" }}>
         <path
           ref={pulseRef}
-          {...sharedPathProps}
+          {...commonProps}
+          d={SCOTLAND_PULSE_PATH}
           stroke="#D2FF14"
           strokeWidth={PULSE_STROKE}
           style={pulseStyle}
