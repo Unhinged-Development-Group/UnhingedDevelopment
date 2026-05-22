@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import UDGIcon from "@/components/UDGIcon";
 import { createClient } from "@/lib/supabase";
 import { isValidEmailForCompany } from "@/lib/auth";
 
@@ -81,9 +82,7 @@ export default function PortalLogin() {
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-sm text-center">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-unhinged-green/10">
-            <svg className="h-6 w-6 text-unhinged-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
+            <UDGIcon name="mail" className="h-6 w-6 text-unhinged-green" accentColor="#D2FF14" />
           </div>
           <h2 className="mb-2 text-lg font-semibold text-white">Check your email</h2>
           <p className="text-sm text-zinc-400">
@@ -99,9 +98,7 @@ export default function PortalLogin() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-6 sm:px-10">
         <Link href="/" className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors">
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-          </svg>
+          <UDGIcon name="chevron-left" className="h-4 w-4" accentColor="#D2FF14" />
           Back
         </Link>
         <span className="text-xs font-semibold tracking-widest text-zinc-600 uppercase">UDG Team Portal</span>

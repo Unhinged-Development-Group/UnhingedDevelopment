@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import { createClient, type CompanyKey } from "@/lib/supabase";
+import UDGIcon from "@/components/UDGIcon";
 
 // ── Brand tokens ────────────────────────────────────────────────────────────
 
@@ -95,17 +96,18 @@ function sanitizeFolderName(s: string) { return s.trim().replace(/[/\\?%*:|"<>]/
 // ── Sub-components ───────────────────────────────────────────────────────────
 
 function FileIcon({ mime, theme }: { mime: string; theme: BrandTheme | null }) {
-  const pdf = theme ? theme.pdfColor : "rgb(248,113,113)";
-  const img = theme ? theme.imgColor : "rgb(96,165,250)";
+  const pdf  = theme ? theme.pdfColor  : "rgb(248,113,113)";
+  const img  = theme ? theme.imgColor  : "rgb(96,165,250)";
   const file = theme ? theme.fileColor : "rgb(161,161,170)";
   if (mime?.includes("pdf"))
-    return <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: pdf }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>;
+    return <UDGIcon name="file"  className="h-5 w-5 shrink-0" mainColor={pdf}  accentColor={pdf}  />;
   if (mime?.includes("image"))
-    return <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: img }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>;
-  return <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: file }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>;
+    return <UDGIcon name="photo" className="h-5 w-5 shrink-0" mainColor={img}  accentColor={img}  />;
+  return   <UDGIcon name="file"  className="h-5 w-5 shrink-0" mainColor={file} accentColor={file} />;
 }
 function FolderIcon({ theme }: { theme: BrandTheme | null }) {
-  return <svg className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: theme ? theme.textMuted : "rgb(161,161,170)" }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" /></svg>;
+  const color = theme ? theme.textMuted : "rgb(161,161,170)";
+  return <UDGIcon name="folder" className="h-5 w-5 shrink-0" mainColor={color} accentColor={theme?.accent ?? "#D2FF14"} />;
 }
 
 // ── Main component ───────────────────────────────────────────────────────────
@@ -570,9 +572,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
               <button onClick={() => setFolderMode(true)}
                 className={theme ? "flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2 text-sm" : "flex cursor-pointer items-center gap-2 rounded-xl border border-zinc-800 bg-ink-800 px-4 py-2 text-sm text-zinc-300 hover:border-unhinged-green/40 hover:text-white"}
                 style={theme ? { border: `1px solid ${theme.uploadBorder}`, backgroundColor: theme.uploadBg, color: theme.uploadText } : {}}>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                </svg>
+                <UDGIcon name="folder-plus" className="h-4 w-4" accentColor={theme?.accent ?? "#D2FF14"} />
                 New folder
               </button>
               <label
@@ -580,9 +580,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                 style={theme ? { border: `1px solid ${theme.uploadBorder}`, backgroundColor: theme.uploadBg, color: theme.uploadText } : {}}>
                 {uploading ? <span style={{ color: theme ? theme.textMuted : "rgb(113,113,122)" }}>Uploading…</span> : (
                   <>
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                    </svg>
+                    <UDGIcon name="upload" className="h-4 w-4" accentColor={theme?.accent ?? "#D2FF14"} />
                     Upload
                   </>
                 )}
@@ -649,13 +647,12 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                         className="flex items-center gap-1.5 truncate text-left text-sm font-medium underline-offset-2 hover:underline">
                         <span style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>{item.name}</span>
                         {isLocked && (
-                          <svg className="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            style={{ color: isUnlocked ? (theme ? theme.accent : "#D2FF14") : (theme ? theme.textMuted : "rgb(113,113,122)") }}>
-                            {isUnlocked
-                              ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                              : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zM10 11V7a2 2 0 114 0v4" />
-                            }
-                          </svg>
+                          <UDGIcon
+                            name={isUnlocked ? "unlock" : "lock"}
+                            className="h-3 w-3 shrink-0"
+                            mainColor={isUnlocked ? (theme ? theme.accent : "#D2FF14") : (theme ? theme.textMuted : "rgb(113,113,122)")}
+                            accentColor={theme?.accent ?? "#D2FF14"}
+                          />
                         )}
                       </button>
                     )
@@ -678,24 +675,19 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                       <button onClick={() => tryOpenFolder(item.name)} className={actionBtn()} style={actionBtnStyle()}>Open</button>
                       {/* Rename */}
                       <button title="Rename" onClick={() => { setRenamingFolder(item.name); setRenameValue(item.name); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                        <UDGIcon name="edit" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {/* Lock */}
                       <button title={isLocked ? "Manage password" : "Set password"} onClick={() => openLockModal(item.name)} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          {isLocked
-                            ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zM10 11V7a2 2 0 114 0v4" />
-                            : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                          }
-                        </svg>
+                        <UDGIcon name={isLocked ? "lock" : "unlock"} className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {/* Move */}
                       <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: true }); setMoveNavCrumbs([]); setMoveError(null); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                        <UDGIcon name="move" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {isAdmin && (
                         <button title="Delete folder" onClick={() => deleteFolder(item.name)} className={iconBtn(true)}>
-                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          <UDGIcon name="trash" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                         </button>
                       )}
                     </>
@@ -703,15 +695,15 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     <>
                       <button onClick={() => openFile(item.name, item.metadata?.mimetype ?? "")} className={actionBtn()} style={actionBtnStyle()}>Open</button>
                       <button title="Download" onClick={() => downloadFile(item.name, item.metadata?.mimetype ?? "")} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        <UDGIcon name="download" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {/* Move */}
                       <button title="Move" onClick={() => { setMoveItem({ name: item.name, isFolder: false }); setMoveNavCrumbs([]); setMoveError(null); }} className={iconBtn()} style={{ color: theme ? theme.textMuted : undefined }}>
-                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                        <UDGIcon name="move" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                       </button>
                       {isAdmin && (
                         <button title="Delete" onClick={() => deleteFile(item.name)} className={iconBtn(true)}>
-                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          <UDGIcon name="trash" className="h-3.5 w-3.5" accentColor={theme?.accent ?? "#D2FF14"} />
                         </button>
                       )}
                     </>
@@ -766,9 +758,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
                     <FolderIcon theme={theme} />
                     {f.name}
-                    <svg className="ml-auto h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: theme ? theme.textMuted : "rgb(113,113,122)" }}>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <UDGIcon name="chevron-right" className="ml-auto h-3.5 w-3.5 shrink-0" style={{ color: theme ? theme.textMuted : "rgb(113,113,122)" }} accentColor={theme?.accent ?? "#D2FF14"} />
                   </button>
                 ))
               )}

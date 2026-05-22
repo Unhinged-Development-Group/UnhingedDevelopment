@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import UDGIcon from "@/components/UDGIcon";
 
 const LOGO_URL =
   "https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png";
@@ -170,9 +171,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
           >
             <span className="h-1.5 w-1.5 rounded-full bg-unhinged-green animate-pulse" />
             UDG Team Portal
-            <svg className="h-3 w-3 text-zinc-500 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            <UDGIcon name="chevron-right" className="h-3 w-3 text-zinc-500 transition-transform duration-200 group-hover:translate-x-0.5" accentColor="#D2FF14" />
           </Link>
         </div>
       </div>

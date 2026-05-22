@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { createClient, COMPANY_LABELS, type CompanyKey } from "@/lib/supabase";
+import UDGIcon from "@/components/UDGIcon";
 import { DOMAIN_COMPANY_MAP } from "@/lib/auth";
 
 const G = {
@@ -115,6 +116,7 @@ export default function TeamPage() {
   const isGroomr = company === "groomr";
   const isPP = company === "paper-and-ponder";
   const theme: BrandTheme | null = isGroomr ? GROOMR_THEME : isPP ? PP_THEME : null;
+  const accentColor = isGroomr ? G.gold : isPP ? PP.terracotta : "#D2FF14";
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
@@ -408,9 +410,7 @@ export default function TeamPage() {
               className={theme ? "flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all" : "flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-ink-800/50 px-3 py-2 text-sm font-medium text-zinc-400 transition-all hover:border-zinc-700 hover:bg-ink-800 hover:text-zinc-200"}
               style={theme ? { border: `1px solid ${theme.secondaryBorder}`, backgroundColor: theme.secondaryBg, color: theme.secondaryText } : {}}
             >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
+              <UDGIcon name="shield" className="h-4 w-4" accentColor={accentColor} />
               Add admin
             </button>
             <button
@@ -418,9 +418,7 @@ export default function TeamPage() {
               className={theme ? "flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all" : "flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-ink-800/50 px-3 py-2 text-sm font-medium text-zinc-300 transition-all hover:border-zinc-700 hover:bg-ink-800 hover:text-white"}
               style={theme ? { border: `1px solid ${theme.primaryBg}`, backgroundColor: theme.primaryBg, color: theme.primaryText } : {}}
             >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
+              <UDGIcon name="plus" className="h-4 w-4" accentColor={accentColor} />
               Invite
             </button>
           </div>
@@ -444,10 +442,7 @@ export default function TeamPage() {
             className="mb-3 flex h-12 w-12 items-center justify-center rounded-full"
             style={theme ? { backgroundColor: theme.emptyCircleBg } : { backgroundColor: "rgb(39,39,42)" }}
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              style={{ color: theme ? theme.emptyIconColor : "rgb(82,82,91)" }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
+            <UDGIcon name="users" className="h-6 w-6" mainColor={theme ? theme.emptyIconColor : "rgb(82,82,91)"} accentColor={accentColor} />
           </div>
           <p className="text-sm" style={{ color: theme ? theme.textMuted : "rgb(113,113,122)" }}>No team members yet.</p>
           {isAdmin && <p className="mt-1 text-xs" style={{ color: theme ? theme.emptyIconColor : "rgb(82,82,91)" }}>Use the Invite button to add someone.</p>}
@@ -526,9 +521,7 @@ export default function TeamPage() {
                         <>
                           <button onClick={() => startEditMembership(member)}
                             className={brandIconBtnClass} style={brandIconBtn} title="Edit membership">
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
+                            <UDGIcon name="edit" className="h-3.5 w-3.5" accentColor={accentColor} />
                           </button>
                           <button onClick={() => setConfirmRemoveMembershipId(member.membershipId)}
                             className={theme ? "rounded-lg p-1.5 opacity-0 transition-all group-hover:opacity-100" : "rounded-lg border border-zinc-800 p-1.5 text-zinc-500 opacity-0 transition-all group-hover:opacity-100 hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400"}
@@ -581,17 +574,13 @@ export default function TeamPage() {
                           <button
                             onClick={() => { setEditingId(member.profileId); setEditRole(member.job_role ?? ""); }}
                             className={brandIconBtnClass} style={brandIconBtn} title="Edit role">
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
+                            <UDGIcon name="edit" className="h-3.5 w-3.5" accentColor={accentColor} />
                           </button>
                           {member.profileId !== currentUserId && (
                             <button onClick={() => setConfirmDeleteId(member.profileId)}
                               className={theme ? "rounded-lg p-1.5 opacity-0 transition-all group-hover:opacity-100" : "rounded-lg border border-zinc-800 p-1.5 text-zinc-500 opacity-0 transition-all group-hover:opacity-100 hover:border-red-900/50 hover:bg-red-950/20 hover:text-red-400"}
                               style={brandIconBtn} title="Remove member">
-                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
+                              <UDGIcon name="trash" className="h-3.5 w-3.5" accentColor={accentColor} />
                             </button>
                           )}
                         </>
@@ -625,9 +614,7 @@ export default function TeamPage() {
               </div>
               <button onClick={() => setShowInviteModal(false)} className="rounded-lg p-1 transition-colors"
                 style={{ color: theme ? theme.emptyIconColor : "rgb(113,113,122)" }}>
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <UDGIcon name="close" className="h-5 w-5" accentColor={accentColor} />
               </button>
             </div>
             <form onSubmit={handleInvite} className="space-y-3">
@@ -682,9 +669,7 @@ export default function TeamPage() {
               </div>
               <button onClick={() => setShowAdminModal(false)} className="rounded-lg p-1 transition-colors"
                 style={{ color: theme ? theme.emptyIconColor : "rgb(113,113,122)" }}>
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <UDGIcon name="close" className="h-5 w-5" accentColor={accentColor} />
               </button>
             </div>
             {adminProfiles.length === 0 ? (
