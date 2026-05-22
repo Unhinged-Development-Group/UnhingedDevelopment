@@ -660,9 +660,11 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                       </button>
                     )
                   ) : (
-                    <p className="truncate text-sm font-medium" style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
+                    <button onClick={() => openFile(item.name, item.metadata?.mimetype ?? "")}
+                      className="truncate text-left text-sm font-medium underline-offset-2 hover:underline"
+                      style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
                       {displayName(item.name)}
-                    </p>
+                    </button>
                   )}
                   <p className="text-xs" style={{ color: theme ? theme.textMuted : "rgb(82,82,91)" }}>
                     {isFolder ? "Folder" : item.metadata?.size ? formatBytes(item.metadata.size) : ""}
