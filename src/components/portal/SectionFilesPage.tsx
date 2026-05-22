@@ -136,6 +136,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   const [items, setItems] = useState<StorageItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
 
   // New-folder UI
@@ -295,16 +296,36 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
   // ── File operations ────────────────────────────────────────────────────────
 
-  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  async function uploadFile(file: File) {
     setUploading(true);
     const path = `${currentPath}/${Date.now()}_${file.name}`;
     const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
       contentType: file.type || mimeFromName(file.name),
     });
     if (!error) await loadItems();
-    setUploading(false); e.target.value = "";
+    setUploading(false);
+  }
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await uploadFile(file);
+    e.target.value = "";
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+    setIsDragOver(true);
+  }
+  function handleDragLeave(e: React.DragEvent) {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragOver(false);
+  }
+  async function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    await uploadFile(file);
   }
 
   async function getSignedUrl(name: string) {
@@ -626,6 +647,32 @@ export default function SectionFilesPage({ section, label }: { section: string; 
           )}
         </div>
       </div>
+
+      {/* ── Drop zone ───────────────────────────────────────── */}
+      <label
+        onDragOver={handleDragOver}
+        onDragEnter={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        className="mb-6 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-8 transition-all"
+        style={
+          isDragOver
+            ? { borderColor: theme?.accent ?? "#D2FF14", backgroundColor: theme ? `${theme.accent}18` : "rgba(210,255,20,0.06)" }
+            : { borderColor: theme ? theme.uploadBorder : "rgb(39,39,42)", backgroundColor: "transparent" }
+        }
+      >
+        {uploading ? (
+          <div className="h-5 w-5 animate-spin rounded-full border-2"
+            style={{ borderColor: theme ? theme.uploadBorder : "rgb(63,63,70)", borderTopColor: theme?.accent ?? "#D2FF14" }} />
+        ) : (
+          <UDGIcon name="upload" className="h-5 w-5" accentColor={theme?.accent ?? "#D2FF14"}
+            mainColor={isDragOver ? (theme?.accent ?? "#D2FF14") : (theme ? theme.textMuted : "rgb(82,82,91)")} />
+        )}
+        <p className="text-xs font-medium" style={{ color: isDragOver ? (theme?.accent ?? "#D2FF14") : (theme ? theme.textMuted : "rgb(82,82,91)") }}>
+          {uploading ? "Uploading…" : isDragOver ? "Drop to upload" : "Drag a file here to upload"}
+        </p>
+        <input type="file" className="hidden" onChange={handleUpload} disabled={uploading} />
+      </label>
 
       {/* ── Grid ─────────────────────────────────────────────── */}
       {loading ? (
