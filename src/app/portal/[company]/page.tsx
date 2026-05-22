@@ -94,7 +94,7 @@ export default function CompanyDashboard() {
     return (
       <div
         className="px-6 py-10 sm:px-10"
-        style={{ backgroundColor: PP.alabaster, minHeight: "100vh", fontFamily: "'Montserrat', sans-serif" }}
+        style={{ backgroundColor: PP.alabaster, fontFamily: "'Montserrat', sans-serif" }}
       >
         <div className="max-w-3xl">
           {/* Logo */}
@@ -165,7 +165,7 @@ export default function CompanyDashboard() {
     return (
       <div
         className="px-6 py-10 sm:px-10"
-        style={{ backgroundColor: GROOMR.cream, minHeight: "100vh", fontFamily: "'Nunito', sans-serif" }}
+        style={{ backgroundColor: GROOMR.cream, fontFamily: "'Nunito', sans-serif" }}
       >
         <div className="max-w-3xl">
           <div className="mb-12">

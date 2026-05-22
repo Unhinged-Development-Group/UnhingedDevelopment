@@ -519,7 +519,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   return (
     <div
       className="w-full px-6 py-8 sm:px-10"
-      style={theme ? { backgroundColor: theme.bg, minHeight: "100vh", fontFamily: theme.font } : {}}
+      style={theme ? { backgroundColor: theme.bg, fontFamily: theme.font } : {}}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
