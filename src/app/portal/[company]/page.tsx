@@ -93,7 +93,7 @@ export default function CompanyDashboard() {
   if (company === "paper-and-ponder") {
     return (
       <div
-        className="px-6 py-10 sm:px-10"
+        className="min-h-full px-6 py-10 sm:px-10"
         style={{ backgroundColor: PP.alabaster, fontFamily: "'Montserrat', sans-serif" }}
       >
         <div className="max-w-3xl">
@@ -164,7 +164,7 @@ export default function CompanyDashboard() {
   if (company === "groomr") {
     return (
       <div
-        className="px-6 py-10 sm:px-10"
+        className="min-h-full px-6 py-10 sm:px-10"
         style={{ backgroundColor: GROOMR.cream, fontFamily: "'Nunito', sans-serif" }}
       >
         <div className="max-w-3xl">

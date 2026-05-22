@@ -142,7 +142,7 @@ export default function AccountPage() {
 
   return (
     <div
-      className="w-full px-6 py-10 sm:px-10"
+      className="w-full min-h-full px-6 py-10 sm:px-10"
       style={theme ? { backgroundColor: theme.bg, fontFamily: theme.font } : {}}
     >
       <div className="max-w-lg">

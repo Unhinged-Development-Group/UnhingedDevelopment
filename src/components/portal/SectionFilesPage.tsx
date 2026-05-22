@@ -554,7 +554,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
   return (
     <div
-      className="w-full px-6 py-8 sm:px-10"
+      className="w-full min-h-full px-6 py-8 sm:px-10"
       style={theme ? { backgroundColor: theme.bg, fontFamily: theme.font } : {}}
     >
       {/* ── Header ──────────────────────────────────────────────── */}
@@ -629,9 +629,9 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
       {/* ── Grid ─────────────────────────────────────────────── */}
       {loading ? (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="aspect-square animate-pulse rounded-2xl"
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div key={i} className="aspect-square animate-pulse rounded-xl"
               style={theme ? { backgroundColor: theme.skeletonBg } : { backgroundColor: "rgba(39,39,42,0.4)" }} />
           ))}
         </div>
@@ -655,7 +655,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
         <>
           {/* ── Folder squares ───────────────────────────────────── */}
           {items.some((i) => i.id === null) && (
-            <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="mb-4 grid grid-cols-4 gap-2 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9">
               {items.filter((i) => i.id === null).map((item) => {
                 const rel = relPath(item.name);
                 const isLocked = !!folderMeta[rel];
@@ -665,7 +665,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                 return (
                   <div
                     key={item.name}
-                    className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-2xl p-4 transition-all"
+                    className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-xl p-2.5 transition-all"
                     style={theme
                       ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
                       : { backgroundColor: "rgb(24,24,27)", border: "1px solid rgb(39,39,42)" }}
@@ -704,7 +704,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                           ))
                         : (
                             <div className="col-span-4 flex h-full items-center justify-center opacity-20">
-                              <UDGIcon name="folder" className="h-10 w-10"
+                              <UDGIcon name="folder" className="h-5 w-5"
                                 mainColor={theme ? theme.textMuted : "rgb(161,161,170)"}
                                 accentColor={theme?.accent ?? "#D2FF14"} />
                             </div>
@@ -713,7 +713,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     </div>
 
                     {/* Footer: name + lock indicator */}
-                    <div className="border-t pt-2.5" style={{ borderColor: theme ? theme.border : "rgb(39,39,42)" }}>
+                    <div className="border-t pt-1.5" style={{ borderColor: theme ? theme.border : "rgb(39,39,42)" }}>
                       {renamingFolder === item.name ? (
                         <input
                           ref={renameRef}
@@ -753,13 +753,13 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
           {/* ── File squares ─────────────────────────────────────── */}
           {items.some((i) => i.id !== null) && (
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
               {items.filter((i) => i.id !== null).map((item) => {
                 const mime = item.metadata?.mimetype || mimeFromName(item.name);
                 return (
                   <div
                     key={item.name}
-                    className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-xl p-3 transition-all"
+                    className="group relative flex aspect-square cursor-pointer flex-col overflow-hidden rounded-lg p-2 transition-all"
                     style={theme
                       ? { backgroundColor: theme.cardBg, border: `1px solid ${theme.border}` }
                       : { backgroundColor: "rgb(24,24,27)", border: "1px solid rgb(39,39,42)" }}
@@ -786,15 +786,15 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     {/* File type icon */}
                     <div className="flex flex-1 items-center justify-center">
                       {mime?.includes("pdf") ? (
-                        <UDGIcon name="file" className="h-10 w-10"
+                        <UDGIcon name="file" className="h-5 w-5"
                           mainColor={theme ? theme.pdfColor : "rgb(248,113,113)"}
                           accentColor={theme ? theme.pdfColor : "rgb(248,113,113)"} />
                       ) : mime?.includes("image") ? (
-                        <UDGIcon name="photo" className="h-10 w-10"
+                        <UDGIcon name="photo" className="h-5 w-5"
                           mainColor={theme ? theme.imgColor : "rgb(96,165,250)"}
                           accentColor={theme ? theme.imgColor : "rgb(96,165,250)"} />
                       ) : (
-                        <UDGIcon name="file" className="h-10 w-10"
+                        <UDGIcon name="file" className="h-5 w-5"
                           mainColor={theme ? theme.fileColor : "rgb(161,161,170)"}
                           accentColor={theme ? theme.fileColor : "rgb(161,161,170)"} />
                       )}
