@@ -12,7 +12,7 @@ const projects = [
     name: "Groomr.",
     slug: "groomr",
     status: "In Development",
-    launch: "August 2027",
+    launch: "August 2026",
     description:
       "A UK dog groomer booking platform connecting owners to local, independent groomers — and a complete business hub for groomers to run an efficient business.",
     tags: ["Platform", "B2C", "Service"],
@@ -21,7 +21,7 @@ const projects = [
     name: "Paper & Ponder",
     slug: "paper-and-ponder",
     status: "In Development",
-    launch: "September 2027",
+    launch: "September 2026",
     description:
       "An AI journaling companion that uses your hand-written journal entries to analyse, discuss and reflect on your feelings.",
     tags: ["Consumer", "E-commerce", "Creative"],
