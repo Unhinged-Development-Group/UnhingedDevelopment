@@ -208,15 +208,52 @@ def render_subpath(sp, tx, ty):
     """
     Return the subpath as a string.
     - Replaces the leading m/M + first two coords with absolute M (x+tx, y+ty).
-    - All remaining tokens are kept exactly as they appear in the source SVG,
-      so no reconstruction bugs can corrupt relative curve commands.
+    - Relative commands (c, l, h, v, m, z) are kept verbatim — their args are
+      relative to the cursor so they need no adjustment.
+    - Absolute commands (V, H, L, C, M) have their coordinates shifted by
+      (tx, ty) so they render correctly in the un-transformed viewBox.
+      (Without this, e.g. 'V 140' would draw to y=140 in viewBox space
+       instead of the correct transformed position.)
     """
     toks = list(sp['slice'])
     ax, ay = sp['start']
-    # toks[0] = 'm' or 'M', toks[1] = raw x, toks[2] = raw y
-    head = ['M', f'{ax + tx:.6f}', f'{ay + ty:.6f}']
-    tail = toks[3:]   # rest of subpath verbatim
-    return ' '.join(head + tail)
+    out = ['M', f'{ax + tx:.6f}', f'{ay + ty:.6f}']
+
+    i = 3          # skip original m/M x y
+    n = len(toks)
+
+    # Pass through any implicit lineto args immediately after M (relative)
+    while i < n and not toks[i].isalpha():
+        out.append(toks[i]); i += 1
+
+    while i < n:
+        cmd = toks[i]; i += 1
+        out.append(cmd)
+
+        if cmd == 'V':                          # absolute vertical
+            while i < n and not toks[i].isalpha():
+                out.append(f'{float(toks[i]) + ty:.6f}'); i += 1
+        elif cmd == 'H':                        # absolute horizontal
+            while i < n and not toks[i].isalpha():
+                out.append(f'{float(toks[i]) + tx:.6f}'); i += 1
+        elif cmd == 'L':                        # absolute lineto (x y pairs)
+            while i < n and not toks[i].isalpha():
+                out.append(f'{float(toks[i]) + tx:.6f}'); i += 1
+                out.append(f'{float(toks[i]) + ty:.6f}'); i += 1
+        elif cmd == 'C':                        # absolute cubic (3 x,y pairs)
+            while i < n and not toks[i].isalpha():
+                for _ in range(3):
+                    out.append(f'{float(toks[i]) + tx:.6f}'); i += 1
+                    out.append(f'{float(toks[i]) + ty:.6f}'); i += 1
+        elif cmd == 'M':                        # additional absolute moveto
+            while i < n and not toks[i].isalpha():
+                out.append(f'{float(toks[i]) + tx:.6f}'); i += 1
+                out.append(f'{float(toks[i]) + ty:.6f}'); i += 1
+        else:                                   # relative commands and Z
+            while i < n and not toks[i].isalpha():
+                out.append(toks[i]); i += 1
+
+    return ' '.join(out)
 
 
 # ── main ───────────────────────────────────────────────────────────────────
