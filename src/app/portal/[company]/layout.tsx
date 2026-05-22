@@ -207,19 +207,6 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
             </Link>
           )}
         </div>
-        <Link
-          href={`/portal/${company}/account`}
-          className="flex items-center gap-2 rounded-full border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 transition-all hover:border-zinc-700 hover:text-zinc-200"
-        >
-          {user?.avatarUrl ? (
-            <img src={user.avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover" />
-          ) : (
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-unhinged-green text-[10px] font-bold text-ink-950">
-              {user?.initials}
-            </span>
-          )}
-          <span className="hidden sm:block">{user?.email}</span>
-        </Link>
       </header>
 
       <div className="flex flex-1">
@@ -259,7 +246,20 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
               const active = activeSection === "account";
               return (
                 <Link href={`/portal/${company}/account`} className={navLinkClass(active)} style={navLinkStyle(active)}>
-                  <span className={navIconClass(active)} style={navIconStyle(active)}>{ACCOUNT_ICON}</span>
+                  {user?.avatarUrl ? (
+                    <img src={user.avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover shrink-0" />
+                  ) : (
+                    <span
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${!isBranded ? "bg-unhinged-green text-ink-950" : ""}`}
+                      style={
+                        isGroomr ? { backgroundColor: G.gold, color: G.deepSlate }
+                        : isPP ? { backgroundColor: PP.terracotta, color: PP.alabaster }
+                        : undefined
+                      }
+                    >
+                      {user?.initials}
+                    </span>
+                  )}
                   Account
                 </Link>
               );
@@ -303,7 +303,16 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
             className="flex flex-1 flex-col items-center gap-1 py-3 text-[10px] font-medium transition-colors"
             style={{ color: activeSection === "account" ? (isGroomr ? G.gold : PP.terracotta) : (isGroomr ? G.navInactiveText : PP.navInactiveText) }}
           >
-            {ACCOUNT_ICON}
+            {user?.avatarUrl ? (
+              <img src={user.avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover" />
+            ) : (
+              <span
+                className="flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold"
+                style={isGroomr ? { backgroundColor: G.gold, color: G.deepSlate } : { backgroundColor: PP.terracotta, color: PP.alabaster }}
+              >
+                {user?.initials}
+              </span>
+            )}
             Account
           </Link>
         </nav>
@@ -330,7 +339,13 @@ export default function CompanyLayout({ children }: { children: React.ReactNode 
               activeSection === "account" ? "text-unhinged-green" : "text-zinc-600"
             }`}
           >
-            {ACCOUNT_ICON}
+            {user?.avatarUrl ? (
+              <img src={user.avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover" />
+            ) : (
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-unhinged-green text-[10px] font-bold text-ink-950">
+                {user?.initials}
+              </span>
+            )}
             Account
           </Link>
         </nav>
