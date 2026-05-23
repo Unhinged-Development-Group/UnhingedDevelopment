@@ -14,7 +14,12 @@
       "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__list_teams",
       "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__list_projects",
       "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__get_deployment_build_logs",
-      "mcp__557c9a7d-7e4c-4122-a0b7-168d758794fa__execute_sql"
+      "mcp__557c9a7d-7e4c-4122-a0b7-168d758794fa__execute_sql",
+      "Bash(xargs grep -l \"icon\")",
+      "Bash(xargs grep -l \"icon\\\\|Icon\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\src\" -Recurse -Filter \"*.tsx\" -o @Files)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__get_project"
     ]
   }
 }
