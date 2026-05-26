@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-const GREEN_FILTER =
-  "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
-
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
 
@@ -24,14 +21,13 @@ export default function Hero() {
         >
           <div className="relative flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
             <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
+              src="/unhinged/logo-unhinged-green.png"
               alt=""
               aria-hidden="true"
               className="h-auto w-[60%] sm:w-[38%]"
-              style={{ filter: GREEN_FILTER, mixBlendMode: "screen", transform: "rotate(-8deg)" }}
             />
             <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_make_transparent:50/e_trim:10/c_pad,b_transparent,w_iw_add_40,h_ih_add_40/e_negate/f_png/v1778965083/IMG_0771_a3c6az.png"
+              src="/unhinged/wordmark-zinc-50.png"
               alt="Unhinged Development Group"
               className="h-auto w-[92%] sm:w-[58%]"
               style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.15))" }}

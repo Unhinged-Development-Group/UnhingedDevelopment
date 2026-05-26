@@ -5,10 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import UDGIcon from "@/components/UDGIcon";
 
-const LOGO_URL =
-  "https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png";
-const LOGO_GREEN_URL =
-  "https://res.cloudinary.com/dr8adq7nl/image/upload/e_negate/co_rgb:D2FF14,e_colorize:100/v1778965077/IMG_0772_l4ddjj.png";
+const LOGO_URL       = "/unhinged/logo-zinc-50.png";
+const LOGO_GREEN_URL = "/unhinged/logo-unhinged-green.png";
 
 const DRAWER_WIDTH = 288;     // matches w-72
 const EDGE_HIT = 24;          // px from left edge that arms the open gesture
@@ -191,7 +189,6 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
               alt="Unhinged Development Group"
               className="h-10 w-auto"
               style={{
-                filter: showGreen ? undefined : "invert(1)",
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
                 transition: "transform 300ms ease-in-out",
               }}
@@ -204,7 +201,6 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
               src={LOGO_URL}
               alt="Unhinged Development Group"
               className="hidden sm:block h-10 w-auto"
-              style={{ filter: "invert(1)", mixBlendMode: "screen" }}
             />
           ) : (
             <Link href="/" className="hidden sm:block">
@@ -212,7 +208,6 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
                 src={LOGO_URL}
                 alt="Unhinged Development Group"
                 className="h-10 w-auto"
-                style={{ filter: "invert(1)", mixBlendMode: "screen" }}
               />
             </Link>
           )}

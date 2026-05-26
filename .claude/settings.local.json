@@ -19,7 +19,8 @@
       "Bash(xargs grep -l \"icon\\\\|Icon\")",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\src\" -Recurse -Filter \"*.tsx\" -o @Files)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__get_project"
+      "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__get_project",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\andyy\\\\My Drive \\(andrew@unhingeddevelopment.uk\\)\\\\Unhinged Development Group\\\\Logo\\\\Logo Unginged Green.png\" \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\public\\\\unhinged\\\\logo-unhinged-green.png\" -Force)"
     ]
   }
 }

@@ -3,8 +3,6 @@
 import { useParams } from "next/navigation";
 import { type CompanyKey } from "@/lib/supabase";
 
-const UDG_ICON_FILTER =
-  "invert(1) brightness(0.6) sepia(1) saturate(3000%) hue-rotate(35deg) brightness(1.3)";
 
 const GROOMR = {
   gold: "#EAE45C",
@@ -100,7 +98,7 @@ export default function CompanyDashboard() {
           {/* Logo */}
           <div className="mb-12 flex items-center gap-4">
             <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778999178/monogram_pdyhij.svg"
+              src="/paper-and-ponder/monogram.png"
               alt=""
               aria-hidden="true"
               className="h-12 w-auto flex-shrink-0 sm:h-14"
@@ -170,7 +168,7 @@ export default function CompanyDashboard() {
         <div className="max-w-3xl">
           <div className="mb-12">
             <img
-              src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1774753252/Horizontal_Lockup_-_DEEP_SLATE_lg5q91.png"
+              src="/groomr/horizontal-lockup-deep-slate.png"
               alt="Groomr"
               className="mb-6 h-10 w-auto"
             />
@@ -235,17 +233,15 @@ export default function CompanyDashboard() {
       {company === "unhinged-development" && (
         <div className="mb-12 flex items-center gap-4 sm:gap-6">
           <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/v1778965077/IMG_0772_l4ddjj.png"
+            src="/unhinged/logo-unhinged-green.png"
             alt=""
             aria-hidden="true"
             className="h-16 w-auto flex-shrink-0 sm:h-24"
-            style={{ filter: UDG_ICON_FILTER, mixBlendMode: "screen" }}
           />
           <img
-            src="https://res.cloudinary.com/dr8adq7nl/image/upload/e_trim:10/v1778965083/IMG_0771_a3c6az.png"
+            src="/unhinged/wordmark-zinc-50.png"
             alt="Unhinged Development Group"
             className="h-auto w-52 sm:w-72"
-            style={{ filter: "invert(1)", mixBlendMode: "screen" }}
           />
         </div>
       )}
