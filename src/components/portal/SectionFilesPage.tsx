@@ -229,6 +229,20 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   useEffect(() => { if (folderMode) folderInputRef.current?.focus(); }, [folderMode]);
   useEffect(() => { if (renamingFolder) renameRef.current?.focus(); }, [renamingFolder]);
 
+  // Pre-fetch signed URLs for image files so previews render immediately
+  useEffect(() => {
+    const imageItems = items.filter(
+      (i) => i.id !== null && (i.metadata?.mimetype || mimeFromName(i.name)).includes("image")
+    );
+    if (imageItems.length === 0) return;
+    imageItems.forEach(async (item) => {
+      const key = `${currentPath}/${item.name}`;
+      if (signedUrls[key]) return;
+      const { data } = await supabase.storage.from(BUCKET).createSignedUrl(key, 300);
+      if (data?.signedUrl) setSignedUrls((p) => ({ ...p, [key]: data.signedUrl }));
+    });
+  }, [items, currentPath]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Load file previews for all visible folders (shows as coloured squares inside folder cards)
   useEffect(() => {
     const folders = items.filter((i) => i.id === null);
@@ -836,30 +850,38 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                       )}
                     </div>
 
-                    {/* File type icon */}
-                    <div className="flex flex-1 items-center justify-center">
-                      {mime?.includes("pdf") ? (
-                        <UDGIcon name="file" className="h-5 w-5"
-                          mainColor={theme ? theme.pdfColor : "rgb(248,113,113)"}
-                          accentColor={theme ? theme.pdfColor : "rgb(248,113,113)"} />
-                      ) : mime?.includes("image") ? (
-                        <UDGIcon name="photo" className="h-5 w-5"
-                          mainColor={theme ? theme.imgColor : "rgb(96,165,250)"}
-                          accentColor={theme ? theme.imgColor : "rgb(96,165,250)"} />
-                      ) : (
-                        <UDGIcon name="file" className="h-5 w-5"
-                          mainColor={theme ? theme.fileColor : "rgb(161,161,170)"}
-                          accentColor={theme ? theme.fileColor : "rgb(161,161,170)"} />
-                      )}
-                    </div>
+                    {/* File preview / icon */}
+                    {mime?.includes("image") && signedUrls[`${currentPath}/${item.name}`] ? (
+                      <div className="relative flex-1 w-full overflow-hidden rounded-sm">
+                        <img
+                          src={signedUrls[`${currentPath}/${item.name}`]}
+                          alt=""
+                          aria-hidden
+                          className="absolute inset-0 h-full w-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex flex-1 items-center justify-center">
+                        {mime?.includes("pdf") ? (
+                          <UDGIcon name="file" className="h-5 w-5"
+                            mainColor={theme ? theme.pdfColor : "rgb(248,113,113)"}
+                            accentColor={theme ? theme.pdfColor : "rgb(248,113,113)"} />
+                        ) : mime?.includes("image") ? (
+                          <UDGIcon name="photo" className="h-5 w-5"
+                            mainColor={theme ? theme.imgColor : "rgb(96,165,250)"}
+                            accentColor={theme ? theme.imgColor : "rgb(96,165,250)"} />
+                        ) : (
+                          <UDGIcon name="file" className="h-5 w-5"
+                            mainColor={theme ? theme.fileColor : "rgb(161,161,170)"}
+                            accentColor={theme ? theme.fileColor : "rgb(161,161,170)"} />
+                        )}
+                      </div>
+                    )}
 
-                    {/* File name + size */}
-                    <div className="w-full">
-                      <p className="truncate text-center text-[10px] font-medium leading-tight" style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
+                    {/* File name */}
+                    <div className="w-full pt-1">
+                      <p className="text-center text-xs font-medium leading-snug line-clamp-2 break-all" style={{ color: theme ? theme.textH : "rgb(228,228,231)" }}>
                         {displayName(item.name)}
-                      </p>
-                      <p className="text-center text-[9px] leading-tight" style={{ color: theme ? theme.textMuted : "rgb(82,82,91)" }}>
-                        {item.metadata?.size ? formatBytes(item.metadata.size) : ""}
                       </p>
                     </div>
                   </div>
