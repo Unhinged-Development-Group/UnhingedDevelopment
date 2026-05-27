@@ -296,20 +296,26 @@ export default function SectionFilesPage({ section, label }: { section: string; 
 
   // ── File operations ────────────────────────────────────────────────────────
 
-  async function uploadFile(file: File) {
+  async function uploadFiles(files: File[]) {
+    if (!files.length) return;
     setUploading(true);
-    const path = `${currentPath}/${Date.now()}_${file.name}`;
-    const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
-      contentType: file.type || mimeFromName(file.name),
-    });
-    if (!error) await loadItems();
+    const base = Date.now();
+    await Promise.all(
+      files.map((file, i) => {
+        const path = `${currentPath}/${base + i}_${file.name}`;
+        return supabase.storage.from(BUCKET).upload(path, file, {
+          contentType: file.type || mimeFromName(file.name),
+        });
+      })
+    );
+    await loadItems();
     setUploading(false);
   }
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    await uploadFile(file);
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    await uploadFiles(files);
     e.target.value = "";
   }
 
@@ -323,9 +329,9 @@ export default function SectionFilesPage({ section, label }: { section: string; 
   async function handleDrop(e: React.DragEvent) {
     e.preventDefault();
     setIsDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (!file) return;
-    await uploadFile(file);
+    const files = Array.from(e.dataTransfer.files);
+    if (!files.length) return;
+    await uploadFiles(files);
   }
 
   async function getSignedUrl(name: string) {
@@ -641,7 +647,7 @@ export default function SectionFilesPage({ section, label }: { section: string; 
                     Upload
                   </>
                 )}
-                <input type="file" className="hidden" onChange={handleUpload} disabled={uploading} />
+                <input type="file" multiple className="hidden" onChange={handleUpload} disabled={uploading} />
               </label>
             </>
           )}
@@ -669,9 +675,9 @@ export default function SectionFilesPage({ section, label }: { section: string; 
             mainColor={isDragOver ? (theme?.accent ?? "#D2FF14") : (theme ? theme.textMuted : "rgb(82,82,91)")} />
         )}
         <p className="text-xs font-medium" style={{ color: isDragOver ? (theme?.accent ?? "#D2FF14") : (theme ? theme.textMuted : "rgb(82,82,91)") }}>
-          {uploading ? "Uploading…" : isDragOver ? "Drop to upload" : "Drag a file here to upload"}
+          {uploading ? "Uploading…" : isDragOver ? "Drop to upload" : "Drag files here to upload"}
         </p>
-        <input type="file" className="hidden" onChange={handleUpload} disabled={uploading} />
+        <input type="file" multiple className="hidden" onChange={handleUpload} disabled={uploading} />
       </label>
 
       {/* ── Grid ─────────────────────────────────────────────── */}
