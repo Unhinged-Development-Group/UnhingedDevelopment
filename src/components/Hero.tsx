@@ -19,12 +19,12 @@ export default function Hero() {
             mounted ? "translate-y-0" : "translate-y-6"
           }`}
         >
-          <div className="relative flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-0 sm:justify-center">
+          <div className="relative flex w-full max-w-3xl flex-col items-center gap-4 sm:flex-row sm:gap-8 sm:justify-center">
             <img
               src="/unhinged/logo-unhinged-green.png"
               alt=""
               aria-hidden="true"
-              className="h-auto w-[60%] sm:w-[38%]"
+              className="h-auto w-[60%] sm:w-[34%]"
             />
             <img
               src="/unhinged/wordmark-zinc-50.png"
