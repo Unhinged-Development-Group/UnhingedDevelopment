@@ -7,7 +7,7 @@ import UDGIcon from "@/components/UDGIcon";
 
 const LOGO_URL = "/unhinged/logo-ink-950.png";
 const FILTER_WHITE = "invert(1)";
-const FILTER_GREEN = "brightness(0) invert(54%) sepia(100%) saturate(700%) hue-rotate(32deg)";
+const FILTER_GREEN = "brightness(0) invert(54%) sepia(100%) saturate(700%) hue-rotate(32deg) brightness(1.4)";
 
 const DRAWER_WIDTH = 288;     // matches w-72
 const EDGE_HIT = 24;          // px from left edge that arms the open gesture
