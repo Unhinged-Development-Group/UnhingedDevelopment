@@ -5,8 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import UDGIcon from "@/components/UDGIcon";
 
-const LOGO_URL       = "/unhinged/logo-zinc-50.png";
-const LOGO_GREEN_URL = "/unhinged/logo-unhinged-green.png";
+const LOGO_URL = "/unhinged/logo-ink-950.png";
+const FILTER_WHITE = "invert(1)";
+const FILTER_GREEN = "brightness(0) invert(54%) sepia(100%) saturate(700%) hue-rotate(32deg)";
 
 const DRAWER_WIDTH = 288;     // matches w-72
 const EDGE_HIT = 24;          // px from left edge that arms the open gesture
@@ -185,10 +186,11 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             aria-expanded={menuOpen}
           >
             <img
-              src={showGreen ? LOGO_GREEN_URL : LOGO_URL}
+              src={LOGO_URL}
               alt="Unhinged Development Group"
               className="h-10 w-10 object-contain"
               style={{
+                filter: showGreen ? FILTER_GREEN : FILTER_WHITE,
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
                 transition: "transform 300ms ease-in-out",
               }}
@@ -201,6 +203,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
               src={LOGO_URL}
               alt="Unhinged Development Group"
               className="hidden sm:block h-10 w-auto"
+              style={{ filter: FILTER_WHITE }}
             />
           ) : (
             <Link href="/" className="hidden sm:block">
@@ -208,6 +211,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
                 src={LOGO_URL}
                 alt="Unhinged Development Group"
                 className="h-10 w-auto"
+                style={{ filter: FILTER_WHITE }}
               />
             </Link>
           )}
