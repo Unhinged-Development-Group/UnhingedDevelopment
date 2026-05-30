@@ -20,7 +20,10 @@
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\src\" -Recurse -Filter \"*.tsx\" -o @Files)",
       "Bash(Select-Object -ExpandProperty FullName)",
       "mcp__9811fcfe-7510-4199-b7ff-bce22f2161be__get_project",
-      "PowerShell(Copy-Item \"C:\\\\Users\\\\andyy\\\\My Drive \\(andrew@unhingeddevelopment.uk\\)\\\\Unhinged Development Group\\\\Logo\\\\Logo Unginged Green.png\" \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\public\\\\unhinged\\\\logo-unhinged-green.png\" -Force)"
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\andyy\\\\My Drive \\(andrew@unhingeddevelopment.uk\\)\\\\Unhinged Development Group\\\\Logo\\\\Logo Unginged Green.png\" \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\public\\\\unhinged\\\\logo-unhinged-green.png\" -Force)",
+      "Bash(Get-Content \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\src\\\\app\\\\apple-icon.tsx\" -TotalCount 5)",
+      "PowerShell(\\(Get-Item \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\src\\\\app\\\\apple-icon.tsx\"\\).Length)",
+      "PowerShell(Get-Content \"C:\\\\Users\\\\andyy\\\\Desktop\\\\Unhinged Development Group\\\\UnhingedDevelopment\\\\src\\\\app\\\\apple-icon.tsx\" | Select-Object -Index 5 | ForEach-Object { \"Line 6: length=$\\($_.Length\\) first50=$\\($_.Substring\\(0,[Math]::Min\\(50,$_.Length\\)\\)\\)\" })"
     ]
   }
 }
