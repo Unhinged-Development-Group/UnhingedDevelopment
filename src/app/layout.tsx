@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     "A portfolio of companies built differently. Parent company to Groomr Ltd and Paper & Ponder Ltd.",
   icons: {
     icon: { url: "/unhinged/logo-unhinged-green.png", type: "image/png" },
+    apple: { url: "/apple-icon", type: "image/png", sizes: "180x180" },
   },
   openGraph: {
     title: "Unhinged Development Group",

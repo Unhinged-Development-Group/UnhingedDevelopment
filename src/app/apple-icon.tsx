@@ -1,16 +1,18 @@
 import { ImageResponse } from "next/og";
-import { readFileSync } from "fs";
-import { join } from "path";
 
 export const runtime = "nodejs";
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-export default function AppleIcon() {
-  const img = readFileSync(
-    join(process.cwd(), "public/unhinged/logo-unhinged-green.png")
-  );
-  const src = `data:image/png;base64,${img.toString("base64")}`;
+export default async function AppleIcon() {
+  // Resolve base URL — VERCEL_URL in production, localhost in dev
+  const base = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : `http://localhost:${process.env.PORT ?? 3000}`;
+
+  const res = await fetch(`${base}/unhinged/logo-unhinged-green.png`);
+  const buf = await res.arrayBuffer();
+  const src = `data:image/png;base64,${Buffer.from(buf).toString("base64")}`;
 
   return new ImageResponse(
     (
