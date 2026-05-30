@@ -187,7 +187,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             <img
               src={showGreen ? LOGO_GREEN_URL : LOGO_URL}
               alt="Unhinged Development Group"
-              className="h-10 w-auto"
+              className="h-10 w-10 object-contain"
               style={{
                 transform: menuOpen ? "scaleX(-1)" : "scaleX(1)",
                 transition: "transform 300ms ease-in-out",
