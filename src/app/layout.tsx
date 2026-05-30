@@ -9,7 +9,6 @@ export const metadata: Metadata = {
     "A portfolio of companies built differently. Parent company to Groomr Ltd and Paper & Ponder Ltd.",
   icons: {
     icon: { url: "/unhinged/logo-unhinged-green.png", type: "image/png" },
-    apple: { url: "/apple-icon", type: "image/png", sizes: "180x180" },
   },
   openGraph: {
     title: "Unhinged Development Group",
@@ -26,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
