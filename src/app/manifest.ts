@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "A portfolio of companies built differently. Parent company to Groomr Ltd and Paper & Ponder Ltd.",
     start_url: "/",
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#000000",
+    background_color: "#030303",
+    theme_color: "#030303",
     icons: [
       {
         src: "/icon",
